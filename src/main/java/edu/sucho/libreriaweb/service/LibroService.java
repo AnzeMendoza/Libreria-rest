@@ -13,12 +13,14 @@ public interface LibroService extends BaseService<Libro, Integer>{
 
     List<Libro> findByTitulo(String titulo) throws ExceptionBBDD;
 
-    boolean deleteByIdSoft(int id) throws ExceptionBBDD;
+    boolean disableById(int id) throws ExceptionBBDD;
+    
+    boolean enableById(int id) throws ExceptionBBDD;
 
     List<Libro> findAllByAltaAndInStock() throws ExceptionBBDD;
 
-    Libro addOneLibro(int id) throws ExceptionBBDD;
+    Libro devolverLibro(int id) throws ExceptionBBDD;
 
-    Libro substractOneLibro(int id) throws ExceptionBBDD;
+    Libro prestarLibro(int id) throws ExceptionBBDD;
 
 }

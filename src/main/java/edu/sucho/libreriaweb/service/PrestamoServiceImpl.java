@@ -26,7 +26,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     @Override
-    @Transactional
+    @Transactional//HAY QUE CORREGIR ESTE METODO POR CAMBIOS EN ENTIDAD LIBRO // AVErIGUAR COMO IMPLEMENTEAR TO DO
     public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
         try {
             Optional<Prestamo> prestamoOptional = prestamoRepository.findById(id);
@@ -34,8 +34,8 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
             if(prestamoOptional.isPresent()){
                 Prestamo prestamo = prestamoOptional.get();
                 prestamo.setAlta(!prestamo.getAlta());
-
-                Libro libroAAgregarPrestamo = libroService.addOneLibro(prestamo.getLibro().getId());
+                
+                Libro libroAAgregarPrestamo = libroService.devolverLibro(prestamo.getLibro().getId());
                 libroService.update(libroAAgregarPrestamo.getId(), libroAAgregarPrestamo);
 
                 prestamoRepository.save(prestamo);
