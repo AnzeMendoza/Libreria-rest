@@ -3,10 +3,12 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.service.LibroService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,8 +45,13 @@ public class LibroController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody Libro libro) {
+    public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) {
+        
+        
         try {
+            if(result.hasErrors()){
+                throw new ExceptionBBDD("mensaje de error");
+            }
             return ResponseEntity.status(HttpStatus.CREATED).body(libroService.save(libro));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
@@ -54,6 +61,7 @@ public class LibroController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ){
         try {
+            //validaciones titulo, ejemplares, isbn repetido, 
             return ResponseEntity.status(HttpStatus.CREATED).body(libroService.update(id,libro));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
