@@ -41,8 +41,6 @@ public class LibroController {
         }
     }
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -52,11 +50,7 @@ public class LibroController {
         }
     }
 
-
-
-
-
-
+    //TODO lasñlfkjaskdlfjañskdljf
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
         try {
