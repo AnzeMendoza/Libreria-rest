@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.controller;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.service.LibroService;
 import javax.validation.Valid;
@@ -40,6 +41,8 @@ public class LibroController {
         }
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -49,10 +52,13 @@ public class LibroController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) {
 
-           String prueba = "";
+
+
+
+
+    @PostMapping("/")
+    public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
         try {
             if (result.hasErrors()) { // Hay un error
            List<ObjectError> oEs =result.getAllErrors().stream().collect(Collectors.toList());
@@ -61,14 +67,13 @@ public class LibroController {
                FieldError fieldError = (FieldError)oE;
                err +=fieldError.getField() + " : " + fieldError.getDefaultMessage();
 
-           }
-                throw new ExceptionBBDD(err);
             }
+                throw new ExceptionBadRequest(err);
+         }
             return ResponseEntity.status(HttpStatus.CREATED).body(libroService.save(libro));
-
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+        catch (ExceptionBadRequest ex){throw new ExceptionBadRequest(ex.getMessage());}
+        catch (ExceptionBBDD e) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());}
     }
 
     @PutMapping("/{id}")
