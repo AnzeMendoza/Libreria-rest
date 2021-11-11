@@ -25,7 +25,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     @Transactional(readOnly = true)
     public List<Libro> findAllByAlta() throws ExceptionBBDD {
         try {
-            Optional<List<Libro>> librosOptional = Optional.of(libroRepository.findAllByAlta());
+            Optional<List<Libro>> librosOptional = Optional.ofNullable(libroRepository.findAllByAlta());
             return librosOptional.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
@@ -56,19 +56,44 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
 
     @Override
     @Transactional
-    public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
+    public boolean disableById(int id) throws ExceptionBBDD {
         try {
             Optional<Libro> libroOptional = libroRepository.findById(id);
 
-            if(libroOptional.isPresent()){
-                Libro libro = libroOptional.get();
-                libro.setAlta(!libro.getAlta());
-                libroRepository.save(libro);
-            } else {
-                throw new ExceptionBBDD("deleteByIdSoft");
+            if (!libroOptional.isPresent()) {
+                throw new ExceptionBBDD("No se encontro el libro con ese Id");
             }
+            Libro libro = libroOptional.get();
+            if (!libro.getAlta()) {
+                throw new ExceptionBBDD("Ya esta dado de baja");
+            }
+
+            libro.setAlta(Boolean.FALSE);
+            libroRepository.save(libro);
             return true;
-        } catch (Exception e) {
+        } catch (ExceptionBBDD e) {
+            throw new ExceptionBBDD(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean enableById(int id) throws ExceptionBBDD {
+        try {
+            Optional<Libro> libroOptional = libroRepository.findById(id);
+
+            if (!libroOptional.isPresent()) {
+                throw new ExceptionBBDD("No se encontro el libro con ese Id");
+            }
+            Libro libro = libroOptional.get();
+            if (libro.getAlta()) {
+                throw new ExceptionBBDD("Ya esta dado de alta");
+            }
+
+            libro.setAlta(Boolean.TRUE);
+            libroRepository.save(libro);
+            return true;
+        } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
@@ -77,35 +102,37 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     @Transactional(readOnly = true)
     public List<Libro> findAllByAltaAndInStock() throws ExceptionBBDD {
         try {
-         Optional<List<Libro>> librosOptional = Optional.ofNullable(libroRepository.findAllByAltaAndInStock());
-         return librosOptional.get();
+            Optional<List<Libro>> librosOptional = Optional.ofNullable(libroRepository.findAllByAltaAndInStock());
+            return librosOptional.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
 
     @Override
-    public Libro substractOneLibro(int id) throws ExceptionBBDD {
+    public Libro prestarLibro(int id) throws ExceptionBBDD {
         try {
-            Optional<Libro> libroOptional = Optional.ofNullable(libroRepository.findByIdAndAlta(id));
-            Libro libroAextraerUnEjemplar = libroOptional.get();
-            libroAextraerUnEjemplar.setEjemplaresPrestados(libroAextraerUnEjemplar.getEjemplaresPrestados() + 1);
-            libroAextraerUnEjemplar.setEjemplaresRestantes(libroAextraerUnEjemplar.getEjemplares() - libroAextraerUnEjemplar.getEjemplaresPrestados());
-            return libroAextraerUnEjemplar;
-        } catch (Exception e) {
+            Libro libro = libroRepository.findByIdAndAlta(id);
+            if (libro == null) {
+                throw new ExceptionBBDD("No existe ese libro");
+            }
+            libro.actualizarStockPostPrestamo();
+            return libro;
+        } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
-
+    
     @Override
-    public Libro addOneLibro(int id) throws ExceptionBBDD {
+    public Libro devolverLibro(int id) throws ExceptionBBDD {
         try {
-            Optional<Libro> libroOptional = Optional.ofNullable(libroRepository.findByIdAndAlta(id));
-            Libro libroAextraerUnEjemplar = libroOptional.get();
-            libroAextraerUnEjemplar.setEjemplaresPrestados(libroAextraerUnEjemplar.getEjemplaresPrestados() - 1);
-            libroAextraerUnEjemplar.setEjemplaresRestantes(libroAextraerUnEjemplar.getEjemplares() + libroAextraerUnEjemplar.getEjemplaresPrestados());
-            return libroAextraerUnEjemplar;
-        } catch (Exception e) {
+            Libro libro = libroRepository.findByIdAndAlta(id);
+            if (libro == null) {
+                throw new ExceptionBBDD("No existe ese libro");
+            }
+            libro.actualizarStockPostDevolucion();
+            return libro;
+        } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
