@@ -15,10 +15,7 @@ import java.util.Collections;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-<<<<<<< HEAD
 
-=======
->>>>>>> 68b6d25da1f4c1ea1548ed52edc3b9f1e39d50ee
     @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -41,9 +38,5 @@ public class SwaggerConfig {
                 Collections.emptyList()
         );
     }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 68b6d25da1f4c1ea1548ed52edc3b9f1e39d50ee
 }
