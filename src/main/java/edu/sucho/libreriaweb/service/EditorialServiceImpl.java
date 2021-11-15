@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> implements EditorialService{
+public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> implements EditorialService {
 
     @Autowired
     private EditorialRepository editorialRepository;
@@ -27,7 +28,7 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
         try {
             Optional<Editorial> editorialOptional = editorialRepository.findById(id);
 
-            if(editorialOptional.isPresent()){
+            if (editorialOptional.isPresent()) {
                 Editorial editorial = editorialOptional.get();
                 editorial.setAlta(!editorial.getAlta());
                 editorialRepository.save(editorial);
@@ -49,4 +50,15 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+    public Editorial saveEditorial(Editorial editorial) throws ExceptionBBDD, ExceptionBadRequest {
+        if(!(editorialRepository.findByNombre(editorial.getNombre()) == null)){
+            throw new ExceptionBadRequest();
+        }
+        else{
+            return  this.save(editorial);
+        }
+    }
+
 }
+
+

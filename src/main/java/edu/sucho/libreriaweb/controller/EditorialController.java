@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.controller;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,13 +44,19 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
+
     //guardar
     @PostMapping("/")
     public ResponseEntity<?> save(@RequestBody Editorial editorial) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.save(editorial));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.saveEditorial(editorial));
+        }
+        catch(ExceptionBadRequest bR){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bR.getMessage());
+        }
+        catch(ExceptionBBDD bbdd){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bbdd.getMessage());
+
         }
     }
     //modificar 
