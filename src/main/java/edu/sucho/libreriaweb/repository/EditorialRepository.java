@@ -10,4 +10,6 @@ import java.util.List;
 public interface EditorialRepository extends BaseRepository<Editorial, Integer> {
     @Query(value = "SELECT * FROM editorial WHERE editorial.alta = true", nativeQuery = true)
     List<Editorial> findAllByAlta();
+
+    Editorial findByNombre(String nombre);
 }
