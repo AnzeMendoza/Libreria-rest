@@ -6,6 +6,7 @@ import edu.sucho.libreriaweb.model.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,7 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     }
     public Editorial saveEditorial(Editorial editorial) throws ExceptionBBDD, ExceptionBadRequest {
         if(!(editorialRepository.findByNombre(editorial.getNombre()) == null)){
-            throw new ExceptionBadRequest();
+            throw new ExceptionBadRequest("no puede haber   dos editoriales con el mismo nombre");
         }
         else{
             return  this.save(editorial);
