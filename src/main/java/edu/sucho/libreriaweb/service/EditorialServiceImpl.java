@@ -51,14 +51,22 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+    
     public Editorial saveEditorial(Editorial editorial) throws ExceptionBBDD, ExceptionBadRequest {
-        if(!(editorialRepository.findByNombre(editorial.getNombre()) == null)){
-            throw new ExceptionBadRequest("no puede haber   dos editoriales con el mismo nombre");
+        if(validarFieldUnique(editorial.getNombre())){
+        throw new ExceptionBadRequest("no puede haber   dos editoriales con el mismo nombre");
         }
         else{
-            return  this.save(editorial);
+           return  super.save(editorial);
         }
     }
+    
+    @Override
+     public Boolean validarFieldUnique(String nombre){
+      return (!(editorialRepository.findByValueField(nombre) == null));        
+    }
+    
+    
 
 }
 
