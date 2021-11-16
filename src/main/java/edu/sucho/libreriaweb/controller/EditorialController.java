@@ -33,7 +33,8 @@ public class EditorialController {
 
     @Autowired
     private EditorialService editorialService;
-     //mostrar todo
+    //mostrar todo
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
         try {
@@ -42,6 +43,7 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se han encontrdo editoriales para mostrar");
         }
     }
+
     //mostrar por id
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
@@ -55,22 +57,21 @@ public class EditorialController {
     //guardar
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
-       String nombre ="";
+        String nombre = "";
         try {
-          // valida a nivel  datos,Java
-          if (result.hasErrors()) {
-             List<ObjectError> oEs =result.getAllErrors().stream().collect(Collectors.toList());
-             String err ="";
-             for (ObjectError oE:  oEs){
-                FieldError fieldError = (FieldError)oE;
-                err +=fieldError.getField() + " : " + fieldError.getDefaultMessage();
+            // valida a nivel  datos,Java
+            if (result.hasErrors()) {
+                List<ObjectError> oEs = result.getAllErrors().stream().collect(Collectors.toList());
+                String err = "";
+                for (ObjectError oE : oEs) {
+                    FieldError fieldError = (FieldError) oE;
+                    err += fieldError.getField() + " : " + fieldError.getDefaultMessage();
+                }
+                throw new ExceptionBadRequest(err);
             }
-            throw new ExceptionBadRequest(err);
-          }
-          Editorial edi = editorialService.saveEditorial(editorial);
-          return ResponseEntity.status(HttpStatus.CREATED).body(edi);
-        }
-        catch(ExceptionBBDD bbdd){
+            Editorial edi = editorialService.saveEditorial(editorial);
+            return ResponseEntity.status(HttpStatus.CREATED).body(edi);
+        } catch (ExceptionBBDD bbdd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bbdd.getMessage());
         }
 
@@ -85,8 +86,6 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
-
-
 
     //eliminar
     @DeleteMapping("/{id}")
