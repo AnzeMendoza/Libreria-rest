@@ -82,11 +82,12 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
         }
         return entities;
     }
+    
     @Override
     @Transactional
-    public  Boolean validarFieldUnique(String  field){
+    public  Boolean validarFieldUnique(Object  field){
         // en el repo editorial
-      return (!(eRepository.findByValueField(field) == null));
+      return (!(eRepository.findByValueField((String) field) == null));
     
     }
     
