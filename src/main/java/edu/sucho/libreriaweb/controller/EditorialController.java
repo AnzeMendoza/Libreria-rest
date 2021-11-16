@@ -39,7 +39,7 @@ public class EditorialController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(editorialService.findAll());
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se han encontrdo editoriales para mostrar");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
     //mostrar por id
@@ -78,11 +78,14 @@ public class EditorialController {
 
     //modificar 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Editorial editorial) {
+    public ResponseEntity<?> update(@PathVariable("id") int id, 
+            @RequestBody Editorial editorial) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.update(id, editorial));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(editorialService.updateEditorial(id,editorial));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\" : \"error\"}");
         }
     }
 
