@@ -17,5 +17,5 @@ public interface EditorialRepository extends BaseRepository<Editorial, Integer> 
    @Query(value = "SELECT * FROM editorial WHERE editorial.nombre =:name ", nativeQuery = true)
     Editorial findByValueField(@Param("name")String name);
     
-    Boolean existBynombre(String nombre);
+    Boolean existsByNombre(String nombre);
 }

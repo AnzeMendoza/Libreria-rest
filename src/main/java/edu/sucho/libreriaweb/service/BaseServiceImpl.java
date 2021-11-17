@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
         try {
             entity = baseRepository.save(entity);
         } catch (Exception e) {
+            baseRepository.resetId("libro");
             throw new ExceptionBBDD(e.getMessage());
         }
         return entity;

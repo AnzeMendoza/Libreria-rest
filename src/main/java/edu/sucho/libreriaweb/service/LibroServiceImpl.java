@@ -140,7 +140,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
 
     @Override
     public Libro validateLibro(Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
-        if (libroRepository.existByIsbn(libro.getIsbn())) {
+        if (libroRepository.existsByIsbn(libro.getIsbn())) {
             throw new ExceptionBadRequest
         ("no puede haber dos libros con el mismo nombre");
         } else {

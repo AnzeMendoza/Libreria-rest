@@ -51,4 +51,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public Boolean validarFieldUnique(String field) {
+        return null;
+    }
 }

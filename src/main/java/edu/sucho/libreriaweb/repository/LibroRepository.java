@@ -23,5 +23,5 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
     @Query(value = "SELECT * FROM libro WHERE libro.titulo LIKE %:titulo%", nativeQuery = true)
     List<Libro> findByTitulo(@Param("titulo") String titulo) ;
     
-    Boolean existByIsbn(Long Isbn);
+    Boolean existsByIsbn(Long Isbn);
 }

@@ -50,4 +50,9 @@ public class AutorServiceImpl extends BaseServiceImpl<Autor, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public Boolean validarFieldUnique(String field) {
+        return null;
+    }
 }
