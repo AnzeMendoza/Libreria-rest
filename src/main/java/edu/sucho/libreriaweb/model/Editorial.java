@@ -13,15 +13,17 @@ import java.util.List;
 @Setter
 @Table(name = "editorial")
 public class Editorial {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty(message = "El nombre es obligatorio")
     @Size(min = 2, max = 64, message = "Min: 2 y Max: 64 caracteres")
-    @Column(length = 64)
+    @Column(length = 64, unique = true, nullable = false)
     private String nombre;
-
+    
+    //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
     @OneToMany(mappedBy = "editorial")

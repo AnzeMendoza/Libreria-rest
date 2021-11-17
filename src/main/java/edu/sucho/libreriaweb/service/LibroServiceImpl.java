@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.LibroRepository;
@@ -136,4 +137,21 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public Libro validateLibro(Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
+        if (libroRepository.existByIsbn(libro.getIsbn())) {
+            throw new ExceptionBadRequest
+        ("no puede haber dos libros con el mismo nombre");
+        } else {
+            return super.save(libro);
+        }
+    }
+
+    @Override
+    public Boolean validarFieldUnique(String field) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

@@ -2,14 +2,16 @@ package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.repository.BaseRepository;
+import edu.sucho.libreriaweb.repository.EditorialRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID> {
+public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, BaseValidationService {
 
     protected BaseRepository<E, ID> baseRepository;
+      EditorialRepository eRepository;
 
     public BaseServiceImpl(BaseRepository<E, ID> baseRepository) {
         this.baseRepository = baseRepository;
@@ -17,7 +19,7 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID> {
 
     @Override
     @Transactional
-    public E save(E entity) throws ExceptionBBDD {
+    public E save(E entity) throws ExceptionBBDD{
         Optional<E> entityOptional;
         try {
             entity = baseRepository.save(entity);
@@ -80,6 +82,27 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID> {
         }
         return entities;
     }
+    
+    @Override
+    @Transactional
+    public  Boolean validarFieldUnique(Object  field){
+        // en el repo editorial
+      return (!(eRepository.findByValueField((String) field) == null));
+    
+    }
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // TODO se puede pasar a generico pero las entidades tiene que extender de clase base, ver despues
 /*    @Override

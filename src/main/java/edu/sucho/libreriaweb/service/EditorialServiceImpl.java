@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> implements EditorialService{
+public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> implements EditorialService {
 
     @Autowired
     private EditorialRepository editorialRepository;
@@ -27,7 +28,7 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
         try {
             Optional<Editorial> editorialOptional = editorialRepository.findById(id);
 
-            if(editorialOptional.isPresent()){
+            if (editorialOptional.isPresent()) {
                 Editorial editorial = editorialOptional.get();
                 editorial.setAlta(!editorial.getAlta());
                 editorialRepository.save(editorial);
@@ -43,10 +44,39 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     @Override
     public List<Editorial> findAllByAlta() throws ExceptionBBDD {
         try {
-            Optional<List<Editorial>> editorialesOptional = Optional.ofNullable(editorialRepository.findAllByAlta());
+            Optional<List<Editorial>> editorialesOptional 
+                    = Optional.ofNullable(editorialRepository.findAllByAlta());
             return editorialesOptional.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public Editorial saveEditorial(Editorial editorial)
+            throws ExceptionBBDD, ExceptionBadRequest {
+        if (validarFieldUnique(editorial.getNombre())) {
+            throw new ExceptionBadRequest
+        ("no puede haber dos editoriales con el mismo nombre");
+        } else {
+            return super.save(editorial);
+        }
+    }
+
+    @Override
+    public Editorial updateEditorial(Integer id, Editorial editorial)
+            throws ExceptionBBDD, ExceptionBadRequest {
+        if (validarFieldUnique(editorial.getNombre())) {
+            throw new ExceptionBadRequest
+        ("no puede haber dos editoriales con el mismo nombre");
+        } else {
+            return super.update(id, editorial);
+        }
+    }
+
+    @Override
+    public Boolean validarFieldUnique(String nombre) {
+        return (!(editorialRepository.findByValueField(nombre) == null));
+    }
+
 }
