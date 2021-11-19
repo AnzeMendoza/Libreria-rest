@@ -53,30 +53,33 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     }
 
     @Override
-    public Editorial saveEditorial(Editorial editorial)
-            throws ExceptionBBDD, ExceptionBadRequest {
-        if (validarFieldUnique(editorial.getNombre())) {
-            throw new ExceptionBadRequest
-        ("no puede haber dos editoriales con el mismo nombre");
-        } else {
-            return super.save(editorial);
-        }
+    public Editorial save(Editorial editorial) throws ExceptionBBDD{
+         return retornarEditorial(editorialRepository.saveEditorial(editorial.getNombre()));
     }
 
     @Override
-    public Editorial updateEditorial(Integer id, Editorial editorial)
-            throws ExceptionBBDD, ExceptionBadRequest {
-        if (validarFieldUnique(editorial.getNombre())) {
-            throw new ExceptionBadRequest
-        ("no puede haber dos editoriales con el mismo nombre");
-        } else {
-            return super.update(id, editorial);
-        }
+    public Editorial update(Integer id, Editorial editorial) throws ExceptionBBDD {
+    return retornarEditorial(editorialRepository.updateEditorial(id,editorial.getNombre()));
     }
 
-    @Override
-    public Boolean validarFieldUnique(String nombre) {
-        return (!(editorialRepository.findByValueField(nombre) == null));
+    public String changeStatus(int id, Boolean estado)throws ExceptionBBDD{
+       return   retornarMensaje(editorialRepository.changeStatus(id,estado),estado);
     }
+
+    private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            return (estado)?"Editorial Activado": "Editorial Desactivado";
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
+    private Editorial retornarEditorial(String resultado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            int id = Integer.parseInt(resultado.split(",")[1]);
+            return  editorialRepository.findById(id).get();
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
 
 }
