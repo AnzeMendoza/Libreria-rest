@@ -74,9 +74,18 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
         }
     }
 
-    @Override
-    public Boolean validarFieldUnique(String nombre) {
-        return (!(editorialRepository.findByValueField(nombre) == null));
+    public String changeStatus(int id, Boolean estado)throws ExceptionBBDD{
+       return   retornarMensaje(editorialRepository.changeStatus(id,estado),estado);
     }
+
+    private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            return (estado)?"Editorial Activado": "Editorial Desactivado";
+        }
+        throw new ExceptionBBDD(resultado);
+
+
+    }
+
 
 }

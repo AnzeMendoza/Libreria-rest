@@ -16,4 +16,5 @@ public interface EditorialService extends BaseService<Editorial, Integer>{
     
     Editorial updateEditorial(Integer id,Editorial editorial) throws ExceptionBBDD, ExceptionBadRequest;
 
+    String changeStatus(int id, Boolean estado)throws ExceptionBBDD;
 }
