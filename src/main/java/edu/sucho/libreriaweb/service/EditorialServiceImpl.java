@@ -6,7 +6,6 @@ import edu.sucho.libreriaweb.model.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,29 +44,42 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     @Override
     public List<Editorial> findAllByAlta() throws ExceptionBBDD {
         try {
-            Optional<List<Editorial>> editorialesOptional = Optional.ofNullable(editorialRepository.findAllByAlta());
+            Optional<List<Editorial>> editorialesOptional 
+                    = Optional.ofNullable(editorialRepository.findAllByAlta());
             return editorialesOptional.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
     }
-    
-    public Editorial saveEditorial(Editorial editorial) throws ExceptionBBDD, ExceptionBadRequest {
-        if(validarFieldUnique(editorial.getNombre())){
-        throw new ExceptionBadRequest("no puede haber   dos editoriales con el mismo nombre");
-        }
-        else{
-           return  super.save(editorial);
-        }
-    }
-    
+
     @Override
-     public Boolean validarFieldUnique(String nombre){
-      return (!(editorialRepository.findByValueField(nombre) == null));        
+    public Editorial save(Editorial editorial) throws ExceptionBBDD{
+         return retornarEditorial(editorialRepository.saveEditorial(editorial.getNombre()));
     }
-    
-    
+
+    @Override
+    public Editorial update(Integer id, Editorial editorial) throws ExceptionBBDD {
+    return retornarEditorial(editorialRepository.updateEditorial(id,editorial.getNombre()));
+    }
+
+    public String changeStatus(int id, Boolean estado)throws ExceptionBBDD{
+       return   retornarMensaje(editorialRepository.changeStatus(id,estado),estado);
+    }
+
+    private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            return (estado)?"Editorial Activado": "Editorial Desactivado";
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
+    private Editorial retornarEditorial(String resultado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            int id = Integer.parseInt(resultado.split(",")[1]);
+            return  editorialRepository.findById(id).get();
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
 
 }
-
-

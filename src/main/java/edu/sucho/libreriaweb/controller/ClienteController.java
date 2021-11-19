@@ -1,5 +1,7 @@
-
 package edu.sucho.libreriaweb.controller;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
@@ -49,28 +51,28 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
- @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Cliente cliente, BindingResult result) throws ExceptionBadRequest {
-       String nombre ="";
-        try {
-          // valida a nivel  datos,Java
-          if (result.hasErrors()) {
-             List<ObjectError> oEs =result.getAllErrors().stream().collect(Collectors.toList());
-             String err ="";
-             for (ObjectError oE:  oEs){
-                FieldError fieldError = (FieldError)oE;
-                err +=fieldError.getField() + " : " + fieldError.getDefaultMessage();
-            }
-            throw new ExceptionBadRequest(err);
-          }
-          Cliente client = clienteService.saveCliente(cliente);
-          return ResponseEntity.status(HttpStatus.CREATED).body(client);
-        }
-        catch(ExceptionBBDD bbdd){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bbdd.getMessage());
-        }
-
-    }
+// @PostMapping("/")
+//    public ResponseEntity<?> save(@Valid @RequestBody Cliente cliente, BindingResult result) throws ExceptionBadRequest {
+//       String nombre ="";
+//        try {
+//          // valida a nivel  datos,Java
+//          if (result.hasErrors()) {
+//             List<ObjectError> oEs =result.getAllErrors().stream().collect(Collectors.toList());
+//             String err ="";
+//             for (ObjectError oE:  oEs){
+//                FieldError fieldError = (FieldError)oE;
+//                err +=fieldError.getField() + " : " + fieldError.getDefaultMessage();
+//            }
+//            throw new ExceptionBadRequest(err);
+//          }
+//          Cliente client = clienteService.saveCliente(cliente);
+//          return ResponseEntity.status(HttpStatus.CREATED).body(client);
+//        }
+//        catch(ExceptionBBDD bbdd){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bbdd.getMessage());
+//        }
+//
+//    }
     
 
     @PutMapping("/{id}")
