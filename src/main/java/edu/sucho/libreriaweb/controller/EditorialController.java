@@ -3,6 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -52,10 +53,15 @@ public class EditorialController {
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
         try {
+            Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.save(editorial));
         }
         catch( ExceptionBBDD ebd){
             throw new ExceptionBadRequest(ebd.getMessage());
+        }
+        catch (ExceptionBadRequest ebr){
+            throw new ExceptionBadRequest(ebr.getMessage());
+
         }
 
     }
@@ -64,9 +70,14 @@ public class EditorialController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update( @PathVariable("id") int id,@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
         try {
+            Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK).body(editorialService.update(id,editorial));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
+        }
+        catch (ExceptionBadRequest ebr){
+            throw new ExceptionBadRequest(ebr.getMessage());
+
         }
 
     }
