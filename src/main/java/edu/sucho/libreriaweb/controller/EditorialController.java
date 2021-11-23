@@ -29,6 +29,7 @@ public class EditorialController {
     @Autowired
     private EditorialService editorialService;
 
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
         try {
@@ -37,7 +38,6 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
