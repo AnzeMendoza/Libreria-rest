@@ -18,9 +18,8 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     @Autowired
     private EditorialRepository editorialRepository;
 
-    public EditorialServiceImpl(BaseRepository<Editorial, Integer> baseRepository,EditorialRepository editorialRepository) {
+    public EditorialServiceImpl(BaseRepository<Editorial, Integer> baseRepository) {
         super(baseRepository);
-        this.editorialRepository = editorialRepository;
     }
 
 

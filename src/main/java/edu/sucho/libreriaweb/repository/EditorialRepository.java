@@ -13,11 +13,12 @@ public interface EditorialRepository extends BaseRepository<Editorial, Integer> 
     List<Editorial> findAllByAlta();
    @Query(value = "SELECT * FROM editorial WHERE editorial.nombre =:name ", nativeQuery = true)
     Editorial findByValueField(@Param("name")String name);
-
     @Query(value="CALL lsp_cambiar_estado_editorial(:id,:status);" , nativeQuery = true)
     String changeStatus(@Param("id")int id, @Param("status")Boolean estado);
     @Query(value = "CALL lsp_alta_editorial(:name)", nativeQuery = true)
     String saveEditorial(@Param("name")String name);
     @Query(value="CALL lsp_modificar_editorial(:id,:name);" , nativeQuery = true)
     String updateEditorial(@Param("id")Integer id, @Param("name")String name);
+
+
 }
