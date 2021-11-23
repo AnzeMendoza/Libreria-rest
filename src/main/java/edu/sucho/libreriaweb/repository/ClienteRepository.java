@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
 
-public interface ClienteRepository extends BaseRepository<Cliente, Integer>{
+public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
     @Query(value = "SELECT * FROM cliente WHERE cliente.alta = true", nativeQuery = true)
     List<Cliente> findAllByAlta();
      @Query(value = "SELECT * FROM editorial WHERE cleinte.documento =:documento ", nativeQuery = true)

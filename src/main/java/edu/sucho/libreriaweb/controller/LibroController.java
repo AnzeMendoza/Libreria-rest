@@ -41,8 +41,6 @@ public class LibroController {
         }
     }
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -51,11 +49,6 @@ public class LibroController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
-
-
-
-
-
 
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
