@@ -71,7 +71,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
      private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
         if(resultado.contains("OK")){
-            return (estado)?"Editorial Activado": "Editorial Desactivado";
+            return (estado)?"Cliente Activado": "Cliente Desactivado";
         }
         throw new ExceptionBBDD(resultado);
     }
