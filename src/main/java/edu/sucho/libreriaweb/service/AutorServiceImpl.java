@@ -50,4 +50,23 @@ public class AutorServiceImpl extends BaseServiceImpl<Autor, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public String enableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(autorRepository.changeStatus(id, Boolean.TRUE), Boolean.TRUE);
+    }
+
+    @Override
+    public String disableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(autorRepository.changeStatus(id, Boolean.FALSE), Boolean.FALSE);
+    }
+
+    @Override
+    public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
+        if(!responseStatus.contains("OK")){
+            throw new ExceptionBBDD(responseStatus);
+        }
+        return status? "Autor Activado" : "Autor Desactivado";
+    }
+    
 }
