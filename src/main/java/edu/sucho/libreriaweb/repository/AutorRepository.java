@@ -12,6 +12,12 @@ public interface AutorRepository extends BaseRepository<Autor, Integer> {
     @Query(value = "SELECT * FROM autor WHERE autor.alta = true", nativeQuery = true)
     List<Autor> findAllByAlta();
 
-    @Query(value = "CALL lsp_cambiar_estado_autor(:id,:status);", nativeQuery = true)
-    String changeStatus(@Param("id") int id, @Param("status") Boolean estado);
+    @Query(value = "CALL lsp_cambiar_estado_autor(:id,:alta);", nativeQuery = true)
+    String changeStatusSp(@Param("id") int id, @Param("alta") Boolean estado);
+
+    @Query(value = "CALL lsp_crear_autor(:nombre)", nativeQuery = true)
+    String createSp(@Param("nombre") String nombre);
+
+    @Query(value = "CALL lsp_modificar_autor(:id,:nombre);", nativeQuery = true)
+    String updateSp(@Param("id") Integer id, @Param("nombre") String nombre);
 }

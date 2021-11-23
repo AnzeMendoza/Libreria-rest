@@ -22,6 +22,13 @@ public class ResponseInfo {
         this.uriRequested = uriRequested;
     }
 
+    public ResponseInfo(int statusCode, String message, String uriRequested) {
+        this.message = message;
+        this.statusCode = statusCode;
+        this.uriRequested = uriRequested;
+        this.timestamp = new Date();
+    }
+
     public ResponseInfo(int statusCode, String message, String uriRequested, Date timestamp) {
         setMessage(message);
         this.statusCode = statusCode;
