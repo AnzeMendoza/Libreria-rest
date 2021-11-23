@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Autor;
 import edu.sucho.libreriaweb.model.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
@@ -49,6 +50,16 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
             return clientesOptional.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
+        }
+    }
+
+    @Override
+    public Cliente saveCliente(Cliente cliente) throws ExceptionBBDD, ExceptionBadRequest {
+          if(validarFieldUnique(cliente.getDocumento().toString())){
+        throw new ExceptionBadRequest("no puede haber clientes con el mismo dni");
+        }
+        else{
+           return  super.save(cliente);
         }
     }
 }

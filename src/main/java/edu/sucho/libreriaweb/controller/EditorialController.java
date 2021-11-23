@@ -62,7 +62,7 @@ public class EditorialController {
         catch (ExceptionBadRequest ebr){
             throw new ExceptionBadRequest(ebr.getMessage());
 
-        }
+                }
 
     }
 
