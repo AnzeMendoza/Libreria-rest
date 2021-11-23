@@ -70,7 +70,7 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ){
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ) throws ExceptionBadRequest {
         try {
             //validaciones titulo, ejemplares, isbn repetido, 
             return ResponseEntity.status(HttpStatus.CREATED).body(libroService.update(id,libro));

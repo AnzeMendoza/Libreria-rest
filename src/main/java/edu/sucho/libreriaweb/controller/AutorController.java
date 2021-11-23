@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Autor;
 import edu.sucho.libreriaweb.service.AutorService;
+import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/api/v1/autor", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = Uri.AUTOR, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AutorController {
 
     @Autowired
@@ -56,17 +58,33 @@ public class AutorController {
     public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result ) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.CREATED).body(autorService.update(id,autor));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(autorService.update(id,autor));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
+    //Todo ver si se implementa con Patch
     @GetMapping("activar/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
-            return ResponseEntity.status(HttpStatus.ok).body(new ResponseInfo(HttpStatus.OK.value(),  ))
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseInfo(HttpStatus.OK.value(), autorService.enableStatus(id), Uri.AUTOR_ACTIVAR));
+        } catch (ExceptionBBDD ebd){
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
+
+    @GetMapping("desactivar/{id}")
+    private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseInfo(HttpStatus.OK.value(), autorService.disableStatus(id),Uri.AUTOR_DESACTIVAR));
+        } catch (ExceptionBBDD ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
+        }
+    }
+
 
 }
