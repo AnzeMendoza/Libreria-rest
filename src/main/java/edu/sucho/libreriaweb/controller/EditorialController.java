@@ -38,7 +38,6 @@ public class EditorialController {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -47,8 +46,6 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
-
-
 
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
@@ -64,8 +61,7 @@ public class EditorialController {
 
                 }
 
-    }
-
+        }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update( @PathVariable("id") int id,@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
@@ -77,9 +73,7 @@ public class EditorialController {
         }
         catch (ExceptionBadRequest ebr){
             throw new ExceptionBadRequest(ebr.getMessage());
-
         }
-
     }
 
     @GetMapping("activar/{id}")
@@ -99,8 +93,4 @@ public class EditorialController {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
-
-
-
-
 }
