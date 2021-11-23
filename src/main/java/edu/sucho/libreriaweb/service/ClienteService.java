@@ -11,5 +11,7 @@ public interface ClienteService extends BaseService<Cliente, Integer> {
     boolean deleteByIdSoft(int id) throws ExceptionBBDD;
 
     List<Cliente> findAllByAlta() throws ExceptionBBDD;
-    Cliente saveCliente(Cliente cliente) throws ExceptionBBDD, ExceptionBadRequest;
+     Cliente save(Cliente cliente) throws ExceptionBBDD;
+    Cliente update (Integer id,Cliente cliente) throws ExceptionBBDD;
+    String changeStatus(int id,Boolean estado)throws ExceptionBBDD;
 }

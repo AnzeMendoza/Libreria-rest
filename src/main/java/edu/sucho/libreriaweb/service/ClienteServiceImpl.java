@@ -1,8 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
-import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Autor;
+
 import edu.sucho.libreriaweb.model.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
@@ -53,13 +52,38 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
     }
 
-    @Override
-    public Cliente saveCliente(Cliente cliente) throws ExceptionBBDD, ExceptionBadRequest {
-          if(validarFieldUnique(cliente.getDocumento().toString())){
-        throw new ExceptionBadRequest("no puede haber clientes con el mismo dni");
-        }
-        else{
-           return  super.save(cliente);
-        }
+    
+
+   @Override
+    public Cliente save(Cliente cliente) throws ExceptionBBDD{
+         return retornarCliente(clienteRepository.saveCliente(cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
     }
+
+    @Override
+    public Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD {
+    return retornarCliente(clienteRepository.updateCliente(cliente.getId(),cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+    }
+    @Override
+    public String changeStatus(int id, Boolean estado) throws ExceptionBBDD {
+        
+          return   retornarMensaje(clienteRepository.changeStatus(id,estado),estado);
+}
+
+     private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            return (estado)?"Editorial Activado": "Editorial Desactivado";
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+    private Cliente retornarCliente(String resultado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            int id = Integer.parseInt(resultado.split(",")[1]);
+            return  clienteRepository.findById(id).get();
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
+    
+ 
+    
 }
