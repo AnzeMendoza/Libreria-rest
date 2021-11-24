@@ -26,15 +26,15 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
     List<Libro> findByTitulo(@Param("titulo") String titulo);
     
     @Query(value = "CALL lsp_cambiar_estado_libro(:id,:alta);", nativeQuery = true)
-    String changeStatus(@Param("id") int id, @Param("alta") Boolean alta);
+    String changeStatusSp(@Param("id") int id, @Param("alta") Boolean alta);
     
     @Query(value = "CALL lsp_modificar_libro(:id,:titulo,:isbn,:anio,"
             + ":ejemplares,:ejemplaresPrestados,:ejemplaresRestantes,"
             + ":autor,:editorial);", nativeQuery = true)
-    String updateEditorial(@Param("id") Integer id, @Param("titulo") String titulo,
+    String updateSp(@Param("id") Integer id, @Param("titulo") String titulo,
             @Param("isbn") Long isbn,@Param("anio") Integer anio,
             @Param("ejemplares") Integer ejemplares,
             @Param("ejemplaresPrestados") Integer ejemplaresPrestados,
             @Param("ejemplaresRestantes") Integer ejemplaresRestantes,
-            @Param("autor") Autor autor,@Param("editorial") Editorial editorial);
+            @Param("autor") Integer autorId,@Param("editorial") Integer editorialId);
 }

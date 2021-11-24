@@ -86,7 +86,9 @@ public class ClienteController {
     @GetMapping("activar/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
+
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.TRUE),Uri.CLIENTE_ACTIVAR,new Date()));
+
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
@@ -95,7 +97,9 @@ public class ClienteController {
     @GetMapping("desactivar/{id}")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
+
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.FALSE),Uri.CLIENTE_DESACTIVAR,new Date()));
+
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
