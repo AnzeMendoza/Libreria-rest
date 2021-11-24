@@ -28,6 +28,6 @@ public class Autor {
 
     private Boolean alta = true;
 
-    @OneToMany(mappedBy = "autor")
-    private List<Libro> libros;
+    //@OneToMany(mappedBy = "autor")
+    //private List<Libro> libros;
 }
