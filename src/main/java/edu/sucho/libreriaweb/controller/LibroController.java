@@ -41,8 +41,6 @@ public class LibroController {
         }
     }
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -51,11 +49,6 @@ public class LibroController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
-
-
-
-
-
 
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
@@ -77,7 +70,7 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ){
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ) throws ExceptionBadRequest {
         try {
             //validaciones titulo, ejemplares, isbn repetido, 
             return ResponseEntity.status(HttpStatus.CREATED).body(libroService.update(id,libro));

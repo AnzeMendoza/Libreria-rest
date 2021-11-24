@@ -21,6 +21,13 @@ public class Util {
                 }
                 throw new ExceptionBadRequest(err);
             }
+    }
 
+    public static int getResponseId(String response) throws ExceptionBadRequest {
+        try{
+            return Integer.parseInt(response.split(",")[1]);
+        } catch (NumberFormatException nfe){
+            throw new ExceptionBadRequest("Debe ingresar una cadena con un numero");
+        }
     }
 }

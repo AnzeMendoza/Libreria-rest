@@ -1,7 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
-import edu.sucho.libreriaweb.model.Autor;
+
 import edu.sucho.libreriaweb.model.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
@@ -51,4 +51,39 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    
+
+   @Override
+    public Cliente save(Cliente cliente) throws ExceptionBBDD{
+         return retornarCliente(clienteRepository.saveCliente(cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+    }
+
+    @Override
+    public Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD {
+    return retornarCliente(clienteRepository.updateCliente(cliente.getId(),cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+    }
+    @Override
+    public String changeStatus(int id, Boolean estado) throws ExceptionBBDD {
+        
+          return   retornarMensaje(clienteRepository.changeStatus(id,estado),estado);
+}
+
+     private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            return (estado)?"Cliente Activado": "Cliente Desactivado";
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+    private Cliente retornarCliente(String resultado) throws ExceptionBBDD {
+        if(resultado.contains("OK")){
+            int id = Integer.parseInt(resultado.split(",")[1]);
+            return  clienteRepository.findById(id).get();
+        }
+        throw new ExceptionBBDD(resultado);
+    }
+
+    
+ 
+    
 }

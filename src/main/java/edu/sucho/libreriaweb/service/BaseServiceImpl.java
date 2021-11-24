@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
 
     @Override
     @Transactional
-    public E save(E entity) throws ExceptionBBDD{
+    public E save(E entity) throws ExceptionBBDD, ExceptionBadRequest {
         Optional<E> entityOptional;
         try {
             entity = baseRepository.save(entity);
@@ -31,16 +32,12 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
 
     @Override
     @Transactional
-    public E update(ID id, E entity) throws ExceptionBBDD {
+    public E update(ID id, E entity) throws ExceptionBBDD, ExceptionBadRequest {
         Optional<E> entityOptional;
         E entityUpdate;
-        try {
-            entityOptional = baseRepository.findById(id);
-            entityUpdate = entityOptional.get();
-            entityUpdate = baseRepository.save(entity);
-        } catch (Exception e) {
-            throw new ExceptionBBDD(e.getMessage());
-        }
+        entityOptional = baseRepository.findById(id);
+        entityUpdate = entityOptional.get();
+        entityUpdate = baseRepository.save(entity);
         return entityUpdate;
     }
 
