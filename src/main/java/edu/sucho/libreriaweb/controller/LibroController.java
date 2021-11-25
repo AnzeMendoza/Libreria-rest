@@ -1,9 +1,12 @@
 package edu.sucho.libreriaweb.controller;
 
+import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.service.LibroService;
+import edu.sucho.libreriaweb.util.Uri;
+import edu.sucho.libreriaweb.util.Util;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +49,9 @@ public class LibroController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(libroService.findById(id));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
         }
     }
 
@@ -72,12 +77,15 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Libro libro ) throws ExceptionBadRequest {
-        try {
-            //validaciones titulo, ejemplares, isbn repetido, 
-            return ResponseEntity.status(HttpStatus.CREATED).body(libroService.update(id,libro));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result ) throws ExceptionBadRequest {
+         try {
+            Util.ValidarParametros(result);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(libroService.update(id,libro));
+
+        } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
@@ -87,6 +95,16 @@ public class LibroController {
             return ResponseEntity.status(HttpStatus.OK).body(libroService.delete(id));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+        }
+    }
+    
+    @GetMapping("desactivar/{id}")
+    private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseInfo(HttpStatus.OK.value(), libroService.disableStatus(id),Uri.LIBRO_DESACTIVAR));
+        } catch (ExceptionBBDD ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 }

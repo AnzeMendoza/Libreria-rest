@@ -30,6 +30,11 @@ public class Autor {
 
     private Boolean alta = true;
 
+<<<<<<< HEAD
+    //@OneToMany(mappedBy = "autor")
+    //private List<Libro> libros;
+=======
 /*    @OneToMany(mappedBy = "autor")
     private List<Libro> libros;*/
+>>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
 }

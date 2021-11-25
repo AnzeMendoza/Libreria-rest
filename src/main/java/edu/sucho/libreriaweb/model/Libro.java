@@ -24,6 +24,7 @@ public class Libro {
     
     @Column(unique = true, nullable = false)
     private Long isbn;
+    
     private Integer anio;
     private Integer ejemplares;
     private Integer ejemplaresPrestados;
