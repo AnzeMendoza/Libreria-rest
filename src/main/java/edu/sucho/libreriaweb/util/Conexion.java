@@ -1,19 +1,14 @@
 package edu.sucho.libreriaweb.util;
-
-import edu.sucho.libreriaweb.model.Editorial;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static edu.sucho.libreriaweb.util.Util.getBoolean;
+
 
 public  class Conexion {
-/*    private static String bd ="libreria_rest";
+    private static String bd ="libreria_rest";
     private  static String url = "jdbc:mysql://localhost:3306/";
     private static String user ="root";
     private static String password="root";
-     private static String driver ="com.mysql.cj.jdbc.Driver";
+    private static String driver ="com.mysql.cj.jdbc.Driver";
 
     public static Connection conect() {
         Connection conexion = null;
@@ -52,30 +47,5 @@ public  class Conexion {
         }
         return next;
     }
-
-*//*
-   public static void main(String[] args) throws SQLException {
-       Connection conexion =Conexion.conect();
-       List<Editorial> editoriales = Util.getEditoriales(conexion,"select * from editorial");
-        editoriales.forEach(editorial -> {
-            System.out.println("editorial.toString() = " + editorial.toString());
-        });
-        *//**//*
-        Connection conexion =Conexion.conect();
-        ResultSet rs = Conexion.getResultSet(conexion,"select * from editorial");
-        List<Editorial> editoriales= new ArrayList<>();
-
-        while (Conexion.existeNext(rs))
-        {
-            Editorial editorial = new Editorial();
-            editorial.setId(rs.getInt("id"));
-            editorial.setAlta(getBoolean(rs.getInt("alta")));
-            editorial.setNombre(rs.getString("nombre"));
-            editoriales.add(editorial);
-
-           //System.out.println(rs.getInt("id")+" "+rs.getInt("alta")+" "+rs.getString("nombre"));
-        }*//**//*
-    }*/
-
 
 }
