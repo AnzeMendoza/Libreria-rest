@@ -1,4 +1,4 @@
-package dto;
+package edu.sucho.libreriaweb.dto;
 
 import lombok.Getter;
 import lombok.Setter;

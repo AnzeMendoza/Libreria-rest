@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.controller;
 
-import dto.LibroDTO;
+import edu.sucho.libreriaweb.dto.LibroDTO;
+import edu.sucho.libreriaweb.dto.ModelMapperDto;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -38,11 +39,6 @@ public class LibroController {
 
     @Autowired
     private LibroService libroService;
-    
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
     
     @Autowired
     private ModelMapper modelMapper;

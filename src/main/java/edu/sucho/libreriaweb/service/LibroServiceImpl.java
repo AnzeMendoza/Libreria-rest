@@ -123,7 +123,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
-    
+
     @Override
     public Libro devolverLibro(int id) throws ExceptionBBDD {
         try {
@@ -137,16 +137,16 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
-    
-     @Override
+
+    @Override
     public Libro update(Integer id, Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
-        return getLibroOk(libroRepository.updateSp(id,libro.getTitulo(),libro.getIsbn(), libro.getAnio(), libro.getEjemplares(), libro.getEjemplaresPrestados(), libro.getEjemplaresRestantes(),libro.getAutor().getId(), libro.getEditorial().getId()));
+        return getLibroOk(libroRepository.updateSp(id, libro.getTitulo(), libro.getIsbn(), libro.getAnio(), libro.getEjemplares(), libro.getEjemplaresPrestados(), libro.getEjemplaresRestantes(), libro.getAutor().getId(), libro.getEditorial().getId()));
     }
-    
-     public Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+
+    public Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
         isResponseOK(response);
         int id = Util.getResponseId(response);
-        return  libroRepository.findById(id).get();
+        return libroRepository.findById(id).get();
     }
 
     private void isResponseOK(String response) throws ExceptionBBDD {
@@ -162,6 +162,6 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     @Override
     public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
         isResponseOK(responseStatus);
-        return status? "Libro Activado" : "Libro Desactivado";
+        return status ? "Libro Activado" : "Libro Desactivado";
     }
 }
