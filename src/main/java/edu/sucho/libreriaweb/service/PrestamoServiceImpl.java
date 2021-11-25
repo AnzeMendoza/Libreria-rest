@@ -58,4 +58,9 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+
+    @Override
+    public Boolean validarFieldUnique(String field) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
