@@ -220,6 +220,17 @@ SALIR: BEGIN
         SELECT 'Debe proveer un titulo válido.' AS Mensaje;
         LEAVE SALIR;
     END IF;
+    -- Controla que el año de publicacion sea valido (menor al actual)
+    IF (pAnio > year (NOW())) THEN
+        SELECT 'Debe proveer un año válido.' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+    
+	-- Controla que la valores ingresados sean coherentes 
+    IF (pEjemplares != pEjemplaresRestantes+pEjemplaresPrestados) THEN
+        SELECT 'La cantidad de ejemplares debe ser igual a la cantidad de ejemplares restantes y prestados' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
     
     
     IF EXISTS(select * from libro where isbn = pIsbn AND id != pId) THEN
@@ -231,6 +242,8 @@ SALIR: BEGIN
         SELECT 'Debe proveer un autor existente.' AS Mensaje;
         LEAVE SALIR;
     END IF;
+    
+    
     -- Controla que la editorial exista en BBDD 
     IF NOT EXISTS(select * from editorial where id = pfk_editorial) THEN
         SELECT 'Debe proveer una editorial existente.' AS Mensaje;
