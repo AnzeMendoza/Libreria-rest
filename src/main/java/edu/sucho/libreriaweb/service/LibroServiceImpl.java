@@ -1,9 +1,12 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.Autor;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.LibroRepository;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,6 +113,32 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     }
 
     @Override
+    @Transactional
+    public Libro save(Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
+/*
+        if(libro.getAutor().getId()==null){
+            throw new ExceptionBadRequest("El id de Autor es null");
+        }
+
+        if(libro.getEditorial().getId()==null){
+            throw new ExceptionBadRequest("El id de Editorial es null");
+        }
+*/
+
+        return getLibroOk(libroRepository
+                .createSp(Boolean.TRUE,
+                        libro.getAnio(),
+                        libro.getEjemplares(),
+                        libro.getEjemplaresPrestados(),
+                        libro.getEjemplaresRestantes(),
+                        libro.getIsbn(),
+                        libro.getTitulo(),
+                        libro.getAutor().getId(),
+                        libro.getEditorial().getId()
+                        ));
+    }
+
+    @Override
     public Libro prestarLibro(int id) throws ExceptionBBDD {
         try {
             Libro libro = libroRepository.findByIdAndAlta(id);
@@ -134,6 +163,18 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             return libro;
         } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
+        }
+    }
+
+    private Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+        isResponseOK(response);
+        int id = Util.getResponseId(response);
+        return  libroRepository.findById(id).get();
+    }
+
+    private void isResponseOK(String response) throws ExceptionBBDD {
+        if (!response.contains("OK")) {
+            throw new ExceptionBBDD(response);
         }
     }
 }
