@@ -2,9 +2,14 @@ package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+<<<<<<< HEAD
+=======
+import edu.sucho.libreriaweb.model.Autor;
+>>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.LibroRepository;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -113,6 +118,32 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     }
 
     @Override
+    @Transactional
+    public Libro save(Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
+/*
+        if(libro.getAutor().getId()==null){
+            throw new ExceptionBadRequest("El id de Autor es null");
+        }
+
+        if(libro.getEditorial().getId()==null){
+            throw new ExceptionBadRequest("El id de Editorial es null");
+        }
+*/
+
+        return getLibroOk(libroRepository
+                .createSp(Boolean.TRUE,
+                        libro.getAnio(),
+                        libro.getEjemplares(),
+                        libro.getEjemplaresPrestados(),
+                        libro.getEjemplaresRestantes(),
+                        libro.getIsbn(),
+                        libro.getTitulo(),
+                        libro.getAutor().getId(),
+                        libro.getEditorial().getId()
+                        ));
+    }
+
+    @Override
     public Libro prestarLibro(int id) throws ExceptionBBDD {
         try {
             Libro libro = libroRepository.findByIdAndAlta(id);
@@ -139,6 +170,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
+<<<<<<< HEAD
     
      @Override
     public Libro update(Integer id, Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
@@ -147,6 +179,10 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     }
     
      public Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+=======
+
+    private Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+>>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
         isResponseOK(response);
         int id = Util.getResponseId(response);
         return  libroRepository.findById(id).get();
@@ -157,6 +193,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(response);
         }
     }
+<<<<<<< HEAD
     @Override
     public String disableStatus(int id) throws ExceptionBBDD {
         return getMessageStatus(libroRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
@@ -176,4 +213,6 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBadRequest("El año de publicacion debe ser menor o igual al actual");
         }
     }
+=======
+>>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
 }

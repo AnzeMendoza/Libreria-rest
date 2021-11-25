@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -32,10 +33,12 @@ public class Libro {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_autor")
+    @NotNull(message = "Autor no puede ser nulo")
     private Autor autor;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_editorial")
+    @NotNull(message = "Editorial no puede ser nulo")
     private Editorial editorial;
 
     public Libro() {

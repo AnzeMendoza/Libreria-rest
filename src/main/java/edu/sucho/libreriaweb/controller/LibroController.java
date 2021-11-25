@@ -57,6 +57,7 @@ public class LibroController {
 
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
+
         try {
             if (result.hasErrors()) { // Hay un error
            List<ObjectError> oEs =result.getAllErrors().stream().collect(Collectors.toList());
@@ -68,7 +69,8 @@ public class LibroController {
             }
                 throw new ExceptionBadRequest(err);
          }
-            return ResponseEntity.status(HttpStatus.CREATED).body(libroService.save(libro));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(libroService.save(libro));
         }
         catch (ExceptionBadRequest ex){throw new ExceptionBadRequest(ex.getMessage());}
         catch (ExceptionBBDD e) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());}
