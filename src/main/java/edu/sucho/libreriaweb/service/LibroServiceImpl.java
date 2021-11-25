@@ -2,10 +2,7 @@ package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-<<<<<<< HEAD
-=======
-import edu.sucho.libreriaweb.model.Autor;
->>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
+
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.LibroRepository;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import edu.sucho.libreriaweb.util.Util;
+
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +49,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         }
     }
 
-    @Override
+/*    @Override
     @Transactional(readOnly = true)
     public List<Libro> findByTitulo(String titulo) throws ExceptionBBDD {
         try {
@@ -60,9 +58,9 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-    }
+    }*/
 
-    @Override
+/*    @Override
     @Transactional
     public boolean disableById(int id) throws ExceptionBBDD {
         try {
@@ -82,9 +80,9 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-    }
+    }*/
 
-    @Override
+/*    @Override
     @Transactional
     public boolean enableById(int id) throws ExceptionBBDD {
         try {
@@ -104,9 +102,9 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-    }
+    }*/
 
-    @Override
+/*    @Override
     @Transactional(readOnly = true)
     public List<Libro> findAllByAltaAndInStock() throws ExceptionBBDD {
         try {
@@ -115,7 +113,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-    }
+    }*/
 
     @Override
     @Transactional
@@ -140,10 +138,10 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
                         libro.getTitulo(),
                         libro.getAutor().getId(),
                         libro.getEditorial().getId()
-                        ));
+                ));
     }
 
-    @Override
+  /*  @Override
     public Libro prestarLibro(int id) throws ExceptionBBDD {
         try {
             Libro libro = libroRepository.findByIdAndAlta(id);
@@ -169,23 +167,29 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         } catch (ExceptionBBDD e) {
             throw new ExceptionBBDD(e.getMessage());
         }
+    }*/
+
+    @Override
+    public String disableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(libroRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
     }
-<<<<<<< HEAD
-    
-     @Override
+
+    @Override
+    public String enableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(libroRepository.changeStatusSp(id, true), true);
+    }
+
+    @Override
     public Libro update(Integer id, Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
         checkAnio(libro.getAnio());
-        return getLibroOk(libroRepository.updateSp(id,libro.getTitulo(),libro.getIsbn(), libro.getAnio(), libro.getEjemplares(), libro.getEjemplaresPrestados(), libro.getEjemplaresRestantes(),libro.getAutor().getId(), libro.getEditorial().getId()));
+        return getLibroOk(libroRepository.updateSp(id, libro.getTitulo(), libro.getIsbn(), libro.getAnio(), libro.getEjemplares(), libro.getEjemplaresPrestados(), libro.getEjemplaresRestantes(), libro.getAutor().getId(), libro.getEditorial().getId()));
     }
-    
-     public Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
-=======
+
 
     private Libro getLibroOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
->>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
         isResponseOK(response);
         int id = Util.getResponseId(response);
-        return  libroRepository.findById(id).get();
+        return libroRepository.findById(id).get();
     }
 
     private void isResponseOK(String response) throws ExceptionBBDD {
@@ -193,26 +197,20 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(response);
         }
     }
-<<<<<<< HEAD
-    @Override
-    public String disableStatus(int id) throws ExceptionBBDD {
-        return getMessageStatus(libroRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
-    }
 
     @Override
     public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
         isResponseOK(responseStatus);
-        return status? "Libro Activado" : "Libro Desactivado";
+        return status ? "Libro Activado" : "Libro Desactivado";
     }
-    
-    public void checkAnio (Integer anio) throws ExceptionBadRequest{
-        Date anioDate= new Date();
-        Integer anioInt= anioDate.getYear()+1900;
+
+    public void checkAnio(Integer anio) throws ExceptionBadRequest {
+        Date anioDate = new Date();
+        Integer anioInt = anioDate.getYear() + 1900;
         System.out.println(anioInt);
-        if (anio>anioInt ) {
+        if (anio > anioInt) {
             throw new ExceptionBadRequest("El año de publicacion debe ser menor o igual al actual");
         }
     }
-=======
->>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
+
 }

@@ -24,7 +24,7 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
 
     @Query(value = "SELECT * FROM libro WHERE libro.titulo LIKE %:titulo%", nativeQuery = true)
     List<Libro> findByTitulo(@Param("titulo") String titulo);
-<<<<<<< HEAD
+
     
     @Query(value = "CALL lsp_cambiar_estado_libro(:id,:alta);", nativeQuery = true)
     String changeStatusSp(@Param("id") int id, @Param("alta") Boolean alta);
@@ -38,7 +38,7 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
             @Param("ejemplaresPrestados") Integer ejemplaresPrestados,
             @Param("ejemplaresRestantes") Integer ejemplaresRestantes,
             @Param("autor") Integer autorId,@Param("editorial") Integer editorialId);
-=======
+
 
     @Query(
         value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
@@ -54,5 +54,5 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
                      @Param("fk_editorial") int fk_editorial);
 
 
->>>>>>> bcb4a8676ec247d3aaea56193bf8d3219ea2d1f1
+
 }
