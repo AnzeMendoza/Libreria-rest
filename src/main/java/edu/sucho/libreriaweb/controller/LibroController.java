@@ -49,7 +49,9 @@ public class LibroController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(libroService.findById(id));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"No existe Libro con ese id\"}");
         }
     }
 
