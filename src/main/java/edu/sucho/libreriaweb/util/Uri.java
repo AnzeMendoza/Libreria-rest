@@ -14,7 +14,9 @@ public class Uri {
     public static final String LIBRO_ACTIVAR = LIBRO+ACTIVAR;
     public static final String LIBRO_DESACTIVAR = LIBRO+DESACTIVAR;
 
-
+    public static final String CLIENTE = URI+"/cliente";
+    public static final String CLIENTE_ACTIVAR = CLIENTE+ACTIVAR;
+    public static final String CLIENTE_DESACTIVAR = CLIENTE+DESACTIVAR;
 
 
 }

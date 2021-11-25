@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import edu.sucho.libreriaweb.util.Util;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -140,6 +142,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     
      @Override
     public Libro update(Integer id, Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
+        checkAnio(libro.getAnio());
         return getLibroOk(libroRepository.updateSp(id,libro.getTitulo(),libro.getIsbn(), libro.getAnio(), libro.getEjemplares(), libro.getEjemplaresPrestados(), libro.getEjemplaresRestantes(),libro.getAutor().getId(), libro.getEditorial().getId()));
     }
     
@@ -163,5 +166,14 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
         isResponseOK(responseStatus);
         return status? "Libro Activado" : "Libro Desactivado";
+    }
+    
+    public void checkAnio (Integer anio) throws ExceptionBadRequest{
+        Date anioDate= new Date();
+        Integer anioInt= anioDate.getYear()+1900;
+        System.out.println(anioInt);
+        if (anio>anioInt ) {
+            throw new ExceptionBadRequest("El año de publicacion debe ser menor o igual al actual");
+        }
     }
 }

@@ -75,8 +75,99 @@ END
 /*---------------------------------------------------EDITORIAL--------------------------------------------------------*/
 
 
-/*---------------------------------------------------AUTOR------------------------------------------------------------*/
+/*---------------------------------------------------CLIENTE------------------------------------------------------------*/
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_crear_cliente`(`pDocumento` BIGINT, `pNombre` VARCHAR(64), `pApellido`  VARCHAR(64), `pTelefono` VARCHAR(64))
+SALIR:BEGIN
+    /*
+    Permite dar de alta un cliente controlando que el nombre  no exista y no sea NULL
+    */
+    
+    DECLARE pIdCliente int(4) ;
 
+     
+    -- Manejo de error en la transacción
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN 
+        SHOW ERRORS;
+        SELECT 'Error en la transacción. Contáctese con el administrador.' Mensaje;
+        ROLLBACK;
+    END;
+
+    -- Controla que el nombre sea obligatorio 
+    IF  length(pDocumento) <= 5  OR pDocumento IS NULL THEN
+        SELECT 'Debe proveer un documento no nulo o de longuitud valida' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+      IF  pDocumento <0  OR pDocumento >99999999 THEN
+        SELECT 'Debe proveer un numero de documento valido' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+    
+    -- controla la existencia del cliente
+    IF EXISTS(SELECT documento FROM cliente WHERE documento = pDocumento) THEN
+        SELECT 'ya existe  un cliente con ese documento' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+
+    
+    START TRANSACTION;
+        SET  pIdCliente = 1 + (SELECT COALESCE(MAX(id),0)FROM cliente);       
+        INSERT INTO cliente (id, documento, nombre, apellido, telefono, alta)
+        VALUES(pIdCliente, pDocumento, pNombre, pApellido, pTelefono, 1);
+        SELECT 'OK' AS Mensaje, pIdCliente AS 'id';
+    COMMIT;
+    
+END
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_cambiar_estado_cliente`(pId int,`pStatus` BOOLEAN)
+SALIR: BEGIN
+
+    -- Manejo de error en la transacción
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN 
+        SHOW ERRORS;
+        SELECT 'Error en la transacción. Contáctese con el administrador.' Mensaje;
+        ROLLBACK;
+    END;
+
+    
+   IF NOT EXISTS(select * from editorial where id = pId ) THEN
+		SELECT 'Debe proveer un cliente existente.' AS Mensaje;
+		LEAVE SALIR;
+    END IF;
+
+    -- controla la existencia del nombre de usuario 
+      
+
+      START TRANSACTION;
+        UPDATE cliente SET alta = pStatus  WHERE  id = pId ;
+        SELECT 'OK' AS Mensaje, pId AS 'id';     
+     COMMIT;
+END
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_modificar_cliente`(pId int,`pDocumento` BIGINT, `pNombre` VARCHAR(64), `pApellido`  VARCHAR(64), `pTelefono` VARCHAR(64))
+SALIR: BEGIN
+
+    -- Manejo de error en la transacción
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN 
+        SHOW ERRORS;
+        SELECT 'Error en la transacción. Contáctese con el administrador.' Mensaje;
+        ROLLBACK;
+    END;
+
+    -- Controla que el editorial exista en BBDD 
+    IF EXISTS(select * from cliente where documento=pDocumento AND id != pId) THEN
+        SELECT 'Existe ese documento.' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+
+    -- controla la existencia del nombre de usuario 
+      
+
+      START TRANSACTION;
+        UPDATE cliente SET documento = pDocumento, nombre = pNombre, apellido = pApellido, telefono = pTelefono , alta = 1   WHERE  id = pId ;
+        SELECT 'OK' AS Mensaje, pId AS 'id';     
+     COMMIT;
+END
 
 /*---------------------------------------------------LIBRO------------------------------------------------------------*/
 
@@ -129,6 +220,17 @@ SALIR: BEGIN
         SELECT 'Debe proveer un titulo válido.' AS Mensaje;
         LEAVE SALIR;
     END IF;
+    -- Controla que el año de publicacion sea valido (menor al actual)
+    IF (pAnio > year (NOW())) THEN
+        SELECT 'Debe proveer un año válido.' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
+    
+	-- Controla que la valores ingresados sean coherentes 
+    IF (pEjemplares != pEjemplaresRestantes+pEjemplaresPrestados) THEN
+        SELECT 'La cantidad de ejemplares debe ser igual a la cantidad de ejemplares restantes y prestados' AS Mensaje;
+        LEAVE SALIR;
+    END IF;
     
     
     IF EXISTS(select * from libro where isbn = pIsbn AND id != pId) THEN
@@ -140,6 +242,8 @@ SALIR: BEGIN
         SELECT 'Debe proveer un autor existente.' AS Mensaje;
         LEAVE SALIR;
     END IF;
+    
+    
     -- Controla que la editorial exista en BBDD 
     IF NOT EXISTS(select * from editorial where id = pfk_editorial) THEN
         SELECT 'Debe proveer una editorial existente.' AS Mensaje;
