@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "autor")
 public class Autor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,6 +30,11 @@ public class Autor {
 
     private Boolean alta = true;
 
-    @OneToMany(mappedBy = "autor")
-    private List<Libro> libros;
+
+    //@OneToMany(mappedBy = "autor")
+    //private List<Libro> libros;
+
+/*    @OneToMany(mappedBy = "autor")
+    private List<Libro> libros;*/
+
 }

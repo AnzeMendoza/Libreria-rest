@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService{
+public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -28,7 +28,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         try {
             Optional<Cliente> clienteOptional = clienteRepository.findById(id);
 
-            if(clienteOptional.isPresent()){
+            if (clienteOptional.isPresent()) {
                 Cliente cliente = clienteOptional.get();
                 cliente.setAlta(!cliente.getAlta());
                 clienteRepository.save(cliente);
@@ -52,38 +52,35 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
     }
 
-    
-
-   @Override
-    public Cliente save(Cliente cliente) throws ExceptionBBDD{
-         return retornarCliente(clienteRepository.saveCliente(cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+    @Override
+    public Cliente save(Cliente cliente) throws ExceptionBBDD {
+        return retornarCliente(clienteRepository
+                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
     }
 
     @Override
     public Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD {
-    return retornarCliente(clienteRepository.updateCliente(cliente.getId(),cliente.getDocumento(),cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+        return retornarCliente(clienteRepository
+                .updateCliente(cliente.getId(), cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
     }
+
     @Override
     public String changeStatus(int id, Boolean estado) throws ExceptionBBDD {
-        
-          return   retornarMensaje(clienteRepository.changeStatus(id,estado),estado);
-}
+        return retornarMensaje(clienteRepository.changeStatus(id, estado), estado);
+    }
 
-     private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
-        if(resultado.contains("OK")){
-            return (estado)?"Cliente Activado": "Cliente Desactivado";
+    private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
+        if (resultado.contains("OK")) {
+            return (estado) ? "Cliente Activado" : "Cliente Desactivado";
         }
         throw new ExceptionBBDD(resultado);
     }
+
     private Cliente retornarCliente(String resultado) throws ExceptionBBDD {
-        if(resultado.contains("OK")){
+        if (resultado.contains("OK")) {
             int id = Integer.parseInt(resultado.split(",")[1]);
-            return  clienteRepository.findById(id).get();
+            return clienteRepository.findById(id).get();
         }
         throw new ExceptionBBDD(resultado);
     }
-
-    
- 
-    
 }

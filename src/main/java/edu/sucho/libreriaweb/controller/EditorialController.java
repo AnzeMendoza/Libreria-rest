@@ -7,6 +7,8 @@ import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import edu.sucho.libreriaweb.service.EditorialService;
 import org.springframework.http.HttpStatus;
@@ -60,7 +62,7 @@ public class EditorialController {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK).body(editorialService.update(id,editorial));
-        } catch (ExceptionBBDD |ExceptionBadRequest ebd) {
+        } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }

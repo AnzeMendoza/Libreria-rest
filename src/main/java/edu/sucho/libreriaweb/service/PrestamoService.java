@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PrestamoService extends BaseService<Prestamo, Integer>{
 
-    boolean deleteByIdSoft(int id) throws ExceptionBBDD;
+    //boolean deleteByIdSoft(int id) throws ExceptionBBDD;
 
     List<Prestamo> findAllByAlta() throws ExceptionBBDD;
 }
