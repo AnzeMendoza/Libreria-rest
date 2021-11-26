@@ -65,7 +65,7 @@ class EditorialRepositoryTest {
     @Test
     void changeStatusTest() {
         String esperado = "OK";
-        String actual = editorialRepository.changeStatus(id, Boolean.TRUE);
+        String actual = editorialRepository.changeStatus(id, true);
         assertEquals(esperado, actual, "fallo el cambio de estado");
     }
 
