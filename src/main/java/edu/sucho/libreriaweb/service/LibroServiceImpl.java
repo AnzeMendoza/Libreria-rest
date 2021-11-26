@@ -154,7 +154,7 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBBDD(e.getMessage());
         }
     }
-    
+
     @Override
     public Libro devolverLibro(int id) throws ExceptionBBDD {
         try {

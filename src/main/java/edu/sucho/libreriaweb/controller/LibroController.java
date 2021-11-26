@@ -58,7 +58,6 @@ public class LibroController {
 
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
-
         try {
                 Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
