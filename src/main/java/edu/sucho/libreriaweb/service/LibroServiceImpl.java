@@ -118,16 +118,6 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     @Override
     @Transactional
     public Libro save(Libro libro) throws ExceptionBBDD, ExceptionBadRequest {
-/*
-        if(libro.getAutor().getId()==null){
-            throw new ExceptionBadRequest("El id de Autor es null");
-        }
-
-        if(libro.getEditorial().getId()==null){
-            throw new ExceptionBadRequest("El id de Editorial es null");
-        }
-*/
-
         return getLibroOk(libroRepository
                 .createSp(Boolean.TRUE,
                         libro.getAnio(),
