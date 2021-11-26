@@ -14,20 +14,19 @@ import edu.sucho.libreriaweb.service.EditorialService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import edu.sucho.libreriaweb.model.Editorial;
-
+import edu.sucho.libreriaweb.util.Uri;
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/api/v1/editorial", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = Uri.EDITORIAL, produces = MediaType.APPLICATION_JSON_VALUE)
 
 public class EditorialController {
 
     @Autowired
     private EditorialService editorialService;
+
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
@@ -53,15 +52,10 @@ public class EditorialController {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.save(editorial));
         }
-        catch( ExceptionBBDD ebd){
+        catch( ExceptionBBDD |ExceptionBadRequest ebd){
             throw new ExceptionBadRequest(ebd.getMessage());
         }
-        catch (ExceptionBadRequest ebr){
-            throw new ExceptionBadRequest(ebr.getMessage());
-
-                }
-
-        }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update( @PathVariable("id") int id,@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
@@ -71,24 +65,21 @@ public class EditorialController {
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
-        catch (ExceptionBadRequest ebr){
-            throw new ExceptionBadRequest(ebr.getMessage());
-        }
     }
 
-    @GetMapping("activar/{id}")
+    @GetMapping(Uri.EDITORIAL_ACTIVAR+"/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),editorialService.changeStatus(id,Boolean.TRUE),"/api/v1/editorial/activar",new Date()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),editorialService.changeStatus(id,Boolean.TRUE),Uri.EDITORIAL_ACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
-    @GetMapping("desactivar/{id}")
+    @GetMapping(Uri.EDITORIAL_DESACTIVAR+"desactivar/{id}")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),editorialService.changeStatus(id,Boolean.FALSE),"/api/v1/editorial/activar",new Date()));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),editorialService.changeStatus(id,Boolean.FALSE),Uri.EDITORIAL_DESACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }

@@ -5,9 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -16,7 +16,6 @@ import java.util.List;
 public class Editorial {
 
     @Id
-    @NotNull(message = "El id de Editorial no puede ser nulo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -28,8 +27,19 @@ public class Editorial {
     //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
+    @OneToMany(mappedBy = "editorial")
+    private List<Libro> libros;
 
-    //@OneToMany(mappedBy = "editorial")
-    //private List<Libro> libros;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Editorial editorial = (Editorial) o;
+        return nombre.equals(editorial.nombre);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre);
+    }
 }
