@@ -25,7 +25,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         super(baseRepository);
     }
 
-    @Override
+ /*   @Override
     @Transactional//HAY QUE CORREGIR ESTE METODO POR CAMBIOS EN ENTIDAD LIBRO // AVErIGUAR COMO IMPLEMENTEAR TO DO
     public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
         try {
@@ -46,7 +46,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-    }
+    }*/
 
     @Override
     @Transactional(readOnly = true)

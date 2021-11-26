@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import edu.sucho.libreriaweb.service.ClienteService;
+import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import java.util.Date;
 import javax.validation.Valid;
@@ -85,7 +86,9 @@ public class ClienteController {
     @GetMapping("activar/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.TRUE),"/api/v1/editorial/activar",new Date()));
+
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.TRUE),Uri.CLIENTE_ACTIVAR,new Date()));
+
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
@@ -94,7 +97,9 @@ public class ClienteController {
     @GetMapping("desactivar/{id}")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.FALSE),"/api/v1/editorial/activar",new Date()));
+
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(),clienteService.changeStatus(id,Boolean.FALSE),Uri.CLIENTE_DESACTIVAR,new Date()));
+
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }

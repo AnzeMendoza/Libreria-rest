@@ -55,11 +55,13 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result ) throws ExceptionBadRequest {
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
+
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(autorService.update(id,autor));
+
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
@@ -67,6 +69,7 @@ public class AutorController {
 
     //Todo ver si se implementa con Patch
     @GetMapping("activar/{id}")
+
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
             return ResponseEntity.status(HttpStatus.OK)

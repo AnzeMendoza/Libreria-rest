@@ -29,7 +29,6 @@ public class EditorialController {
     @Autowired
     private EditorialService editorialService;
 
-
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
         try {
@@ -59,8 +58,10 @@ public class EditorialController {
         }
         catch (ExceptionBadRequest ebr){
             throw new ExceptionBadRequest(ebr.getMessage());
+
+                }
+
         }
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update( @PathVariable("id") int id,@Valid @RequestBody Editorial editorial, BindingResult result) throws ExceptionBadRequest {
