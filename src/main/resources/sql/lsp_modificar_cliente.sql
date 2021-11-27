@@ -16,7 +16,6 @@ SALIR: BEGIN
     END IF;
 
     -- controla la existencia del nombre de usuario 
-      
 
       START TRANSACTION;
         UPDATE cliente SET documento = pDocumento, nombre = pNombre, apellido = pApellido, telefono = pTelefono , alta = 1   WHERE  id = pId ;
