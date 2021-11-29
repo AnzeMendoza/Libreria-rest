@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Util {
@@ -36,6 +37,23 @@ public class Util {
 
     private static boolean getBoolean(int valor) {
         return (valor==1);
+    }
+
+    public static String generarString(){
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 9);
+    }
+
+    /* sector base de datos */
+    public static  int getIdMax(Connection conexion, String query)  {
+        int indice = 0;
+        try {
+            ResultSet rs = Conexion.getResultSet(conexion,query);
+            rs.next();
+            indice =rs.getInt("max(id)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return indice;
     }
 
     public static List<Editorial> getEditoriales(Connection conexion, String query) throws SQLException {

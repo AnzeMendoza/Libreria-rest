@@ -9,10 +9,16 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface EditorialRepository extends BaseRepository<Editorial, Integer> {
+
+
     @Query(value = "SELECT * FROM editorial WHERE editorial.alta = true", nativeQuery = true)
     List<Editorial> findAllByAlta();
-   @Query(value = "SELECT * FROM editorial WHERE editorial.nombre =:name ", nativeQuery = true)
+
+    Editorial findByNombre(String nombre);
+
+   @Query(value = "SELECT id,alta,nombre FROM editorial WHERE editorial.nombre =:name", nativeQuery = true)
     Editorial findByValueField(@Param("name")String name);
+
     @Query(value="CALL lsp_cambiar_estado_editorial(:id,:status);" , nativeQuery = true)
     String changeStatus(@Param("id")int id, @Param("status")Boolean estado);
     @Query(value = "CALL lsp_crear_editorial(:name)", nativeQuery = true)
