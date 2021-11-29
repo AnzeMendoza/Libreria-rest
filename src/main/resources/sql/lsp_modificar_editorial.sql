@@ -1,7 +1,7 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_modificar_editorial`(pId int, `pNombre` VARCHAR(64))
 SALIR: BEGIN
 
-              -- Manejo de error en la transacción
+    -- Manejo de error en la transacción
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN 
 		SHOW ERRORS;
@@ -9,7 +9,6 @@ SALIR: BEGIN
 		ROLLBACK;
 	END;
 
-    
     -- Controla que el editorial exista en BBDD 
 	IF NOT EXISTS(select nombre from editorial where id = pId) THEN
 		SELECT 'Debe proveer un editorial existente.' AS Mensaje;

@@ -14,13 +14,13 @@ SALIR: BEGIN
         SELECT 'Debe proveer un libro existente.' AS Mensaje;
         LEAVE SALIR;
     END IF;
-    
 
     -- Controla la existencia de un titulo
     IF (pTitulo = '' OR pTitulo is null) THEN
         SELECT 'Debe proveer un titulo válido.' AS Mensaje;
         LEAVE SALIR;
     END IF;
+
     -- Controla que el año de publicacion sea valido (menor al actual)
     IF (pAnio > year (NOW())) THEN
         SELECT 'Debe proveer un año válido.' AS Mensaje;
@@ -32,8 +32,7 @@ SALIR: BEGIN
         SELECT 'La cantidad de ejemplares debe ser igual a la cantidad de ejemplares restantes y prestados' AS Mensaje;
         LEAVE SALIR;
     END IF;
-    
-    
+
     IF EXISTS(select * from libro where isbn = pIsbn AND id != pId) THEN
         SELECT 'Existe ese isbn.' AS Mensaje;
         LEAVE SALIR;
@@ -43,14 +42,14 @@ SALIR: BEGIN
         SELECT 'Debe proveer un autor existente.' AS Mensaje;
         LEAVE SALIR;
     END IF;
-    
-    
+
     -- Controla que la editorial exista en BBDD 
     IF NOT EXISTS(select * from editorial where id = pfk_editorial) THEN
         SELECT 'Debe proveer una editorial existente.' AS Mensaje;
         LEAVE SALIR;
     END IF;
-      START TRANSACTION;
+
+    START TRANSACTION;
         UPDATE libro SET titulo = pTitulo, isbn = pIsbn, anio = pAnio, ejemplares = pEjemplares, ejemplares_prestados = pEjemplaresPrestados, ejemplares_restantes = pEjemplaresRestantes, alta = 1 , fk_autor = pfk_autor ,fk_editorial = pfk_editorial WHERE id = pId ;
         SELECT 'OK' AS Mensaje, pId AS 'id';     
     COMMIT;

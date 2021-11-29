@@ -27,14 +27,7 @@ public class Autor {
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras.")
     private String nombre;
-
     private Boolean alta = true;
 
-
-    //@OneToMany(mappedBy = "autor")
-    //private List<Libro> libros;
-
-/*    @OneToMany(mappedBy = "autor")
-    private List<Libro> libros;*/
 
 }

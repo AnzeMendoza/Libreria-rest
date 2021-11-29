@@ -6,7 +6,6 @@ SALIR:BEGIN
     
     DECLARE pIdCliente int(4) ;
 
-     
     -- Manejo de error en la transacción
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN 
@@ -31,7 +30,6 @@ SALIR:BEGIN
         LEAVE SALIR;
     END IF;
 
-    
     START TRANSACTION;
         SET  pIdCliente = 1 + (SELECT COALESCE(MAX(id),0)FROM cliente);       
         INSERT INTO cliente (id, documento, nombre, apellido, telefono, alta)
