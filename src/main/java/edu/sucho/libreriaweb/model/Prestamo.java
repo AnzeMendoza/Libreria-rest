@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,16 +31,16 @@ public class Prestamo {
     private Cliente cliente;
 
     @NotNull(message = "fechaDevolución no puede ser nulo")
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @FutureOrPresent(message = "La fecha debe ser actual o posterior a la de hoy")
-    private Date fechaDevolucion;
+    private LocalDate fechaDevolucion;
 
     @NotNull(message = "fechaPrestamo no puede ser nulo")
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
-    private Date fechaPrestamo;
+    private LocalDate fechaPrestamo;
 
     @NotNull(message = "Cliente no puede ser nulo")
     @OneToOne(cascade = CascadeType.ALL)
