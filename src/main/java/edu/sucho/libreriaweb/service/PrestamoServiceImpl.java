@@ -1,10 +1,12 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.model.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,4 +38,33 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         }
     }
 
+    @Override
+    public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+        return getPrestamoOk(prestamoRepository
+                .createSp(
+                        prestamo.getCliente().getId(),
+                        prestamo.getFechaPrestamo(),
+                        prestamo.getFechaDevolucion(),
+                        prestamo.getLibro().getId()
+                ));
+    }
+
+    @Override
+    public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion()
+                ,prestamo.getFechaPrestamo(),prestamo.getCliente().getId()
+                ,prestamo.getLibro().getId())); 
+    }
+    
+    private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+        isResponseOK(response);
+        int id = Util.getResponseId(response);
+        return prestamoRepository.findById(id).get();
+    }
+    
+    private void isResponseOK(String response) throws ExceptionBBDD {
+        if (!response.contains("OK")) {
+            throw new ExceptionBBDD(response);
+        }
+    }
 }
