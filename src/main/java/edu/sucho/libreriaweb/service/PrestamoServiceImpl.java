@@ -40,28 +40,32 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+        System.out.println("#################");
+        System.out.println(prestamo.getFechaDevolucion());
+        System.out.println(prestamo.getFechaPrestamo());
+        System.out.println("#################");
         return getPrestamoOk(prestamoRepository
                 .createSp(
                         prestamo.getCliente().getId(),
-                        prestamo.getFechaPrestamo(),
                         prestamo.getFechaDevolucion(),
+                        prestamo.getFechaPrestamo(),
                         prestamo.getLibro().getId()
                 ));
     }
 
     @Override
     public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion()
-                ,prestamo.getFechaPrestamo(),prestamo.getCliente().getId()
-                ,prestamo.getLibro().getId())); 
+        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion(),
+                prestamo.getFechaPrestamo(), prestamo.getCliente().getId(),
+                prestamo.getLibro().getId()));
     }
-    
+
     private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
         isResponseOK(response);
         int id = Util.getResponseId(response);
         return prestamoRepository.findById(id).get();
     }
-    
+
     private void isResponseOK(String response) throws ExceptionBBDD {
         if (!response.contains("OK")) {
             throw new ExceptionBBDD(response);
