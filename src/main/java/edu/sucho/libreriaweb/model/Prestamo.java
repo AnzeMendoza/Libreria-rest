@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class Prestamo {
 
     @NotNull(message = "fechaDevolución no puede ser nulo")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @FutureOrPresent(message = "La fecha debe ser actual o posterior a la de hoy")
     private Calendar fechaDevolucion;
 

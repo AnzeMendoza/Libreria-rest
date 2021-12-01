@@ -6,7 +6,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,12 +23,10 @@ public class Editorial {
     @Column(length = 64, unique = true, nullable = false)
     private String nombre;
     
-    //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
     //@OneToMany(mappedBy = "editorial")
     //private List<Libro> libros;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
