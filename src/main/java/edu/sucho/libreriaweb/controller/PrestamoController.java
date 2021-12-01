@@ -7,29 +7,15 @@ import edu.sucho.libreriaweb.model.Prestamo;
 import edu.sucho.libreriaweb.service.PrestamoService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-import javax.validation.Valid;
-import edu.sucho.libreriaweb.service.PrestamoService;
-import edu.sucho.libreriaweb.util.Uri;
-import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
+import java.text.ParseException;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -37,7 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrestamoController {
     @Autowired
     private PrestamoService prestamoService;
-         
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(prestamoService.findAll());
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
+        }
+    }
+
     @GetMapping("desactivar/{id}")
     private ResponseEntity<?> deactivate(@PathVariable("id") int id)
      throws ExceptionBadRequest {
