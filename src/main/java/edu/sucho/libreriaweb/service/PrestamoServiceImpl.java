@@ -66,9 +66,24 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         return prestamoRepository.findById(id).get();
     }
 
+    public String disableStatus(int id) throws ExceptionBBDD {
+         return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
+    }
+
+    @Override
+    public String enableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(prestamoRepository.changeStatusSp(id, true), true);
+    }
+
     private void isResponseOK(String response) throws ExceptionBBDD {
         if (!response.contains("OK")) {
             throw new ExceptionBBDD(response);
         }
+    }
+
+    @Override
+    public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
+       isResponseOK(responseStatus);
+        return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
 }

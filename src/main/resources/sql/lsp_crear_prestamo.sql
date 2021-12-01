@@ -7,9 +7,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_crear_prestamo`(
 SALIR:BEGIN
 
     DECLARE pIdPrestamo int(4) ;
-    
-    DECLARE pEjemplares int (4);
-    
 
 	-- Manejo de error en la transacción
     declare exit HANDLER for sqlexception
@@ -19,7 +16,7 @@ SALIR:BEGIN
         ROLLBACK;
     END;
 
-   	-- Controla que exista Libro y este dado de alta
+   	-- Controla que exista Libro
     if  not exists (select 1 from libro as l where l.id = pFkLibro AND l.alta = 1 ) THEN
         SELECT 'No existe ese libro o no está dado de alta' AS Mensaje;
         LEAVE SALIR;
@@ -31,7 +28,7 @@ SALIR:BEGIN
         LEAVE SALIR;
     END IF;
 
-    -- Controla que exista Cliente y este dado de alta
+    -- Controla que exista Cliente
     if  not exists (select 1 from cliente as c where c.id = pFkCliente AND c.alta = 1) THEN
         SELECT 'No existe ese cliente o no esta dado de alta' AS Mensaje;
         LEAVE SALIR;
@@ -64,12 +61,6 @@ SALIR:BEGIN
 	-- validar formato de fecha (ver)
 
     START TRANSACTION;
-        SET pEjemplares = (SELECT COALESCE(MAX(ejemplares),0) FROM libro);
-        SET pEjemplaresPrestados = (SELECT COALESCE(MAX(ejemplares_prestados),0) FROM libro);
-        SET pEjemplaresRestantes = (SELECT COALESCE(MAX(ejemplares_restantes),0) FROM libro);
-
-
-
         SET  pIdPrestamo = 1 + (SELECT COALESCE(MAX(id),0) FROM prestamo);
         INSERT INTO prestamo (alta, fecha_devolucion, fecha_prestamo, fk_cliente, fk_libro)
         VALUES(1, pFechaDevolucion, pFechaPrestamo, pFkCliente, pFkLibro);
