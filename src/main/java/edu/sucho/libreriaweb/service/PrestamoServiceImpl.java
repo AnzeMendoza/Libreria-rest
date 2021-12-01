@@ -1,10 +1,12 @@
 package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.model.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,29 +27,6 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         super(baseRepository);
     }
 
- /*   @Override
-    @Transactional//HAY QUE CORREGIR ESTE METODO POR CAMBIOS EN ENTIDAD LIBRO // AVErIGUAR COMO IMPLEMENTEAR TO DO
-    public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
-        try {
-            Optional<Prestamo> prestamoOptional = prestamoRepository.findById(id);
-
-            if(prestamoOptional.isPresent()){
-                Prestamo prestamo = prestamoOptional.get();
-                prestamo.setAlta(!prestamo.getAlta());
-                
-                Libro libroAAgregarPrestamo = libroService.devolverLibro(prestamo.getLibro().getId());
-                libroService.update(libroAAgregarPrestamo.getId(), libroAAgregarPrestamo);
-
-                prestamoRepository.save(prestamo);
-            } else {
-                throw new ExceptionBBDD("deleteByIdSoft");
-            }
-            return true;
-        } catch (Exception e) {
-            throw new ExceptionBBDD(e.getMessage());
-        }
-    }*/
-
     @Override
     @Transactional(readOnly = true)
     public List<Prestamo> findAllByAlta() throws ExceptionBBDD {
@@ -60,7 +39,51 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     @Override
-    public Boolean validarFieldUnique(String field) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+        System.out.println("#################");
+        System.out.println(prestamo.getFechaDevolucion());
+        System.out.println(prestamo.getFechaPrestamo());
+        System.out.println("#################");
+        return getPrestamoOk(prestamoRepository
+                .createSp(
+                        prestamo.getCliente().getId(),
+                        prestamo.getFechaDevolucion(),
+                        prestamo.getFechaPrestamo(),
+                        prestamo.getLibro().getId()
+                ));
+    }
+
+    @Override
+    public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion(),
+                prestamo.getFechaPrestamo(), prestamo.getCliente().getId(),
+                prestamo.getLibro().getId()));
+    }
+
+    private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
+        isResponseOK(response);
+        int id = Util.getResponseId(response);
+        return prestamoRepository.findById(id).get();
+    }
+
+    public String disableStatus(int id) throws ExceptionBBDD {
+         return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
+    }
+
+    @Override
+    public String enableStatus(int id) throws ExceptionBBDD {
+        return getMessageStatus(prestamoRepository.changeStatusSp(id, true), true);
+    }
+
+    private void isResponseOK(String response) throws ExceptionBBDD {
+        if (!response.contains("OK")) {
+            throw new ExceptionBBDD(response);
+        }
+    }
+
+    @Override
+    public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
+       isResponseOK(responseStatus);
+        return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
 }
