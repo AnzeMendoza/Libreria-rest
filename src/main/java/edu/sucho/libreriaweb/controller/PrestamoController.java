@@ -12,6 +12,7 @@ import java.util.TimeZone;
 import javax.validation.Valid;
 import edu.sucho.libreriaweb.service.PrestamoService;
 import edu.sucho.libreriaweb.util.Uri;
+import java.text.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,16 +52,9 @@ public class PrestamoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest, ParseException {
         try {
             Util.ValidarParametros(result);
-            /*System.out.println("--------");
-            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd");
-            isoFormat.setTimeZone(TimeZone.getTimeZone("UTC-3"));
-            isoFormat.parse(prestamo.getFechaDevolucion());*/
-            System.out.println(prestamo.getFechaDevolucion()/*.set.setTimeZone(TimeZone.getTimeZone("UTC-3"))*/);
-            System.out.println(prestamo.getFechaPrestamo());
-            System.out.println("--------");
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(prestamoService.save(prestamo));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {

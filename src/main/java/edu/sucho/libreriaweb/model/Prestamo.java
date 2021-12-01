@@ -31,16 +31,16 @@ public class Prestamo {
     private Cliente cliente;
 
     @NotNull(message = "fechaDevolución no puede ser nulo")
-    //@Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @FutureOrPresent(message = "La fecha debe ser actual o posterior a la de hoy")
-    private LocalDate fechaDevolucion;
+    private Date fechaDevolucion;
 
     @NotNull(message = "fechaPrestamo no puede ser nulo")
-    //@Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
-    private LocalDate fechaPrestamo;
+    private Date fechaPrestamo;
 
     @NotNull(message = "Cliente no puede ser nulo")
     @OneToOne(cascade = CascadeType.ALL)
