@@ -53,38 +53,11 @@ public class PrestamoController {
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest {
         try {
-            //prestamo.getFechaDevolucion().setTimeZone(TimeZone.getTimeZone("America/Buenos_Aires"));
-            System.out.println(">>>>>>>>>>>>>>>>>>>>> fecha actual: " + prestamo.getFechaDevolucion().getTime());
-            ZonedDateTime fecha = ZonedDateTime.of(prestamo.getFechaDevolucion().get(Calendar.YEAR),
-                    prestamo.getFechaDevolucion().get(Calendar.MONTH) + 1,
-                    prestamo.getFechaDevolucion().get(Calendar.DAY_OF_MONTH),
-                    prestamo.getFechaDevolucion().get(Calendar.HOUR_OF_DAY),
-                    prestamo.getFechaDevolucion().get(Calendar.MINUTE),
-                    prestamo.getFechaDevolucion().get(Calendar.SECOND),
-                    prestamo.getFechaDevolucion().get(Calendar.MILLISECOND),
-                    ZoneId.of("America/Argentina/Buenos_Aires"));
-
-            prestamo.getFechaDevolucion().set(prestamo.getFechaDevolucion().get(Calendar.YEAR),
-                    prestamo.getFechaDevolucion().get(Calendar.MONTH),
-                    prestamo.getFechaDevolucion().get(Calendar.DAY_OF_MONTH));
-            prestamo.getFechaPrestamo().set(prestamo.getFechaPrestamo().get(Calendar.YEAR),
-                    prestamo.getFechaPrestamo().get(Calendar.MONTH),
-                    prestamo.getFechaPrestamo().get(Calendar.DAY_OF_MONTH));
-
-            prestamo.getFechaDevolucion().setTimeZone(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
-            prestamo.getFechaPrestamo().setTimeZone(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
-
-            System.out.println("-------------------");
-            System.out.println("Fecha de devolucion: " + prestamo.getFechaDevolucion().getTime());
-            System.out.println("Fecha de prestamo: " + prestamo.getFechaPrestamo().getTime());
-            System.out.println("-------------------");
-
             Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
                   .body(prestamoService.save(prestamo));
          }
         catch (ExceptionBBDD | ExceptionBadRequest e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
         }

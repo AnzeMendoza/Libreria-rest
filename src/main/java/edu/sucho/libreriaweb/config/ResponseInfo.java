@@ -18,7 +18,7 @@ public class ResponseInfo {
     @JsonProperty("path")
     private String uriRequested;
     @JsonProperty("timestamp")
-    private Date timestamp;
+    private String timestamp;
     
 
     public ResponseInfo(Exception exception, String uriRequested) {
@@ -31,14 +31,7 @@ public class ResponseInfo {
         this.message = message;
         this.statusCode = statusCode;
         this.uriRequested = uriRequested;
-        this.timestamp = getTimeResposeInfo();      
-    }
-
-    public ResponseInfo(int statusCode, String message, String uriRequested, Date timestamp) {
-        setMessage(message);
-        this.statusCode = statusCode;
-        this.uriRequested = uriRequested;
-        this.timestamp = getTimeResposeInfo();
+        this.timestamp = getTimeResposeInfo().toString();
     }
 
     public String getMessage() {
@@ -57,7 +50,13 @@ public class ResponseInfo {
     }
 
     private Date getTimeResposeInfo() {
-        String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss a";
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.setTimeZone(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
+        System.out.println(calendar.getTime());
+        return calendar.getTime();
+        /*String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss a";
         Calendar cal = Calendar.getInstance();
 
         //cal.set(2017, 06, 29, 8, 30);
@@ -81,6 +80,6 @@ public class ResponseInfo {
         }catch(ParseException e){
             new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(),"PATH");
         }
-        return null;
+        return null;*/
     }
 }
