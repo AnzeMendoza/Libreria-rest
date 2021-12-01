@@ -24,7 +24,6 @@ public class Editorial {
     @Column(length = 64, unique = true, nullable = false)
     private String nombre;
     
-    //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
     @OneToMany(mappedBy = "editorial")
@@ -37,6 +36,8 @@ public class Editorial {
         Editorial editorial = (Editorial) o;
         return nombre.equals(editorial.nombre);
     }
+
+
 
     @Override
     public int hashCode() {

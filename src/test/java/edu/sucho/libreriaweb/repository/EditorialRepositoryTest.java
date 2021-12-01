@@ -1,8 +1,11 @@
 package edu.sucho.libreriaweb.repository;
 
 import edu.sucho.libreriaweb.model.Editorial;
+import edu.sucho.libreriaweb.service.EditorialService;
+import edu.sucho.libreriaweb.service.EditorialServiceImpl;
 import edu.sucho.libreriaweb.util.*;
 import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,6 +17,7 @@ import java.util.NoSuchElementException;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 
 @DataJpaTest
@@ -139,6 +143,22 @@ class EditorialRepositoryTest {
         Editorial actual = editorialRepository.findByValueField(nombre);
         assertEquals(esperado, actual, "no son los mismo editoriales");
     }
+
+
+    @DisplayName("Primer  Test Mockito")
+    @Test
+    @Order(9)
+    void mockitotest() {
+        editorialRepository = Mockito.mock(EditorialRepository.class);
+        when(editorialRepository.changeStatus(100,true)).thenReturn("Hola Mundo");
+        String actual =editorialRepository.changeStatus(100,true);
+        assertEquals(actual, actual);
+    }
+
+
+
+
+
 
     private String generarNombreUnico() {
         String nombre = "";
