@@ -31,8 +31,12 @@ public class PrestamoController {
     
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo,BindingResult result) throws ExceptionBadRequest {
-        try {
+        try {   System.out.println("--------");
+                System.out.println(prestamo.getFechaDevolucion());
+                System.out.println(prestamo.getFechaPrestamo());
+                  System.out.println("--------");
                 Util.ValidarParametros(result);
+             
           return ResponseEntity.status(HttpStatus.CREATED)
                   .body(prestamoService.save(prestamo));
          }
