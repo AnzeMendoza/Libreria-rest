@@ -64,12 +64,7 @@ SALIR:BEGIN
 	-- validar formato de fecha (ver)
 
     START TRANSACTION;
-        SET pEjemplares = (SELECT COALESCE(MAX(ejemplares),0) FROM libro);
-        SET pEjemplaresPrestados = (SELECT COALESCE(MAX(ejemplares_prestados),0) FROM libro);
-        SET pEjemplaresRestantes = (SELECT COALESCE(MAX(ejemplares_restantes),0) FROM libro);
-
-
-
+       
         SET  pIdPrestamo = 1 + (SELECT COALESCE(MAX(id),0) FROM prestamo);
         INSERT INTO prestamo (alta, fecha_devolucion, fecha_prestamo, fk_cliente, fk_libro)
         VALUES(1, pFechaDevolucion, pFechaPrestamo, pFkCliente, pFkLibro);
