@@ -14,13 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,7 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrestamoController {
     @Autowired
     private PrestamoService prestamoService;
-    
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(prestamoService.findAll());
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo,BindingResult result) throws ExceptionBadRequest {
         try {

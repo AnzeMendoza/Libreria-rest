@@ -27,19 +27,7 @@ public class Editorial {
     //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
-    @OneToMany(mappedBy = "editorial")
-    private List<Libro> libros;
+//    @OneToMany(mappedBy = "editorial")
+//    private List<Libro> libros;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Editorial editorial = (Editorial) o;
-        return nombre.equals(editorial.nombre);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nombre);
-    }
 }

@@ -1,10 +1,13 @@
 package edu.sucho.libreriaweb.repository;
 
 import edu.sucho.libreriaweb.model.Prestamo;
+
 import java.util.Date;
+
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
 import org.springframework.data.repository.query.Param;
 
 public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
@@ -25,9 +28,12 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
             @Param("fk_libro") int fk_libro
     );
 
-    @Query(value = "CALL lsp_modificar_prestamo(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,"
-            + ":fk_libro);", nativeQuery = true)
-    String updateSp(@Param("id") Integer id, @Param("fecha_devolucion") Date fecha_devolucion,
-            @Param("fecha_prestamo") Date fecha_prestamo, @Param("fk_cliente") Integer fk_cliente,
-            @Param("fk_libro") Integer fk_libro);
+    @Query(value = "CALL lsp_modificar_prestamo(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,:fk_libro);", nativeQuery = true)
+    String updateSp(
+            @Param("id") Integer id,
+            @Param("fecha_devolucion") Date fecha_devolucion,
+            @Param("fecha_prestamo") Date fecha_prestamo,
+            @Param("fk_cliente") Integer fk_cliente,
+            @Param("fk_libro") Integer fk_libro
+    );
 }

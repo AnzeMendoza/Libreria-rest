@@ -2,23 +2,26 @@ package edu.sucho.libreriaweb.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class ResponseInfo {
 
     @JsonProperty("message")
     private String message;
+
     @JsonProperty("status")
     private int statusCode;
+
     @JsonProperty("path")
     private String uriRequested;
+
     @JsonProperty("timestamp")
     private Date timestamp;
 
-
     public ResponseInfo(Exception exception, String uriRequested) {
         this.message = exception.getMessage();
-        // this.statusCode = exception.getStatusCode().value();
         this.uriRequested = uriRequested;
     }
 
@@ -33,7 +36,7 @@ public class ResponseInfo {
         setMessage(message);
         this.statusCode = statusCode;
         this.uriRequested = uriRequested;
-        this.timestamp = timestamp;
+        this.timestamp = new Date();
     }
 
     public String getMessage() {

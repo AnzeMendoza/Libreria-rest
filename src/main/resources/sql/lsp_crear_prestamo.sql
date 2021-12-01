@@ -7,9 +7,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_crear_prestamo`(
 SALIR:BEGIN
 
     DECLARE pIdPrestamo int(4) ;
-    
     DECLARE pEjemplares int (4);
-    
 
 	-- Manejo de error en la transacción
     declare exit HANDLER for sqlexception
@@ -67,8 +65,6 @@ SALIR:BEGIN
         SET pEjemplares = (SELECT COALESCE(MAX(ejemplares),0) FROM libro);
         SET pEjemplaresPrestados = (SELECT COALESCE(MAX(ejemplares_prestados),0) FROM libro);
         SET pEjemplaresRestantes = (SELECT COALESCE(MAX(ejemplares_restantes),0) FROM libro);
-
-
 
         SET  pIdPrestamo = 1 + (SELECT COALESCE(MAX(id),0) FROM prestamo);
         INSERT INTO prestamo (alta, fecha_devolucion, fecha_prestamo, fk_cliente, fk_libro)

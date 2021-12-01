@@ -31,13 +31,13 @@ public class Prestamo {
 
     @NotNull(message = "fechaDevolución no puede ser nulo")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @FutureOrPresent(message = "La fecha debe ser actual o posterior a la de hoy")
     private Date fechaDevolucion;
 
     @NotNull(message = "fechaPrestamo no puede ser nulo")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
     private Date fechaPrestamo;
 
