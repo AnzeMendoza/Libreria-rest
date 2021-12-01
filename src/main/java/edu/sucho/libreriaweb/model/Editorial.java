@@ -27,8 +27,8 @@ public class Editorial {
     //@NotEmpty(message = "El alta es obligatorio")
     private Boolean alta = true;
 
-    @OneToMany(mappedBy = "editorial")
-    private List<Libro> libros;
+    //@OneToMany(mappedBy = "editorial")
+    //private List<Libro> libros;
 
     @Override
     public boolean equals(Object o) {
