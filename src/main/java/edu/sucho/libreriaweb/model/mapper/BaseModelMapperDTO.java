@@ -6,5 +6,5 @@ import edu.sucho.libreriaweb.model.entity.Libro;
 public interface BaseModelMapperDTO {
     LibroDTO libroToDto(Libro libro);
 
-
+    LibroDTO convertToDto(Libro libro);
 }

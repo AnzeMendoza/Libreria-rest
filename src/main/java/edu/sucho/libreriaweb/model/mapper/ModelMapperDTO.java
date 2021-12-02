@@ -10,7 +10,4 @@ public class ModelMapperDTO {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
-
-
 }

@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.LibroDTO;
 import edu.sucho.libreriaweb.model.entity.Libro;
+import edu.sucho.libreriaweb.model.mapper.BaseModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,15 +40,17 @@ public class LibroController {
     private LibroService libroService;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private BaseModelMapperDTO baseModelMapperDTO;
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
             List<Libro> libros = libroService.findAll();
-            List<LibroDTO> librosDto = libros.stream()
-                    .map(this::convertToDto)
-                    .collect(Collectors.toList());
+            List<LibroDTO> librosDto = new ArrayList<>();
+            for (Libro libro : libros) {
+                LibroDTO libroDTO = baseModelMapperDTO.libroToDto(libro);
+                librosDto.add(libroDTO);
+            }
             return ResponseEntity.status(HttpStatus.OK).body(librosDto);
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
@@ -57,7 +61,7 @@ public class LibroController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             Libro libro = libroService.findById(id);
-            LibroDTO libroDto = convertToDto(libro);
+            LibroDTO libroDto = baseModelMapperDTO.libroToDto(libro);
             return ResponseEntity.status(HttpStatus.OK).body(libroDto);
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
@@ -118,9 +122,5 @@ public class LibroController {
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
-    }
-
-    private LibroDTO convertToDto(Libro libro) {
-        return modelMapper.map(libro, LibroDTO.class);
     }
 }
