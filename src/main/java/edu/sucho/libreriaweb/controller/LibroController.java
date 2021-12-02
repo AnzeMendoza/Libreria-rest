@@ -3,11 +3,14 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Libro;
-import edu.sucho.libreriaweb.service.LibroService;
+import edu.sucho.libreriaweb.model.dto.LibroDTO;
+import edu.sucho.libreriaweb.model.entity.Libro;
+import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -32,10 +37,17 @@ public class LibroController {
     @Autowired
     private LibroService libroService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(libroService.findAll());
+            List<Libro> libros = libroService.findAll();
+            List<LibroDTO> librosDto = libros.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.OK).body(librosDto);
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
@@ -44,7 +56,9 @@ public class LibroController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(libroService.findById(id));
+            Libro libro = libroService.findById(id);
+            LibroDTO libroDto = convertToDto(libro);
+            return ResponseEntity.status(HttpStatus.OK).body(libroDto);
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
         }catch (Exception e) {
@@ -104,5 +118,9 @@ public class LibroController {
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
+    }
+
+    private LibroDTO convertToDto(Libro libro) {
+        return modelMapper.map(libro, LibroDTO.class);
     }
 }

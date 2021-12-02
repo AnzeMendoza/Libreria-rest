@@ -1,7 +1,7 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.inter;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
-import edu.sucho.libreriaweb.model.Prestamo;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
 
 import java.util.List;
 

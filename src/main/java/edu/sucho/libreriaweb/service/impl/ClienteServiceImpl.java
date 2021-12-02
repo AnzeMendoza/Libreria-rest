@@ -1,10 +1,11 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 
-import edu.sucho.libreriaweb.model.Cliente;
+import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
