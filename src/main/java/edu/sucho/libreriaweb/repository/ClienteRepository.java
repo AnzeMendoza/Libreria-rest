@@ -1,6 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Cliente;
+import edu.sucho.libreriaweb.model.entity.Cliente;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

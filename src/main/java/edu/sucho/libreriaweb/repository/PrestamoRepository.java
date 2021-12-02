@@ -1,7 +1,7 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Prestamo;
-import java.time.LocalDate;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
+
 import java.util.Date;
 import org.springframework.data.jpa.repository.Query;
 

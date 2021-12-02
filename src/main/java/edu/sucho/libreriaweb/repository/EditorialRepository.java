@@ -1,6 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Editorial;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

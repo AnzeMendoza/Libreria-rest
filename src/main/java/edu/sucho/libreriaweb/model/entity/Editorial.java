@@ -1,4 +1,4 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,4 +39,5 @@ public class Editorial {
     public int hashCode() {
         return Objects.hash(nombre);
     }
+
 }

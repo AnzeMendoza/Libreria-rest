@@ -1,9 +1,11 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
+import edu.sucho.libreriaweb.service.inter.BaseService;
+import edu.sucho.libreriaweb.service.inter.BaseValidationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

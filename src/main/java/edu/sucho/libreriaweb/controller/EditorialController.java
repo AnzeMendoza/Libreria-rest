@@ -7,13 +7,11 @@ import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import edu.sucho.libreriaweb.service.EditorialService;
+import edu.sucho.libreriaweb.service.inter.EditorialService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import edu.sucho.libreriaweb.model.Editorial;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.util.Uri;
 import javax.validation.Valid;
 
