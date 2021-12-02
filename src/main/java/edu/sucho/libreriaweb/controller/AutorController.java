@@ -1,17 +1,26 @@
 package edu.sucho.libreriaweb.controller;
 
+import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Autor;
 import edu.sucho.libreriaweb.service.AutorService;
+import edu.sucho.libreriaweb.util.Uri;
+import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.Binding;
+import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(path = "/api/v1/autor", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = Uri.AUTOR, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AutorController {
 
     @Autowired
@@ -36,89 +45,49 @@ public class AutorController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody Autor autor) {
+    public ResponseEntity<?> save(@Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
         try {
+            Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).body(autorService.save(autor));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+        } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Autor autor ){
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(autorService.update(id,autor));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            Util.ValidarParametros(result);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(autorService.update(id,autor));
+
+        } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") int id){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(autorService.delete(id));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
-        }
-    }
+    //Todo ver si se implementa con Patch
+    @GetMapping("activar/{id}")
 
-
- /*   @Autowired
-    private AutorService autorService;
-
-    @GetMapping("/")
-    public ResponseEntity<?> getAll() {
+    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.findAll());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"Error\":\"No se encontro el recurso\"}");
+                    .body(new ResponseInfo(HttpStatus.OK.value(), autorService.enableStatus(id), Uri.AUTOR_ACTIVAR));
+        } catch (ExceptionBBDD ebd){
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOne(@PathVariable int id) {
+    @GetMapping("desactivar/{id}")
+    private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.findById(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"Error\":\"No fue encontrada\"}");
+                    .body(new ResponseInfo(HttpStatus.OK.value(), autorService.disableStatus(id),Uri.AUTOR_DESACTIVAR));
+        } catch (ExceptionBBDD ebd) {
+            throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody Autor autor) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.save(autor));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"Error\":\"No se pudo guardar\"}");
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Autor autor) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.update(id, autor));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"Error\":\"No se puede actualizar\"}");
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.delete(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"Error\":\"No se pudo eliminar\"}");
-        }
-    }*/
 
 }
