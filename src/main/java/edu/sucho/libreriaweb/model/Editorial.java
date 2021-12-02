@@ -27,6 +27,7 @@ public class Editorial {
 
     //@OneToMany(mappedBy = "editorial")
     //private List<Libro> libros;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -2,10 +2,9 @@ package edu.sucho.libreriaweb.repository;
 
 import edu.sucho.libreriaweb.model.Cliente;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
-import org.springframework.data.repository.query.Param;
 
 public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
     @Query(value = "SELECT * FROM cliente WHERE cliente.alta = true", nativeQuery = true)
@@ -22,6 +21,5 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
 
     @Query(value = "CALL lsp_modificar_cliente(:id, :documento , :nombre , :apellido , :telefono)", nativeQuery = true)
     String updateCliente(@Param("id") Integer id, @Param("documento") Long documento, @Param("nombre") String nombre, @Param("apellido") String apellido, @Param("telefono") String telefono);
-
 }
 

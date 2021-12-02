@@ -22,7 +22,6 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
         super(baseRepository);
     }
 
-
     @Override
     @Transactional
     public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
@@ -81,6 +80,4 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
         }
         throw new ExceptionBBDD(resultado);
     }
-
-
 }

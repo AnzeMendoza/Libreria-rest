@@ -6,7 +6,6 @@ import edu.sucho.libreriaweb.model.Editorial;
 import java.util.List;
 
 public interface EditorialService extends BaseService<Editorial, Integer>{
-
     boolean deleteByIdSoft(int id) throws ExceptionBBDD;
 
     List<Editorial> findAllByAlta() throws ExceptionBBDD;

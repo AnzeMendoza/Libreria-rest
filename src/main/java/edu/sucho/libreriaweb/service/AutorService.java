@@ -5,7 +5,7 @@ import edu.sucho.libreriaweb.model.Autor;
 
 import java.util.List;
 
-public interface AutorService extends BaseService<Autor, Integer>{
+public interface AutorService extends BaseService<Autor, Integer> {
 
     boolean deleteByIdSoft(int id) throws ExceptionBBDD;
 
@@ -17,3 +17,4 @@ public interface AutorService extends BaseService<Autor, Integer>{
 
     String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD;
 }
+

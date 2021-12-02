@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Table(name = "libro")
 public class Libro {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,10 +22,10 @@ public class Libro {
     @NotEmpty(message = "El titulo es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
     private String titulo;
-    
+
     @Column(unique = true, nullable = false)
     private Long isbn;
-    
+
     private Integer anio;
     private Integer ejemplares;
     private Integer ejemplaresPrestados;
@@ -42,15 +43,16 @@ public class Libro {
     private Editorial editorial;
 
     public Libro() {
-        this.alta=true;
+        this.alta = true;
     }
-    
-    public void actualizarStockPostPrestamo(){
+
+    public void actualizarStockPostPrestamo() {
         this.ejemplaresPrestados++;
-        this.ejemplaresRestantes = this.ejemplares-this.ejemplaresPrestados;
+        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
     }
-    public void actualizarStockPostDevolucion(){
+
+    public void actualizarStockPostDevolucion() {
         this.ejemplaresPrestados--;
-        this.ejemplaresRestantes = this.ejemplares-this.ejemplaresPrestados;
+        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
     }
 }

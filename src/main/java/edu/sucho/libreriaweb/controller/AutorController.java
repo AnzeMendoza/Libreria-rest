@@ -67,9 +67,7 @@ public class AutorController {
         }
     }
 
-    //Todo ver si se implementa con Patch
     @GetMapping("activar/{id}")
-
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -88,6 +86,4 @@ public class AutorController {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
-
-
 }

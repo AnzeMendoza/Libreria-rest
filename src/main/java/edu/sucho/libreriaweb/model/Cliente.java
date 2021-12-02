@@ -20,6 +20,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     private Integer id;
+
     @Column(length = 8, unique = true, nullable = false ,updatable = false)
     private Long documento;
 

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = Uri.LIBRO, produces = MediaType.APPLICATION_JSON_VALUE)
 public class LibroController {
+
     @Autowired
     private LibroService libroService;
 
@@ -58,17 +59,19 @@ public class LibroController {
           return ResponseEntity.status(HttpStatus.CREATED)
                   .body(libroService.save(libro));
          }
-        catch (ExceptionBBDD | ExceptionBadRequest e) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),e.getMessage(),Uri.LIBRO));}
+        catch (ExceptionBBDD | ExceptionBadRequest e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),e.getMessage(),Uri.LIBRO));
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result ) throws ExceptionBadRequest {
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result )
+            throws ExceptionBadRequest {
          try {
-            Util.ValidarParametros(result);  // editorial y autor
-
+            Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(libroService.update(id,libro));
-
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }

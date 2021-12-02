@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.exception;
 
-public class ExceptionNotFound extends Exception{
+public class ExceptionNotFound extends Exception {
+
     public ExceptionNotFound() {
         super();
     }
