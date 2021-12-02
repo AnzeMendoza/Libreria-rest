@@ -16,7 +16,7 @@ SALIR:BEGIN
         ROLLBACK;
     END;
 
-   	-- Controla que exista Libro y este dado de alta
+   	-- Controla que exista Libro
     if  not exists (select 1 from libro as l where l.id = pFkLibro AND l.alta = 1 ) THEN
         SELECT 'No existe ese libro o no está dado de alta' AS Mensaje;
         LEAVE SALIR;
@@ -28,7 +28,7 @@ SALIR:BEGIN
         LEAVE SALIR;
     END IF;
 
-    -- Controla que exista Cliente y este dado de alta
+    -- Controla que exista Cliente
     if  not exists (select 1 from cliente as c where c.id = pFkCliente AND c.alta = 1) THEN
         SELECT 'No existe ese cliente o no esta dado de alta' AS Mensaje;
         LEAVE SALIR;

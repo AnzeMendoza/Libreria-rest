@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ExceptionBadRequest.class})
     public ResponseEntity<?> BadRequestException(HttpServletRequest request , Exception e){
-        ResponseInfo errorInfo = new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI(), new Date());
+        ResponseInfo errorInfo = new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorInfo);
     }
 }
