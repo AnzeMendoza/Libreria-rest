@@ -15,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -49,18 +52,13 @@ public class PrestamoController {
 
     @PostMapping("/")
 
-    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo,BindingResult result) throws ExceptionBadRequest {
-        try {   System.out.println("--------");
-                System.out.println(prestamo.getFechaDevolucion());
-                System.out.println(prestamo.getFechaPrestamo());
-                  System.out.println("--------");
-                Util.ValidarParametros(result);
-             
+    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest {
+        try {
+            Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
                   .body(prestamoService.save(prestamo));
          }
         catch (ExceptionBBDD | ExceptionBadRequest e) {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
         }
@@ -75,6 +73,9 @@ public class PrestamoController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(prestamoService.update(id, prestamo));
 
+//            Prestamo unPrestamo = prestamoService.update(id, prestamo);
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body("{\"error\" : \"error\"}");
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
