@@ -4,6 +4,7 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Editorial;
+import edu.sucho.libreriaweb.model.mapper.BaseModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.EditorialService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -25,10 +26,14 @@ public class EditorialController {
     @Autowired
     private EditorialService editorialService;
 
+    @Autowired
+    private BaseModelMapperDTO baseModelMapperDTO;
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(editorialService.findAll());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.listEditorialToDto(editorialService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
@@ -37,7 +42,8 @@ public class EditorialController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(editorialService.findById(id));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.editorialToDto(editorialService.findById(id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
