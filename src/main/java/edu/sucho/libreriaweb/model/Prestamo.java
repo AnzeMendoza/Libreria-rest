@@ -44,9 +44,28 @@ public class Prestamo {
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
     private Calendar fechaPrestamo;
 
+
+
     @NotNull(message = "Cliente no puede ser nulo")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_libro")
     private Libro libro;
+
+
+    public Calendar getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(Calendar fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
+
+    public Calendar getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public void setFechaPrestamo(Calendar fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
+    }
 
 }

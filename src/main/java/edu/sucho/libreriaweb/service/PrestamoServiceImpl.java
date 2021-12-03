@@ -2,7 +2,6 @@ package edu.sucho.libreriaweb.service;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.model.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
@@ -11,11 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,11 +39,6 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        System.out.println("#################");
-        System.out.println(prestamo.getFechaDevolucion().getTime());
-        System.out.println(prestamo.getFechaPrestamo().getTime());
-        System.out.println("#################");
-
         return getPrestamoOk(prestamoRepository
                 .createSp(
                         prestamo.getCliente().getId(),
@@ -58,7 +47,6 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
                         prestamo.getLibro().getId()
                 ));
     }
-
     @Override
     public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
         return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion().getTime(),
