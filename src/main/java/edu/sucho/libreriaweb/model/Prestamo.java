@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.GregorianCalendar;
 @Setter
 @NoArgsConstructor
 @Table(name = "prestamo")
-public class Prestamo {
+public class Prestamo implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,6 @@ public class Prestamo {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_libro")
     private Libro libro;
-
+    
+    private static final long serialVersionUID = 1L;
 }

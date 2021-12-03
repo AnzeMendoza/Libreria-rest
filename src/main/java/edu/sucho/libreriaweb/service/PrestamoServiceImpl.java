@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.Libro;
 import edu.sucho.libreriaweb.model.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
+import edu.sucho.libreriaweb.repository.LibroRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Autowired
     private LibroService libroService;
+    
+    @Autowired
+    private LibroRepository libroRepository;
 
     public PrestamoServiceImpl(BaseRepository<Prestamo, Integer> baseRepository) {
         super(baseRepository);
@@ -45,25 +49,38 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        System.out.println("#################");
-        System.out.println(prestamo.getFechaDevolucion().getTime());
-        System.out.println(prestamo.getFechaPrestamo().getTime());
-        System.out.println("#################");
 
-        return getPrestamoOk(prestamoRepository
+        Prestamo unPrestamo = getPrestamoOk(prestamoRepository
                 .createSp(
                         prestamo.getCliente().getId(),
                         prestamo.getFechaDevolucion().getTime(),
                         prestamo.getFechaPrestamo().getTime(),
                         prestamo.getLibro().getId()
                 ));
+        //actualizacion del stock
+        libroService.actualizarStockPostPrestamo(prestamo.getLibro().getId());
+
+        return unPrestamo;
     }
 
     @Override
     public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion().getTime(),
+        
+        Integer oldLibro = prestamoRepository.getById(id).getLibro().getId();
+        Integer newLibro = prestamo.getLibro().getId();
+        
+        if(oldLibro != newLibro){
+            libroService.actualizarStockPostPrestamo(newLibro);
+            libroService.actualizarStockPostDevolucion(oldLibro);
+        }
+        
+        Prestamo unPrestamo = getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion().getTime(),
                 prestamo.getFechaPrestamo().getTime(), prestamo.getCliente().getId(),
                 prestamo.getLibro().getId()));
+        
+        //
+        
+        return unPrestamo;
     }
 
     private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
@@ -73,12 +90,17 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     public String disableStatus(int id) throws ExceptionBBDD {
-         return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
+        String respuesta = getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
+        libroService.actualizarStockPostDevolucion(prestamoRepository.getById(id).getLibro().getId());
+        return respuesta;
     }
 
     @Override
     public String enableStatus(int id) throws ExceptionBBDD {
-        return getMessageStatus(prestamoRepository.changeStatusSp(id, true), true);
+        
+        String respuesta = getMessageStatus(prestamoRepository.changeStatusSp(id, true), true);
+        libroService.actualizarStockPostPrestamo(prestamoRepository.getById(id).getLibro().getId());
+        return respuesta;
     }
 
     private void isResponseOK(String response) throws ExceptionBBDD {

@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Table(name = "libro")
-public class Libro {
+public class Libro implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -41,6 +42,8 @@ public class Libro {
     @NotNull(message = "Editorial no puede ser nulo")
     private Editorial editorial;
 
+    private static final long serialVersionUID = 1L;
+    
     public Libro() {
         this.alta=true;
     }

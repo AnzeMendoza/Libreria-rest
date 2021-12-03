@@ -16,4 +16,8 @@ public interface LibroService extends BaseService<Libro, Integer> {
     String disableStatus(int id) throws ExceptionBBDD;
 
     String enableStatus(int id) throws ExceptionBBDD;
+
+    void actualizarStockPostPrestamo(Integer id);
+
+    void actualizarStockPostDevolucion(Integer id);
 }
