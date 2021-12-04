@@ -4,6 +4,7 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
+import edu.sucho.libreriaweb.model.mapper.BaseModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -24,13 +25,27 @@ public class PrestamoController {
     @Autowired
     private PrestamoService prestamoService;
 
+    @Autowired
+    private BaseModelMapperDTO baseModelMapperDTO;
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(prestamoService.findAll());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.listPrestamoToDto(prestamoService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.prestamoToDto(prestamoService.findById(id)));
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
 

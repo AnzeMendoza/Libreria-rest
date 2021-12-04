@@ -3,13 +3,12 @@ package edu.sucho.libreriaweb.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class EditorialDTO {
-    private Integer id;
+public class ClienteDTO {
+    private Long documento;
     private String nombre;
+    private String apellido;
+    private String telefono;
     private Boolean alta;
-    private List<LibroDTO> libros;
 }
