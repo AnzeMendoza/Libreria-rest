@@ -12,8 +12,6 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Entity
 @Getter
@@ -33,6 +31,11 @@ public class Prestamo implements Serializable{
     @JoinColumn(name = "fk_cliente")
     private Cliente cliente;
 
+    @NotNull(message = "Cliente no puede ser nulo")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_libro")
+    private Libro libro;
+
     @NotNull(message = "fechaDevolución no puede ser nulo")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -45,10 +48,7 @@ public class Prestamo implements Serializable{
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
     private Calendar fechaPrestamo;
 
-    @NotNull(message = "Cliente no puede ser nulo")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_libro")
-    private Libro libro;
+
 
     private static final long serialVersionUID = 1L;
 }
