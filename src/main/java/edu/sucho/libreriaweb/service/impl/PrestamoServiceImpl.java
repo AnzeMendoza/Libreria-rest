@@ -1,21 +1,17 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Libro;
-import edu.sucho.libreriaweb.model.Prestamo;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.service.inter.LibroService;
+import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,11 +41,6 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        System.out.println("#################");
-        System.out.println(prestamo.getFechaDevolucion().getTime());
-        System.out.println(prestamo.getFechaPrestamo().getTime());
-        System.out.println("#################");
-
         return getPrestamoOk(prestamoRepository
                 .createSp(
                         prestamo.getCliente().getId(),
@@ -73,7 +64,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     public String disableStatus(int id) throws ExceptionBBDD {
-         return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
+        return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
     }
 
     @Override
@@ -89,7 +80,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
-       isResponseOK(responseStatus);
+        isResponseOK(responseStatus);
         return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
 }

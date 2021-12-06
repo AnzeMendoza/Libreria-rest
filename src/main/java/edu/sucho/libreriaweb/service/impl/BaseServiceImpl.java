@@ -1,9 +1,11 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
+import edu.sucho.libreriaweb.service.inter.BaseService;
+import edu.sucho.libreriaweb.service.inter.BaseValidationService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, BaseValidationService {
 
     protected BaseRepository<E, ID> baseRepository;
-      EditorialRepository eRepository;
+    EditorialRepository eRepository;
 
     public BaseServiceImpl(BaseRepository<E, ID> baseRepository) {
         this.baseRepository = baseRepository;
@@ -79,43 +81,10 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
         }
         return entities;
     }
+
     @Override
     @Transactional
-    public  Boolean validarFieldUnique(String  field){
-        // en el repo editorial
-      return (!(eRepository.findByValueField(field) == null));
-    
+    public Boolean validarFieldUnique(String field) {
+        return (!(eRepository.findByValueField(field) == null));
     }
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    // TODO se puede pasar a generico pero las entidades tiene que extender de clase base, ver despues
-/*    @Override
-    @Transactional
-    public Boolean deleteByIdSoft(ID id, E entity) throws ExceptionBBDD {
-        try {
-            Optional<E> entityOptional = baseRepository.findById(id);
-            if (entityOptional.isPresent()) {
-                E entityDelete = entityOptional.get();
-                entity.setAlta(!entity.getAlta());
-                baseRepository.save(entityDelete);
-            } else {
-                throw new ExceptionBBDD("deleteByIdSoft");
-            }
-            return true;
-        } catch (Exception e) {
-            throw new ExceptionBBDD(e.getMessage());
-        }
-    }*/
 }

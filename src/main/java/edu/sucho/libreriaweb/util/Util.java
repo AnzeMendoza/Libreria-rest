@@ -1,7 +1,7 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Editorial;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;

@@ -10,9 +10,9 @@ import java.util.TimeZone;
 public class LibreriaWebRestApplication {
     @PostConstruct
     void started() {
-        // set JVM timezone as UTC
         TimeZone.setDefault(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
     }
+
     public static void main(String[] args) {
         SpringApplication.run(LibreriaWebRestApplication.class, args);
     }
