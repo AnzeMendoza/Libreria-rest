@@ -1,7 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
