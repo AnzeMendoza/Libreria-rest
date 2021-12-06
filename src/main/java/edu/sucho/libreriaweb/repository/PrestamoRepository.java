@@ -19,6 +19,9 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
     @Query(
             value = "CALL lsp_crear_prestamo(:fk_cliente, :fecha_devolucion, :fecha_prestamo, :fk_libro)",
             nativeQuery = true)
+    /* @Query(
+            value = "CALL lsp_crear_prestamo_v2(:fk_cliente, :fecha_devolucion, :fecha_prestamo, :fk_libro)",
+            nativeQuery = true)*/
     String createSp(
             @Param("fk_cliente") int fk_cliente,
             @Param("fecha_devolucion") Date fecha_devolucion,
@@ -28,6 +31,8 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
 
     @Query(value = "CALL lsp_modificar_prestamo(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,"
             + ":fk_libro);", nativeQuery = true)
+    /* @Query(value = "CALL lsp_modificar_prestamo_v2(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,"
+            + ":fk_libro);", nativeQuery = true)*/
     String updateSp(@Param("id") Integer id, @Param("fecha_devolucion") Date fecha_devolucion,
             @Param("fecha_prestamo") Date fecha_prestamo, @Param("fk_cliente") Integer fk_cliente,
             @Param("fk_libro") Integer fk_libro);

@@ -72,6 +72,9 @@ public class PrestamoController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(prestamoService.update(id, prestamo));
 
+//            Prestamo unPrestamo = prestamoService.update(id, prestamo);
+//            return ResponseEntity.status(HttpStatus.OK)
+//                    .body("{\"error\" : \"error\"}");
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));

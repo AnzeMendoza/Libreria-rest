@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model;
 
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,8 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +43,5 @@ public class Cliente {
     
     @Column(nullable = false)
     private Boolean alta = true;
+    
 }
