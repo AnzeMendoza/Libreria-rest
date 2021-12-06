@@ -4,7 +4,7 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Autor;
-import edu.sucho.libreriaweb.model.mapper.BaseModelMapperDTO;
+import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.AutorService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -26,14 +26,13 @@ public class AutorController {
     private AutorService autorService;
 
     @Autowired
-    private BaseModelMapperDTO baseModelMapperDTO;
-
+    private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(baseModelMapperDTO.listAutorToDto(autorService.findAll()));
+                    .body(modelMapperDTO.listAutorToDto(autorService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
@@ -43,7 +42,7 @@ public class AutorController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(baseModelMapperDTO.autorToDto(autorService.findById(id)));
+                    .body(modelMapperDTO.autorToDto(autorService.findById(id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }

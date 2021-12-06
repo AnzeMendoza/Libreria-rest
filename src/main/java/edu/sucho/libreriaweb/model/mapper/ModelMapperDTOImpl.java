@@ -3,17 +3,15 @@ package edu.sucho.libreriaweb.model.mapper;
 import edu.sucho.libreriaweb.model.dto.*;
 import edu.sucho.libreriaweb.model.entity.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class BaseModelMapperImpl implements BaseModelMapperDTO{
+public class ModelMapperDTOImpl implements ModelMapperDTO {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
     public AutorDTO autorToDto(Autor autor) {
