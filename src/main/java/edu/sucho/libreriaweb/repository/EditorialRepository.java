@@ -19,6 +19,4 @@ public interface EditorialRepository extends BaseRepository<Editorial, Integer> 
     String saveEditorial(@Param("name")String name);
     @Query(value="CALL lsp_modificar_editorial(:id,:name);" , nativeQuery = true)
     String updateEditorial(@Param("id")Integer id, @Param("name")String name);
-
-
 }
