@@ -13,13 +13,15 @@ public class ResponseInfo {
 
     @JsonProperty("message")
     private String message;
+
     @JsonProperty("status")
     private int statusCode;
+
     @JsonProperty("path")
     private String uriRequested;
+
     @JsonProperty("timestamp")
     private String timestamp;
-    
 
     public ResponseInfo(Exception exception, String uriRequested) {
         this.message = exception.getMessage();
@@ -41,6 +43,7 @@ public class ResponseInfo {
     public int getStatusCode() {
         return statusCode;
     }
+
     private void setMessage(String message) {
         this.message = message;
     }

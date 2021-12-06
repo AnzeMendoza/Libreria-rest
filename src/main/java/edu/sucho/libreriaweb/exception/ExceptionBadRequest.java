@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.exception;
 
-public class ExceptionBadRequest extends Exception{
+public class ExceptionBadRequest extends Exception {
+
     public ExceptionBadRequest() {
         super();
     }

@@ -1,10 +1,5 @@
 package edu.sucho.libreriaweb.util;
-import edu.sucho.libreriaweb.model.Editorial;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Comparacion <T> {

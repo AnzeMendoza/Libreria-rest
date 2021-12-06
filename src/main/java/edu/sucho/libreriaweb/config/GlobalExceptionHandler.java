@@ -3,13 +3,11 @@ package edu.sucho.libreriaweb.config;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @ControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler {
