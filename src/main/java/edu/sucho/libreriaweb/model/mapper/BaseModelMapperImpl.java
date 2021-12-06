@@ -1,11 +1,7 @@
 package edu.sucho.libreriaweb.model.mapper;
 
-import edu.sucho.libreriaweb.model.dto.EditorialDTO;
-import edu.sucho.libreriaweb.model.dto.LibroDTO;
-import edu.sucho.libreriaweb.model.dto.PrestamoDTO;
-import edu.sucho.libreriaweb.model.entity.Editorial;
-import edu.sucho.libreriaweb.model.entity.Libro;
-import edu.sucho.libreriaweb.model.entity.Prestamo;
+import edu.sucho.libreriaweb.model.dto.*;
+import edu.sucho.libreriaweb.model.entity.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,14 +16,26 @@ public class BaseModelMapperImpl implements BaseModelMapperDTO{
     private ModelMapper modelMapper;
 
     @Override
-    public LibroDTO libroToDto(Libro libro) {
-        return modelMapper.map(libro, LibroDTO.class);
+    public AutorDTO autorToDto(Autor autor) {
+        return modelMapper.map(autor, AutorDTO.class);
     }
 
     @Override
-    public List<LibroDTO> listLibroToDto(List<Libro> libros) {
-        return libros.stream()
-                .map(this::libroToDto)
+    public List<AutorDTO> listAutorToDto(List<Autor> autores) {
+        return autores.stream()
+                .map(this::autorToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ClienteDTO clienteToDto(Cliente cliente) {
+        return modelMapper.map(cliente, ClienteDTO.class);
+    }
+
+    @Override
+    public List<ClienteDTO> listClienteToDto(List<Cliente> clientes) {
+        return clientes.stream()
+                .map(this::clienteToDto)
                 .collect(Collectors.toList());
     }
 
@@ -40,6 +48,18 @@ public class BaseModelMapperImpl implements BaseModelMapperDTO{
     public List<EditorialDTO> listEditorialToDto(List<Editorial> editoriales) {
         return editoriales.stream()
                 .map(this::editorialToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public LibroDTO libroToDto(Libro libro) {
+        return modelMapper.map(libro, LibroDTO.class);
+    }
+
+    @Override
+    public List<LibroDTO> listLibroToDto(List<Libro> libros) {
+        return libros.stream()
+                .map(this::libroToDto)
                 .collect(Collectors.toList());
     }
 

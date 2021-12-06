@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Cliente;
+import edu.sucho.libreriaweb.model.mapper.BaseModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -25,10 +26,14 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private BaseModelMapperDTO baseModelMapperDTO;
+
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAll());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.listClienteToDto(clienteService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
@@ -37,7 +42,8 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.findById(id));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(baseModelMapperDTO.clienteToDto(clienteService.findById(id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }

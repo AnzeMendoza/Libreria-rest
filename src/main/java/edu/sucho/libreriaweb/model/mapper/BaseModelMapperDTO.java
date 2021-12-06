@@ -1,22 +1,26 @@
 package edu.sucho.libreriaweb.model.mapper;
 
-import edu.sucho.libreriaweb.model.dto.EditorialDTO;
-import edu.sucho.libreriaweb.model.dto.LibroDTO;
-import edu.sucho.libreriaweb.model.dto.PrestamoDTO;
-import edu.sucho.libreriaweb.model.entity.Editorial;
-import edu.sucho.libreriaweb.model.entity.Libro;
-import edu.sucho.libreriaweb.model.entity.Prestamo;
+import edu.sucho.libreriaweb.model.dto.*;
+import edu.sucho.libreriaweb.model.entity.*;
 
 import java.util.List;
 
 public interface BaseModelMapperDTO {
-    LibroDTO libroToDto(Libro libro);
+    AutorDTO autorToDto(Autor libro);
 
-    List<LibroDTO> listLibroToDto(List<Libro> libros);
+    List<AutorDTO> listAutorToDto(List<Autor> libros);
+
+    ClienteDTO clienteToDto(Cliente libro);
+
+    List<ClienteDTO> listClienteToDto(List<Cliente> libros);
 
     EditorialDTO editorialToDto(Editorial libro);
 
     List<EditorialDTO> listEditorialToDto(List<Editorial> libros);
+
+    LibroDTO libroToDto(Libro libro);
+
+    List<LibroDTO> listLibroToDto(List<Libro> libros);
 
     PrestamoDTO prestamoToDto(Prestamo prestamo);
 
