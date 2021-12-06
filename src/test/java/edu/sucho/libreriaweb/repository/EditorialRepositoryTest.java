@@ -1,20 +1,8 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Editorial;
-import edu.sucho.libreriaweb.util.Comparacion;
-import edu.sucho.libreriaweb.util.Conexion;
-import edu.sucho.libreriaweb.util.Util;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.sql.*;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

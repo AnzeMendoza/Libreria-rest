@@ -1,4 +1,4 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
 import java.io.Serializable;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Table(name = "libro")
-public class Libro implements Serializable{
-    @Id
+public class Libro {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -22,10 +22,10 @@ public class Libro implements Serializable{
     @NotEmpty(message = "El titulo es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
     private String titulo;
-    
+
     @Column(unique = true, nullable = false)
     private Long isbn;
-    
+
     private Integer anio;
     private Integer ejemplares;
     private Integer ejemplaresPrestados;
@@ -45,15 +45,16 @@ public class Libro implements Serializable{
     private static final long serialVersionUID = 1L;
     
     public Libro() {
-        this.alta=true;
+        this.alta = true;
     }
-    
-    public void actualizarStockPostPrestamo(){
+
+    public void actualizarStockPostPrestamo() {
         this.ejemplaresPrestados++;
-        this.ejemplaresRestantes = this.ejemplares-this.ejemplaresPrestados;
+        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
     }
-    public void actualizarStockPostDevolucion(){
+
+    public void actualizarStockPostDevolucion() {
         this.ejemplaresPrestados--;
-        this.ejemplaresRestantes = this.ejemplares-this.ejemplaresPrestados;
+        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
     }
 }

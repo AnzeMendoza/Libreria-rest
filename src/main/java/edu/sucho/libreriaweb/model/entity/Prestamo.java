@@ -1,6 +1,5 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
-import java.io.Serializable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,7 @@ import java.util.Calendar;
 @Setter
 @NoArgsConstructor
 @Table(name = "prestamo")
-public class Prestamo implements Serializable{
+public class Prestamo{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +45,4 @@ public class Prestamo implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE)
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
     private Calendar fechaPrestamo;
-
-
-
-    private static final long serialVersionUID = 1L;
 }

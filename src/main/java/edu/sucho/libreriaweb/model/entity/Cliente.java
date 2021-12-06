@@ -1,4 +1,4 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
 import java.io.Serializable;
 import lombok.Getter;
@@ -22,6 +22,7 @@ public class Cliente implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     private Integer id;
+
     @Column(length = 8, unique = true, nullable = false ,updatable = false)
     private Long documento;
 

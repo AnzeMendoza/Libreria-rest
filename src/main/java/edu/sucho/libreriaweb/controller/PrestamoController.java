@@ -3,8 +3,9 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Prestamo;
-import edu.sucho.libreriaweb.service.PrestamoService;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
+import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
+import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +16,36 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = Uri.PRESTAMO, produces = MediaType.APPLICATION_JSON_VALUE)
 public class PrestamoController {
+
     @Autowired
     private PrestamoService prestamoService;
+
+    @Autowired
+    private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(prestamoService.findAll());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.listPrestamoToDto(prestamoService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
     }
 
@@ -41,17 +53,16 @@ public class PrestamoController {
     private ResponseEntity<?> deactivate(@PathVariable("id") int id)
      throws ExceptionBadRequest {
         try {
-            
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value()
-                    ,prestamoService.disableStatus(id),Uri.PRESTAMO_DESACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.disableStatus(id),Uri.PRESTAMO_DESACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result)
+            throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
@@ -65,16 +76,13 @@ public class PrestamoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id,
-            @Valid @RequestBody Prestamo prestamo, BindingResult result) throws ExceptionBadRequest {
+                                    @Valid @RequestBody Prestamo prestamo,
+                                    BindingResult result)
+            throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-
             return ResponseEntity.status(HttpStatus.OK)
                     .body(prestamoService.update(id, prestamo));
-
-//            Prestamo unPrestamo = prestamoService.update(id, prestamo);
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .body("{\"error\" : \"error\"}");
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
@@ -86,8 +94,7 @@ public class PrestamoController {
      throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value()
-                    ,prestamoService.enableStatus(id),Uri.PRESTAMO_ACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id),Uri.PRESTAMO_ACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }

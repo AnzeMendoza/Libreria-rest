@@ -1,11 +1,13 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Prestamo;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.LibroRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.service.inter.LibroService;
+import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        Prestamo unPrestamo = getPrestamoOk(prestamoRepository
+        return getPrestamoOk(prestamoRepository
                 .createSp(
                         prestamo.getCliente().getId(),
                         prestamo.getFechaDevolucion().getTime(),
@@ -53,8 +55,6 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
                         prestamo.getLibro().getId()
                 ));
         //actualizacion del stock
-        libroService.actualizarStockPostPrestamo(prestamo.getLibro().getId());
-        return unPrestamo;
     }
 
     @Override
@@ -80,9 +80,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     public String disableStatus(int id) throws ExceptionBBDD {
-        String respuesta = getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
-        libroService.actualizarStockPostDevolucion(prestamoRepository.getById(id).getLibro().getId());
-        return respuesta;
+        return getMessageStatus(prestamoRepository.changeStatusSp(id, Boolean.FALSE), Boolean.FALSE);
     }
 
     @Override
@@ -101,7 +99,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD {
-       isResponseOK(responseStatus);
+        isResponseOK(responseStatus);
         return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
 }

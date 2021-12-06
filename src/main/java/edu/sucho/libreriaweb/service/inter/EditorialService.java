@@ -1,12 +1,11 @@
-package edu.sucho.libreriaweb.service;
+package edu.sucho.libreriaweb.service.inter;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
-import edu.sucho.libreriaweb.model.Editorial;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 
 import java.util.List;
 
 public interface EditorialService extends BaseService<Editorial, Integer>{
-
     boolean deleteByIdSoft(int id) throws ExceptionBBDD;
 
     List<Editorial> findAllByAlta() throws ExceptionBBDD;

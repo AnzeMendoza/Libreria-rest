@@ -3,11 +3,13 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.Libro;
-import edu.sucho.libreriaweb.service.LibroService;
+import edu.sucho.libreriaweb.model.entity.Libro;
+import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
+import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,18 +25,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = Uri.LIBRO, produces = MediaType.APPLICATION_JSON_VALUE)
 public class LibroController {
+
     @Autowired
     private LibroService libroService;
+
+    @Autowired
+    private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(libroService.findAll());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.listLibroToDto(libroService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
         }
@@ -43,7 +49,8 @@ public class LibroController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(libroService.findById(id));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.libroToDto(libroService.findById(id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
         }catch (Exception e) {
@@ -58,17 +65,19 @@ public class LibroController {
           return ResponseEntity.status(HttpStatus.CREATED)
                   .body(libroService.save(libro));
          }
-        catch (ExceptionBBDD | ExceptionBadRequest e) {return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),e.getMessage(),Uri.LIBRO));}
+        catch (ExceptionBBDD | ExceptionBadRequest e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),e.getMessage(),Uri.LIBRO));
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result ) throws ExceptionBadRequest {
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result )
+            throws ExceptionBadRequest {
          try {
-            Util.ValidarParametros(result);  // editorial y autor
-
+            Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(libroService.update(id,libro));
-
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
