@@ -202,17 +202,18 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
 
     @Override
     public void actualizarStockPostPrestamo(Integer id) {
-        Libro libro = libroRepository.getById(id);
+        Libro libro = libroRepository.findById(id).orElseThrow();
         libro.actualizarStockPostPrestamo();
         libroRepository.save(libro);
-
     }
+
 
     @Override
     public void actualizarStockPostDevolucion(Integer id) {
-        Libro libro = libroRepository.getById(id);
+        Libro libro = libroRepository.findById(id).orElseThrow();
         libro.actualizarStockPostDevolucion();
         libroRepository.save(libro);
     }
+
 
 }

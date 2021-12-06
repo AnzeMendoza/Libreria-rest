@@ -20,4 +20,5 @@ public interface LibroService extends BaseService<Libro, Integer> {
     void actualizarStockPostPrestamo(Integer id);
 
     void actualizarStockPostDevolucion(Integer id);
+
 }
