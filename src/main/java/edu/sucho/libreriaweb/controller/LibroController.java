@@ -63,7 +63,7 @@ public class LibroController {
         try {
                 Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
-                  .body(libroService.save(libro));
+                  .body(modelMapperDTO.libroToDto(libroService.save(libro)));
          }
         catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -77,7 +77,7 @@ public class LibroController {
          try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(libroService.update(id,libro));
+                    .body(modelMapperDTO.libroToDto(libroService.update(id,libro)));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
