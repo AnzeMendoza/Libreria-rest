@@ -1,41 +1,40 @@
 
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.entity.Cliente;
+
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
-import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import edu.sucho.libreriaweb.model.entity.Cliente;
-import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
-import static org.junit.Assert.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class ClienteRepositoryTest {
     
     @Autowired
     ClienteRepository clienteRepository;
+    
     static int id;
     static Connection conexion;
     static Comparacion<Cliente>comparacion;
@@ -70,17 +69,18 @@ public class ClienteRepositoryTest {
     }
 
     @DisplayName("Validar Referencia No Nula ClienteRepository")
-    @org.junit.jupiter.api.Test
+    @Test
     void clienteRepositoryNotNullTest() {
-        assertNotNull(clienteRepository, "la referencia al  repositorio editorial es  nula");
-    }
 
+        Assertions.assertNotNull(clienteRepository, "la referencia al  repositorio cliente es  nula");
+
+    }
     @DisplayName("Cambio de Estado Cliente")
     @org.junit.jupiter.api.Test
     void changeStatusTest() {
-        String esperado = "OK";
+        String esperado = "OK," + id;
         String actual = clienteRepository.changeStatus(id, true);
-        assertEquals(esperado, actual, "fallo el cambio de estado");
+        Assertions.assertEquals(esperado, actual, "fallo el cambio de estado");
     }
 
     @DisplayName("Modificar Cliente")
@@ -88,7 +88,7 @@ public class ClienteRepositoryTest {
     void updateClienteTest() {
         String esperado = "OK," + id;
         String actual = modificarCliente(id);
-        assertEquals(esperado, actual, "Existe ese documento.");
+         Assertions.assertEquals(esperado, actual, "Existe ese documento.");
     }
 
     private String modificarCliente(int id) {
@@ -109,7 +109,7 @@ public class ClienteRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Cliente> esperado = Util.getClientes(conexion, "SELECT * FROM cliente WHERE cliente.alta = true");
         List<Cliente> actual = clienteRepository.findAllByAlta();
-        assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+       Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
     }
 
 //    @DisplayName("validar Clientes por documento ")
