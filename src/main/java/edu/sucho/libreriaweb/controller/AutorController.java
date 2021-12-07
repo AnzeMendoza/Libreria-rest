@@ -84,11 +84,11 @@ public class AutorController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value()
-                            , autorService.enableStatus(id), String.format("/%s/%d", Uri.AUTOR_ACTIVAR,id)));
+                            , autorService.enableStatus(id), String.format("%s/%d", Uri.AUTOR_ACTIVAR,id)));
         } catch (ExceptionBBDD ebd){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , ebd.getMessage(), String.format("/%s/%d", Uri.AUTOR_ACTIVAR,id)));
+                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_ACTIVAR,id)));
         }
     }
 
@@ -97,11 +97,11 @@ public class AutorController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value()
-                            , autorService.disableStatus(id),String.format("/%s/%d", Uri.AUTOR_DESACTIVAR,id)));
+                            , autorService.disableStatus(id),String.format("%s/%d", Uri.AUTOR_DESACTIVAR,id)));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , ebd.getMessage(), String.format("/%s/%d", Uri.AUTOR_DESACTIVAR,id)));
+                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_DESACTIVAR,id)));
         }
     }
 }
