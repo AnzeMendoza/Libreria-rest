@@ -35,7 +35,9 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.listEditorialToDto(editorialService.findAll()));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            e.getMessage(), Uri.EDITORIAL));
         }
     }
 
@@ -45,7 +47,9 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.editorialToDto(editorialService.findById(id)));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            e.getMessage(), Uri.EDITORIAL));
         }
     }
 
@@ -54,30 +58,41 @@ public class EditorialController {
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.save(editorial));
+            return ResponseEntity.status(HttpStatus.CREATED).
+                    body(editorialService.save(editorial));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL));
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Editorial editorial, BindingResult result)
+    public ResponseEntity<?> update(@PathVariable("id") int id,
+            @Valid @RequestBody Editorial editorial, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.OK).body(editorialService.update(id, editorial));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(editorialService.update(id, editorial));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL));
         }
     }
 
-    @GetMapping(Uri.EDITORIAL_ACTIVAR + "/{id}")
+    @GetMapping(Uri.EDITORIAL_ACTIVAR + "activar/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), editorialService.changeStatus(id, Boolean.TRUE), Uri.EDITORIAL_ACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(),
+                            editorialService.changeStatus(id, Boolean.TRUE),
+                            Uri.EDITORIAL_ACTIVAR));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL_ACTIVAR));
         }
     }
 
@@ -85,9 +100,13 @@ public class EditorialController {
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), editorialService.changeStatus(id, Boolean.FALSE), Uri.EDITORIAL_DESACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(),
+                            editorialService.changeStatus(id, Boolean.FALSE),
+                            Uri.EDITORIAL_DESACTIVAR));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL_DESACTIVAR));
         }
     }
 }
