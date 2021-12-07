@@ -49,7 +49,7 @@ public class EditorialController {
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            e.getMessage(), Uri.EDITORIAL.concat("/")+id));
+                            e.getMessage(), String.format("%s/%d", Uri.EDITORIAL, id)));
         }
     }
 
@@ -61,7 +61,7 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.CREATED).
                     body(editorialService.save(editorial));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
-             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
                             ebd.getMessage(), Uri.EDITORIAL));
         }
@@ -76,23 +76,24 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(editorialService.update(id, editorial));
         } catch (ExceptionBBDD ebd) {
-             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL.concat("/")+id));
+                            ebd.getMessage(), String.format("%s/%d", Uri.EDITORIAL, id)));
         }
     }
 
-    @GetMapping(Uri.ACTIVAR+ "/{id}")
+    @GetMapping(Uri.ACTIVAR + "/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(),
                             editorialService.changeStatus(id, Boolean.TRUE),
-                            Uri.EDITORIAL_ACTIVAR));
+                            Uri.EDITORIAL_ACTIVAR.concat("/") + id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL_ACTIVAR.concat("/")+id));
+                            ebd.getMessage(),
+                            String.format("%s/%d", Uri.EDITORIAL_ACTIVAR, id)));
         }
     }
 
@@ -102,11 +103,12 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(),
                             editorialService.changeStatus(id, Boolean.FALSE),
-                            Uri.EDITORIAL_DESACTIVAR.concat("/")+id));
+                            String.format("%s/%d", Uri.EDITORIAL_DESACTIVAR, id)));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL_DESACTIVAR.concat("/")+id));
+                            ebd.getMessage(),
+                            String.format("%s/%d", Uri.EDITORIAL_DESACTIVAR, id)));
         }
     }
 }
