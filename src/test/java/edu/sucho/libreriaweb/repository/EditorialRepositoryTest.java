@@ -1,28 +1,30 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Editorial;
-import edu.sucho.libreriaweb.service.EditorialService;
-import edu.sucho.libreriaweb.service.EditorialServiceImpl;
-import edu.sucho.libreriaweb.util.*;
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-
-import java.sql.*;
+import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
+import edu.sucho.libreriaweb.util.Comparacion;
+import java.sql.Connection;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
+import edu.sucho.libreriaweb.repository.EditorialRepository;
+import edu.sucho.libreriaweb.model.entity.Editorial;
+import edu.sucho.libreriaweb.util.Conexion;
+import edu.sucho.libreriaweb.util.Util;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.UUID;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
-
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class EditorialRepositoryTest {
 
     @Autowired
@@ -30,6 +32,9 @@ class EditorialRepositoryTest {
     static int id;
     static Connection conexion;
     static Comparacion<Editorial> comparacion;
+
+    @Autowired
+    ModelMapperDTO modelMapperDto;
 
     @BeforeAll
     public static void beforeAllTest() {
@@ -60,117 +65,76 @@ class EditorialRepositoryTest {
         System.out.println("@AfterEach --> tearDown()");
     }
 
+    @DisplayName("Validar Referencia No Nula EditorialRepository")
     @Test
-    @DisplayName("Referencia No Nula EditorialRepository")
-    @Order(1)
     void editorialRepositoryNotNullTest() {
-        assertNotNull(editorialRepository, "la referencia al  repositorio editorial es  nula");
+
+        Assertions.assertNotNull(editorialRepository, "la referencia al  repositorio editorial es  nula");
+
     }
 
+    @DisplayName("Cambio de Estado Editorial")
     @Test
-    @DisplayName("Obtener Editorial")
-    @Order(2)
-    void getEditorialTest() {
-        Editorial editorial = editorialRepository.findById(id).get();
-        assertNotNull(editorial, "no existe el editorial con este id");
-    }
-
-
-    @Test
-    @DisplayName("Editorial no esta en Base de Datos")
-    @Order(3)
-    void notPersistedEditorialTest() {
-        String esperado = "No value present";
-        NoSuchElementException thrown = assertThrows(NoSuchElementException.class, () -> {
-            Editorial editorial = editorialRepository.findById(Integer.MAX_VALUE).get();
-        });
-        Assertions.assertEquals(esperado, thrown.getMessage(), "El editorial se encuentra en la base de datos");
-    }
-
-    @Test
-    @DisplayName("Cambiar Estado del Editorial a Activado ")
-    @Order(4)
-    void StatusActiveEditorialTest() {
+    void changeStatusTest() {
         String esperado = "OK";
         String actual = editorialRepository.changeStatus(id, true);
-        assertEquals(esperado, actual, "fallo el cambio de estado");
-    }
 
-    @Test
-    @DisplayName("Cambiar Estado del Editorial a Desactivado")
-    @Order(5)
-    void StatusDisabledEditorialTest() {
-        String esperado = "OK";
-        String actual = editorialRepository.changeStatus(id, false);
-        assertEquals(esperado, actual, "fallo el cambio de estado");
-    }
+        Assertions.assertEquals(esperado, actual, "fallo el cambio de estado");
 
-    @DisplayName("Crear Editorial")
-    @Test
-    @Order(6)
-    void createEditorialTest() {
-        String esperado = "OK," + (Util.getIdMax(conexion, "SELECT max(id) FROM editorial") + 1);
-        String nombre = generarNombreUnico();
-        String actual = editorialRepository.saveEditorial(nombre);
-        assertEquals(esperado, actual, "ya existe  un editorial   con ese nombre");
     }
 
     @DisplayName("Modificar Editorial")
     @Test
-    @Order(7)
     void updateEditorialTest() {
         String esperado = "OK," + id;
-        String nombre = generarNombreUnico();
-        String actual = editorialRepository.updateEditorial(id, nombre);
-        assertEquals(esperado, actual, "ya existe  un editorial   con ese nombre");
+        String actual = modificarEditorial(id);
+
+        Assertions.assertEquals(esperado, actual, "ya existe  un editorial   con ese nombre");
+
     }
 
-    @DisplayName("Editoriales activos")
+    private String modificarEditorial(int id) {
+        String nombreEditorial;
+        String actual;
+        do {
+            nombreEditorial = UUID.randomUUID().toString().replace("-", "").substring(0, 9);
+            actual = editorialRepository.updateEditorial(id, nombreEditorial);
+
+        } while (actual.equals("ya existe  un editorial con ese nombre"));
+
+        return actual;
+    }
+
+    @DisplayName("validar Editoriales activos")
     @Test
-    @Order(8)
     void findAllByAltaTest() throws SQLException {
         List<Editorial> esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.alta = true");
         List<Editorial> actual = editorialRepository.findAllByAlta();
-        assertTrue(comparacion.IsEqualsLists(esperado, actual), "los array no son iguales");
+
+        //List<Editorial> actualLibrosNull;
+        //actualLibrosNull = actual.stream().forEach(editorial->{editorial.setLibros(null);}).collect(Collectors.toList());
+        actual.forEach((editorial) -> {
+            editorial.setLibros(null);
+        });
+
+        Assertions.assertTrue(comparacion.IsEqualsLists(esperado, actual), "los array no son iguales");
+
     }
 
-    @DisplayName("Editorial por nombre")
+    @DisplayName("validar Editoriales por nombre ")
     @Test
-    @Order(9)
     void findByValueField() throws SQLException {
+
         String nombre = "santillana";
-        Editorial esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.nombre = \"santillana\" ").get(0);
+
+        Editorial esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.nombre = \"Santillana\" ").get(0);
+
+//        EditorialDTO esperadoDto = modelMapperDto.editorialToDto(esperado);
         Editorial actual = editorialRepository.findByValueField(nombre);
-        assertEquals(esperado, actual, "no son los mismo editoriales");
+        actual.setLibros(null);
+//        EditorialDTO actualDto = modelMapperDto.editorialToDto(actual);
+        Assertions.assertEquals(esperado, actual, "no son los mismo editoriales");
+
     }
-
-
-    @DisplayName("Primer  Test Mockito")
-    @Test
-    @Order(9)
-    void mockitotest() {
-        editorialRepository = Mockito.mock(EditorialRepository.class);
-        when(editorialRepository.changeStatus(100,true)).thenReturn("Hola Mundo");
-        String actual =editorialRepository.changeStatus(100,true);
-        assertEquals(actual, actual);
-    }
-
-
-
-
-
-
-    private String generarNombreUnico() {
-        String nombre = "";
-        do {
-            nombre = Util.generarString();
-        } while (existEditorial(nombre));
-        return nombre;
-    }
-
-    private boolean existEditorial(String nombre) {
-        return editorialRepository.findByValueField(nombre) != null;
-    }
-
 
 }

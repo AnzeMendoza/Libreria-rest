@@ -1,4 +1,4 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +8,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Getter
 @Setter
+
+
 @Table(name = "editorial")
 public class Editorial {
 
@@ -30,17 +33,33 @@ public class Editorial {
     private List<Libro> libros;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Editorial editorial = (Editorial) o;
-        return nombre.equals(editorial.nombre);
+    public int hashCode() {
+        int hash = 5;
+
+        hash = 59 * hash + Objects.hashCode(this.nombre);
+
+        return hash;
     }
 
 
 
     @Override
-    public int hashCode() {
-        return Objects.hash(nombre);
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Editorial other = (Editorial) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
     }
+    
+
 }

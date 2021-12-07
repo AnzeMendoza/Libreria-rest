@@ -1,5 +1,6 @@
-package edu.sucho.libreriaweb.model;
+package edu.sucho.libreriaweb.model.entity;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     private Integer id;
+
     @Column(length = 8, unique = true, nullable = false ,updatable = false)
     private Long documento;
 
@@ -41,4 +43,30 @@ public class Cliente {
     
     @Column(nullable = false)
     private Boolean alta = true;
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.documento);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cliente other = (Cliente) obj;
+        if (!Objects.equals(this.documento, other.documento)) {
+            return false;
+        }
+        return true;
+    }
+    
 }
