@@ -99,7 +99,7 @@ public class ClienteRepositoryTest {
         String actual;
         do {
             documentoCliente = Long.parseLong(new Random().ints(9, 0, 9).boxed().map(value -> value.toString()).collect(Collectors.joining()));
-     actual = clienteRepository.updateCliente(id, documentoCliente,nombreCliente,apellidoCliente,telefonoCliente );
+            actual = clienteRepository.updateCliente(id, documentoCliente,nombreCliente,apellidoCliente,telefonoCliente );
         } while (actual == "Existe ese documento.");
         return actual;
     }
