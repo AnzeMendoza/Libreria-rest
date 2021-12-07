@@ -78,7 +78,7 @@ public class EditorialController {
         }
     }
 
-    @GetMapping(Uri.EDITORIAL_ACTIVAR + "/{id}")
+    @GetMapping(Uri.EDITORIAL_ACTIVAR + "activar/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
