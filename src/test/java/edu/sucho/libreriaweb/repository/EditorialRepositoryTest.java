@@ -1,34 +1,27 @@
 package edu.sucho.libreriaweb.repository;
 
 
-import edu.sucho.libreriaweb.model.dto.EditorialDTO;
-import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
-
 import edu.sucho.libreriaweb.util.Comparacion;
+import java.sql.Connection;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.ExtendWith;
+import edu.sucho.libreriaweb.repository.EditorialRepository;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -131,10 +124,10 @@ class EditorialRepositoryTest {
     @DisplayName("validar Editoriales por nombre ")
     @Test
     void findByValueField() throws SQLException {
+
         String nombre = "santillana";
 
-        Editorial esperado = Util.getEditoriales(conexion, 
-                "SELECT * FROM editorial WHERE editorial.nombre = \"santillana\" ").get(0);
+        Editorial esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.nombre = \"Santillana\" ").get(0);
 
 //        EditorialDTO esperadoDto = modelMapperDto.editorialToDto(esperado);
         Editorial actual = editorialRepository.findByValueField(nombre);

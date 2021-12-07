@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,34 +16,33 @@ import java.util.stream.Collectors;
 public class Util {
 
     public static void ValidarParametros(BindingResult result) throws ExceptionBadRequest {
-            if (result.hasErrors()) {
-                List<ObjectError> oEs = result.getAllErrors().stream().collect(Collectors.toList());
-                String err = "";
-                for (ObjectError oE : oEs) {
-                    FieldError fieldError = (FieldError) oE;
-                    err += fieldError.getField() + " : " + fieldError.getDefaultMessage();
-                }
-                throw new ExceptionBadRequest(err);
+        if (result.hasErrors()) {
+            List<ObjectError> oEs = result.getAllErrors().stream().collect(Collectors.toList());
+            String err = "";
+            for (ObjectError oE : oEs) {
+                FieldError fieldError = (FieldError) oE;
+                err += fieldError.getField() + " : " + fieldError.getDefaultMessage();
             }
+            throw new ExceptionBadRequest(err);
+        }
     }
 
     public static int getResponseId(String response) throws ExceptionBadRequest {
-        try{
+        try {
             return Integer.parseInt(response.split(",")[1]);
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             throw new ExceptionBadRequest("Debe ingresar una cadena con un numero");
         }
     }
 
     private static boolean getBoolean(int valor) {
-        return (valor==1);
+        return (valor == 1);
     }
 
     public static List<Editorial> getEditoriales(Connection conexion, String query) throws SQLException {
-        ResultSet rs = Conexion.getResultSet(conexion,query);
-        List<Editorial> editoriales= new ArrayList<>();
-        while (Conexion.existeNext(rs))
-        {
+        ResultSet rs = Conexion.getResultSet(conexion, query);
+        List<Editorial> editoriales = new ArrayList<>();
+        while (Conexion.existeNext(rs)) {
             Editorial editorial = new Editorial();
             editorial.setId(rs.getInt("id"));
             editorial.setAlta(getBoolean(rs.getInt("alta")));
@@ -52,7 +52,24 @@ public class Util {
         return editoriales;
     }
 
-    public static void getCorrectTime(){
+    public static List<Cliente> getClientes(Connection conexion, String query) throws SQLException {
+        ResultSet rs = Conexion.getResultSet(conexion, query);
+        List<Cliente> clientes = new ArrayList<>();
+        while (Conexion.existeNext(rs)) {
+            Cliente cliente = new Cliente();
+
+            cliente.setId(rs.getInt("id"));
+            cliente.setAlta(getBoolean(rs.getInt("alta")));
+            cliente.setNombre(rs.getString("nombre"));
+            cliente.setApellido(rs.getString("apellido"));
+            cliente.setTelefono(rs.getString("telefono"));
+            cliente.setDocumento(rs.getLong("documento"));
+            clientes.add(cliente);
+        }
+        return clientes;
+    }
+
+    public static void getCorrectTime() {
         /*prestamo.getFechaDevolucion().set(prestamo.getFechaDevolucion().get(Calendar.YEAR),
                     prestamo.getFechaDevolucion().get(Calendar.MONTH),
                     prestamo.getFechaDevolucion().get(Calendar.DAY_OF_MONTH));
