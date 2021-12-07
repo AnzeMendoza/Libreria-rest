@@ -49,7 +49,7 @@ public class EditorialController {
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            e.getMessage(), Uri.EDITORIAL));
+                            e.getMessage(), Uri.EDITORIAL.concat("/")+id));
         }
     }
 
@@ -78,11 +78,11 @@ public class EditorialController {
         } catch (ExceptionBBDD ebd) {
              return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL));
+                            ebd.getMessage(), Uri.EDITORIAL.concat("/")+id));
         }
     }
 
-    @GetMapping(Uri.EDITORIAL_ACTIVAR + "activar/{id}")
+    @GetMapping(Uri.ACTIVAR+ "/{id}")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -92,21 +92,21 @@ public class EditorialController {
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL_ACTIVAR));
+                            ebd.getMessage(), Uri.EDITORIAL_ACTIVAR.concat("/")+id));
         }
     }
 
-    @GetMapping(Uri.EDITORIAL_DESACTIVAR + "desactivar/{id}")
+    @GetMapping(Uri.DESACTIVAR + "/{id}")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(),
                             editorialService.changeStatus(id, Boolean.FALSE),
-                            Uri.EDITORIAL_DESACTIVAR));
+                            Uri.EDITORIAL_DESACTIVAR.concat("/")+id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
-                            ebd.getMessage(), Uri.EDITORIAL_DESACTIVAR));
+                            ebd.getMessage(), Uri.EDITORIAL_DESACTIVAR.concat("/")+id));
         }
     }
 }
