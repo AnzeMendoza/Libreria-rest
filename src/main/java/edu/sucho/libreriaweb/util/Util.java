@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -50,6 +51,20 @@ public class Util {
             editoriales.add(editorial);
         }
         return editoriales;
+    }
+    
+    public static List<Autor> getAutores(Connection conexion, String query) throws SQLException {
+        ResultSet rs = Conexion.getResultSet(conexion,query);
+        List<Autor> autores= new ArrayList<>();
+        while (Conexion.existeNext(rs))
+        {
+            Autor autor = new Autor();
+            autor.setId(rs.getInt("id"));
+            autor.setAlta(getBoolean(rs.getInt("alta")));
+            autor.setNombre(rs.getString("nombre"));
+            autores.add(autor);
+        }
+        return autores;
     }
 
     public static void getCorrectTime(){
