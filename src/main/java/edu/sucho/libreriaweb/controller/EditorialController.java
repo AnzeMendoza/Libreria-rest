@@ -61,7 +61,9 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.CREATED).
                     body(editorialService.save(editorial));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL));
         }
     }
 
@@ -74,7 +76,9 @@ public class EditorialController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(editorialService.update(id, editorial));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL));
         }
     }
 
@@ -86,7 +90,9 @@ public class EditorialController {
                             editorialService.changeStatus(id, Boolean.TRUE),
                             Uri.EDITORIAL_ACTIVAR));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL_ACTIVAR));
         }
     }
 
@@ -98,7 +104,9 @@ public class EditorialController {
                             editorialService.changeStatus(id, Boolean.FALSE),
                             Uri.EDITORIAL_DESACTIVAR));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
+                            ebd.getMessage(), Uri.EDITORIAL_DESACTIVAR));
         }
     }
 }
