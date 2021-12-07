@@ -85,7 +85,7 @@ public class AutorRepositoryTest {
         return actual;
     }
 
-    @DisplayName("validar Editoriales activos")
+    @DisplayName("validar Autores activos")
     @Test
     void findAllByAltaTest() throws SQLException {
         List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.alta = true");
@@ -94,7 +94,7 @@ public class AutorRepositoryTest {
         Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
     }
 
-    @DisplayName("validar Editoriales por nombre ")
+    @DisplayName("validar Autor por nombre ")
     @Test
     void findByValueField() throws SQLException {
         String nombre ="Nombre cinco";
