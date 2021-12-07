@@ -133,7 +133,8 @@ class EditorialRepositoryTest {
     void findByValueField() throws SQLException {
         String nombre = "santillana";
 
-        Editorial esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.nombre = \"Santillana\" ").get(0);
+        Editorial esperado = Util.getEditoriales(conexion, 
+                "SELECT * FROM editorial WHERE editorial.nombre = \"santillana\" ").get(0);
 
 //        EditorialDTO esperadoDto = modelMapperDto.editorialToDto(esperado);
         Editorial actual = editorialRepository.findByValueField(nombre);
