@@ -13,6 +13,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Getter
 @Setter
+
+
 @Table(name = "editorial")
 public class Editorial {
 
@@ -33,7 +35,9 @@ public class Editorial {
     @Override
     public int hashCode() {
         int hash = 5;
+
         hash = 59 * hash + Objects.hashCode(this.nombre);
+
         return hash;
     }
 
@@ -55,5 +59,5 @@ public class Editorial {
         return true;
     }
     
-    
+
 }
