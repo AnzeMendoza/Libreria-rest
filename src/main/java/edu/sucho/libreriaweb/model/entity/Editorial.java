@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Getter
@@ -34,7 +35,9 @@ public class Editorial {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 17 * hash + Objects.hashCode(this.nombre);
+
+        hash = 59 * hash + Objects.hashCode(this.nombre);
+
         return hash;
     }
 
@@ -56,4 +59,5 @@ public class Editorial {
         return true;
     }
     
+
 }
