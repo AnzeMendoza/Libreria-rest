@@ -29,6 +29,7 @@ class EditorialServiceImplTest {
 
     void editorialRepositoryIsNotNull(){
 
+
     }
 
     @Test

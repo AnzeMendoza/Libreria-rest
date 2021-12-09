@@ -8,10 +8,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Getter
 @Setter
+
+
 @Table(name = "editorial")
 public class Editorial {
 
