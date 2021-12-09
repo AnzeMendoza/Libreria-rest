@@ -29,10 +29,6 @@ class EditorialRepositoryTest {
     @Autowired
     ModelMapperDTO modelMapperDto;
 
-    static Connection conexion;
-
-    static Comparacion<Editorial> comparacion;
-
     @BeforeAll
     public static void beforeAllTest() {
         id = 1;

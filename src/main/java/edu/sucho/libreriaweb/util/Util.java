@@ -100,7 +100,6 @@ public class Util {
         return calendar.getTime();
     }
 
-    public static void getCorrectTime(){
     public static List<Cliente> getClientes(Connection conexion, String query) throws SQLException {
         ResultSet rs = Conexion.getResultSet(conexion, query);
         List<Cliente> clientes = new ArrayList<>();
@@ -116,22 +115,5 @@ public class Util {
             clientes.add(cliente);
         }
         return clientes;
-    }
-
-    public static void getCorrectTime() {
-        /*prestamo.getFechaDevolucion().set(prestamo.getFechaDevolucion().get(Calendar.YEAR),
-                    prestamo.getFechaDevolucion().get(Calendar.MONTH),
-                    prestamo.getFechaDevolucion().get(Calendar.DAY_OF_MONTH));
-            prestamo.getFechaPrestamo().set(prestamo.getFechaPrestamo().get(Calendar.YEAR),
-                    prestamo.getFechaPrestamo().get(Calendar.MONTH),
-                    prestamo.getFechaPrestamo().get(Calendar.DAY_OF_MONTH));
-
-            prestamo.getFechaDevolucion().setTimeZone(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
-            prestamo.getFechaPrestamo().setTimeZone(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
-
-            System.out.println("-------------------");
-            System.out.println("Fecha de devolucion: " + prestamo.getFechaDevolucion().getTime());
-            System.out.println("Fecha de prestamo: " + prestamo.getFechaPrestamo().getTime());
-            System.out.println("-------------------");*/
     }
 }

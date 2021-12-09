@@ -112,15 +112,4 @@ public class ClienteRepositoryTest {
        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
     }
 
-//    @DisplayName("validar Clientes por documento ")
-//    @org.junit.jupiter.api.Test
-//    void findByValueField() throws SQLException {
-//        Long documento =37806561L;
-//        Cliente esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.nombre = \"santillana\" ").get(0);
-//        Cliente actual = clienteRepository.findByValueField(documento);
-//        assertEquals(esperado, actual, "no son los mismo editoriales");
-//    }
-
-   
-    
 }
