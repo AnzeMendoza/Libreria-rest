@@ -7,7 +7,7 @@ public  class Conexion {
     private static String bd ="libreria_rest";
     private  static String url = "jdbc:mysql://localhost:3306/";
     private static String user ="root";
-    private static String password="root";
+    private static String password="password";
     private static String driver ="com.mysql.cj.jdbc.Driver";
 
     public static Connection conect() {

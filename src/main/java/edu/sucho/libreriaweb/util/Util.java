@@ -4,13 +4,17 @@ import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.entity.Editorial;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +54,7 @@ public class Util {
             editorial.setNombre(rs.getString("nombre"));
             editoriales.add(editorial);
         }
+
         return editoriales;
     }
     
@@ -67,6 +72,35 @@ public class Util {
         return autores;
     }
 
+    public static List<Prestamo> getPrestamo(Connection conexion, String query) throws SQLException {
+        ResultSet rs = Conexion.getResultSet(conexion,query);
+        List<Prestamo> prestamos= new ArrayList<>();
+
+        while (Conexion.existeNext(rs)) {
+            Prestamo prestamo = new Prestamo();
+            prestamo.setId(rs.getInt("id"));
+            prestamo.setAlta(getBoolean(rs.getInt("alta")));
+            prestamo.setFechaPrestamo(dateToCalendar( rs.getDate("fecha_prestamo")));
+            prestamo.setFechaDevolucion(dateToCalendar(rs.getDate("fecha_devolucion")));
+            prestamos.add(prestamo);
+        }
+        return prestamos;
+    }
+
+    private static Calendar dateToCalendar(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+
+    public static Date addDays(Date fecha, int dias){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DAY_OF_YEAR, dias);
+        return calendar.getTime();
+    }
+
+    public static void getCorrectTime(){
     public static List<Cliente> getClientes(Connection conexion, String query) throws SQLException {
         ResultSet rs = Conexion.getResultSet(conexion, query);
         List<Cliente> clientes = new ArrayList<>();

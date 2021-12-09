@@ -45,18 +45,8 @@ public class PrestamoController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
-        }
-    }
-
-    @GetMapping("desactivar/{id}")
-    private ResponseEntity<?> deactivate(@PathVariable("id") int id)
-     throws ExceptionBadRequest {
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.disableStatus(id),Uri.PRESTAMO_DESACTIVAR));
-        } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO+"/"+id));
         }
     }
 
@@ -66,7 +56,7 @@ public class PrestamoController {
         try {
             Util.ValidarParametros(result);
           return ResponseEntity.status(HttpStatus.CREATED)
-                  .body(prestamoService.save(prestamo));
+                  .body( modelMapperDTO.prestamoToDto(prestamoService.save(prestamo)));
          }
         catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -82,10 +72,22 @@ public class PrestamoController {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(prestamoService.update(id, prestamo));
+                    .body(modelMapperDTO.prestamoToDto(prestamoService.update(id, prestamo)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/{id}"));
+        }
+    }
+
+    @GetMapping("desactivar/{id}")
+    private ResponseEntity<?> deactivate(@PathVariable("id") int id)
+            throws ExceptionBadRequest {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.disableStatus(id),Uri.PRESTAMO_DESACTIVAR + "/" + id));
+        } catch (ExceptionBBDD ebd) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_DESACTIVAR + "/" + id));
         }
     }
 
@@ -94,9 +96,9 @@ public class PrestamoController {
      throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id),Uri.PRESTAMO_ACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id),Uri.PRESTAMO_ACTIVAR + "/" + id));
         } catch (ExceptionBBDD ebd) {
-            throw new ExceptionBadRequest(ebd.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/{id}"));        }
     }
 }
