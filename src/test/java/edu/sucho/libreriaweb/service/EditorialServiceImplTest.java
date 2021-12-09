@@ -14,26 +14,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EditorialServiceImplTest {
 
-//    @Autowired
-//    private EditorialRepository editorialRepository;
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
-//
-//    @AfterEach
-//    void tearDown(){
-//    }
-//
-//    @Test
-//
-//    void editorialRepositoryIsNotNull(){
-//
-//
-//    }
-//
-//    @Test
-//    void changeStatuTest() throws ExceptionBBDD {
-//
-//    }
+    @Autowired
+    private EditorialRepository editorialRepository;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @AfterEach
+    void tearDown(){
+    }
+
+    @Test
+
+    void editorialRepositoryIsNotNull(){
+
+    }
+
+    @Test
+    void changeStatuTest() throws ExceptionBBDD {
+
+    }
 }

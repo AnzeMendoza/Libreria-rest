@@ -28,4 +28,17 @@ public class Editorial {
 
     @OneToMany(mappedBy = "editorial")
     private List<Libro> libros;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Editorial editorial = (Editorial) o;
+        return Objects.equals(nombre, editorial.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre);
+    }
 }

@@ -1,7 +1,10 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.entity.Editorial;
+import edu.sucho.libreriaweb.model.entity.Libro;
+import edu.sucho.libreriaweb.model.entity.Prestamo;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -9,6 +12,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,17 +44,33 @@ public class Util {
     }
 
     public static List<Editorial> getEditoriales(Connection conexion, String query) throws SQLException {
+
         ResultSet rs = Conexion.getResultSet(conexion,query);
         List<Editorial> editoriales= new ArrayList<>();
-        while (Conexion.existeNext(rs))
-        {
+
+        while (Conexion.existeNext(rs)) {
             Editorial editorial = new Editorial();
             editorial.setId(rs.getInt("id"));
             editorial.setAlta(getBoolean(rs.getInt("alta")));
             editorial.setNombre(rs.getString("nombre"));
             editoriales.add(editorial);
         }
+
         return editoriales;
+    }
+
+    public static List<Prestamo> getPrestamo(Connection conexion, String query) throws SQLException {
+        ResultSet rs = Conexion.getResultSet(conexion,query);
+        List<Prestamo> prestamos= new ArrayList<>();
+
+        while (Conexion.existeNext(rs)) {
+            Prestamo prestamo = new Prestamo();
+            prestamo.setId(rs.getInt("id"));
+            prestamo.setAlta(getBoolean(rs.getInt("alta")));
+//            prestamo.setFechaPrestamo(Calendar.getInstance().getTime(rs.getDate("fechaPrestamo")));
+            prestamos.add(prestamo);
+        }
+        return prestamos;
     }
 
     public static void getCorrectTime(){
