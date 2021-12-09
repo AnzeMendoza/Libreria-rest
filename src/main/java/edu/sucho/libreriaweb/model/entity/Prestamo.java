@@ -52,11 +52,11 @@ public class Prestamo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prestamo prestamo = (Prestamo) o;
-        return Objects.equals(id, prestamo.id) && Objects.equals(alta, prestamo.alta);
+        return Objects.equals(id, prestamo.id) && Objects.equals(alta, prestamo.alta) && Objects.equals(fechaDevolucion, prestamo.fechaDevolucion) && Objects.equals(fechaPrestamo, prestamo.fechaPrestamo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, alta);
+        return Objects.hash(id, alta, fechaDevolucion, fechaPrestamo);
     }
 }

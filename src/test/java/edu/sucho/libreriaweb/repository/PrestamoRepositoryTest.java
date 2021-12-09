@@ -1,6 +1,5 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
@@ -13,8 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -64,17 +63,12 @@ public class PrestamoRepositoryTest {
         Assertions.assertNotNull(prestamoRepository, "la referencia al  repositorio editorial es  nula");
     }
 
-
-    @DisplayName("Modificar Prestamo")
+    @DisplayName("Modificar estado de Prestamo")
     @Test
     void updateEstadoTest() {
         String esperado = "OK";
-        String actual = modificarPrestamo(id);
+        String actual = modificarEstadoPrestamo(id);
         Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
-    }
-
-    private String modificarPrestamo(int id) {
-        return prestamoRepository.changeStatusSp(id, true);
     }
 
     @DisplayName("validar Prestamos activos")
@@ -83,5 +77,23 @@ public class PrestamoRepositoryTest {
         List<Prestamo> esperado = Util.getPrestamo(conexion, "SELECT * FROM prestamo WHERE prestamo.alta = true");
         List<Prestamo> actual = prestamoRepository.findAllByAlta();
         Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+    }
+
+    @DisplayName("Modificar Prestamo")
+    @Test
+    void updateTest() {
+        String esperado = "OK,"+ id ;
+        String actual = modificarPrestamo(id);
+        Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
+    }
+
+    private String modificarEstadoPrestamo(int id) {
+        return prestamoRepository.changeStatusSp(id, true);
+    }
+
+    private String modificarPrestamo(int id){
+        Date currentDay = new Date();
+        String resultado = prestamoRepository.updateSp(id,Util.addDays(currentDay, 10), currentDay, id, id);
+        return resultado;
     }
 }

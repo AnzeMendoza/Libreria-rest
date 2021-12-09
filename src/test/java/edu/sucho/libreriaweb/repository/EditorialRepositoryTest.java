@@ -105,5 +105,4 @@ class EditorialRepositoryTest {
         Editorial actual = editorialRepository.findByValueField(nombre);
         Assertions.assertEquals(esperado, actual, "no son los mismo editoriales");
     }
-
 }

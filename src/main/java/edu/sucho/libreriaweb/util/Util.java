@@ -1,13 +1,12 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.entity.Editorial;
-import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,10 +66,24 @@ public class Util {
             Prestamo prestamo = new Prestamo();
             prestamo.setId(rs.getInt("id"));
             prestamo.setAlta(getBoolean(rs.getInt("alta")));
-//            prestamo.setFechaPrestamo(Calendar.getInstance().getTime(rs.getDate("fechaPrestamo")));
+            prestamo.setFechaPrestamo(dateToCalendar( rs.getDate("fecha_prestamo")));
+            prestamo.setFechaDevolucion(dateToCalendar(rs.getDate("fecha_devolucion")));
             prestamos.add(prestamo);
         }
         return prestamos;
+    }
+
+    private static Calendar dateToCalendar(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+
+    public static Date addDays(Date fecha, int dias){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DAY_OF_YEAR, dias);
+        return calendar.getTime();
     }
 
     public static void getCorrectTime(){
