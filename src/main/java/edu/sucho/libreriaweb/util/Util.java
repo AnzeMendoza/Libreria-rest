@@ -1,10 +1,7 @@
 package edu.sucho.libreriaweb.util;
 
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.entity.Autor;
-import edu.sucho.libreriaweb.model.entity.Cliente;
-import edu.sucho.libreriaweb.model.entity.Editorial;
-import edu.sucho.libreriaweb.model.entity.Prestamo;
+import edu.sucho.libreriaweb.model.entity.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -56,6 +53,25 @@ public class Util {
         }
 
         return editoriales;
+    }
+
+    public static List<Libro> getLibro(Connection conexion, String query) throws SQLException {
+        ResultSet rs = Conexion.getResultSet(conexion, query);
+        List<Libro> libros = new ArrayList<>();
+        while (Conexion.existeNext(rs)) {
+            Libro libro = new Libro();
+            libro.setId(rs.getInt("id"));
+            libro.setAlta(getBoolean(rs.getInt("alta")));
+            libro.setTitulo(rs.getString("titulo"));
+            libro.setIsbn(rs.getLong("isbn"));
+            libro.setAnio(rs.getInt("anio"));
+            libro.setEjemplares(rs.getInt("ejemplares"));
+            libro.setEjemplaresRestantes(rs.getInt("ejemplares_restantes"));
+            libro.setEjemplaresPrestados(rs.getInt("ejemplares_prestados"));
+            libros.add(libro);
+        }
+
+        return libros;
     }
     
     public static List<Autor> getAutores(Connection conexion, String query) throws SQLException {
