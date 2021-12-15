@@ -50,5 +50,6 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
                     @Param("fk_autor") int fk_autor,
                     @Param("fk_editorial") int fk_editorial);
 
-
+    @Query(value = "CALL lsp_buscar_por_patron_titulo(:pattern)", nativeQuery = true)
+    List<Libro> findTituloForPattern(String pattern);
 }

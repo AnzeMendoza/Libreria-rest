@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
+import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.util.Comparacion;
@@ -18,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -103,7 +106,7 @@ class LibroRepositoryTest {
     @Test
     void findByTituloV_2() {
         LibroRepository libroRepository = Mockito.mock(LibroRepository.class);
-        Mockito.when(libroRepository.findByTitulo("Titulo uno")).thenReturn(Arrays.asList(new Libro()));
+        when(libroRepository.findByTitulo("Titulo uno")).thenReturn(Arrays.asList(new Libro()));
         List<Libro> actual = libroRepository.findByTitulo("Titulo uno");
         Assertions.assertEquals(1,actual.size(),"Los arrays no son iguales");
     }
@@ -130,9 +133,37 @@ class LibroRepositoryTest {
     @Test
     void updateTestV_2() {
         LibroRepository libroRepository = Mockito.mock(LibroRepository.class);
-        Mockito.when(libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1)).thenReturn("ESTA MAL");
+        when(libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1)).thenReturn("ESTA MAL");
         String esperado = "OK,"+ id ;
         String actual = libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1);
         Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
+    }
+
+    @DisplayName("Buscar coincidencias por campo nombre")
+    @Test
+    void findTituloForPattern() throws SQLException {
+/*        Libro libro = new Libro();
+        libro.setId(1);
+        libro.setTitulo("física");
+        libro.setIsbn(12344231L);
+        libro.setAnio(2005);
+        libro.setEjemplares(180);
+        libro.setEjemplaresPrestados(20);
+        libro.setEjemplaresRestantes(160);
+        libro.setAlta(Boolean.TRUE);
+
+        System.out.println(libro);
+
+        List<Libro> esperado = new ArrayList<>();
+        esperado.add(libro);
+
+        LibroRepository libroMockRepository = Mockito.mock(LibroRepository.class);
+        when(libroMockRepository.findTituloForPattern("fís")).thenReturn(esperado);
+
+//        List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
+        List<Libro> actual = libroMockRepository.findTituloForPattern("fís");*/
+        List<Libro> librosQuery = Util.getLibro(conexion, "SELECT * FROM libro WHERE titulo LIKE 'fís%'");
+        List<Libro> librosStoreProcedure = libroRepository.findTituloForPattern("fís");
+        Assertions.assertEquals(librosQuery, librosStoreProcedure, "no son los mismo libros");
     }
 }
