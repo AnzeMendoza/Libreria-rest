@@ -2,6 +2,7 @@
 package edu.sucho.libreriaweb.repository;
 
 
+
 import java.util.List;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterAll;
@@ -24,6 +26,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -112,4 +116,23 @@ public class ClienteRepositoryTest {
        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
     }
 
+    @DisplayName("Buscar coincidencias por campo nombre")
+    @Test
+    void findClienteForPatternName() throws SQLException {
+        
+////        Prueba usando mockito
+//        Cliente cliente = new Cliente();
+//        cliente.setAlta(Boolean.TRUE);
+//        cliente.setId(1);
+//        cliente.setNombre("san yo");
+//        List<Cliente> esperado = new ArrayList<>();
+//        esperado.add(cliente);
+//        ClienteRepository clienteRepository = Mockito.mock(ClienteRepository.class);
+//        when(clienteRepository.findClienteForPatternName("san")).thenReturn(esperado);
+
+        List<Cliente> esperado = Util.getClientes(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
+
+        List<Cliente> actual = clienteRepository.findClienteForPatternName("san");
+        Assertions.assertEquals(esperado, actual, "no son los mismo clientes");
+    }
 }
