@@ -5,10 +5,13 @@ import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.util.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -55,7 +58,7 @@ public class AutorRepositoryTest {
         System.out.println("@AfterEach --> tearDown()");
     }
 
-    @DisplayName("Validar Referencia No Nula EditorialRepository")
+    @DisplayName("Validar Referencia No Nula AutorRepository")
     @Test
     void autorRepositoryNotNullTest() {
         Assertions.assertNotNull(autorRepository, "la referencia al  repositorio editorial es  nula");
@@ -74,7 +77,7 @@ public class AutorRepositoryTest {
     void updateAutorTest() {
         String esperado = "OK," + id;
         String actual = modificarAutor(id);
-        Assertions.assertEquals(esperado, actual, "ya existe  un editorial   con ese nombre");
+        Assertions.assertEquals(esperado, actual, "ya existe  un autores   con ese nombre");
     }
 
     private String modificarAutor(int id) {
@@ -101,6 +104,26 @@ public class AutorRepositoryTest {
         Autor esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.nombre = \"Nombre cinco\" ").get(0);
         Autor actual = autorRepository.findByValueField(nombre);
         
-        Assertions.assertEquals(esperado, actual, "no son los mismo editoriales");
+        Assertions.assertEquals(esperado, actual, "no son los mismo autores");
     }
+    
+    @DisplayName("Buscar coincidencias por campo nombre")
+    @Test
+    void findAutorForPatternName() throws SQLException {
+        //Prueba usando mockito
+//        Autor autor = new Autor();
+//        autor.setAlta(Boolean.TRUE);
+//        autor.setId(1);
+//        autor.setNombre("san yo");
+//        List<Autor> esperado = new ArrayList<>();
+//        esperado.add(autor);
+//        AutorRepository aRepository = Mockito.mock(AutorRepository.class);
+//        when(aRepository.findAutorForPatternName("san")).thenReturn(esperado);
+
+        List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
+
+        List<Autor> actual = autorRepository.findAutorForPatternName("nom");
+        Assertions.assertEquals(esperado, actual, "no son los mismo autores");
+    }
+    
 }
