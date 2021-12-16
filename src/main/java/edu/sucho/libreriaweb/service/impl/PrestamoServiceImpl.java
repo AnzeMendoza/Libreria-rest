@@ -52,8 +52,10 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
 
     @Override
     public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        return getPrestamoOk(prestamoRepository.updateSp(id, prestamo.getFechaDevolucion().getTime(),
-                prestamo.getFechaPrestamo().getTime(), prestamo.getCliente().getId(),
+        return getPrestamoOk(prestamoRepository.updateSp(id,
+                prestamo.getFechaDevolucion().getTime(),
+                prestamo.getFechaPrestamo().getTime(),
+                prestamo.getCliente().getId(),
                 prestamo.getLibro().getId()));
     }
 
