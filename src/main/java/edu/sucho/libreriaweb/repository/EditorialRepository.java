@@ -26,7 +26,7 @@ public interface EditorialRepository extends BaseRepository<Editorial, Integer> 
     @Query(value = "CALL lsp_modificar_editorial(:id,:name);", nativeQuery = true)
     String updateEditorial(@Param("id") Integer id, @Param("name") String name);
 
-    @Query(value = "No tengo la query aun , pero cuando la tenga la voy agregar , el test tiene que pasar porque estoy usando mockito", nativeQuery = true)
+    @Query(value = "call lsp_buscar_por_patron_nombre_editorial(:string )", nativeQuery = true)
     List<Editorial> findEditorialForPatternName(@Param("string") String string);
 
 
