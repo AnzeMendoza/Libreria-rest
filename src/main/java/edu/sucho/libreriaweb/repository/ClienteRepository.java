@@ -22,11 +22,11 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
     @Query(value = "CALL lsp_modificar_cliente(:id, :documento , :nombre , :apellido , :telefono)", nativeQuery = true)
     String updateCliente(@Param("id") Integer id, @Param("documento") Long documento, @Param("nombre") String nombre, @Param("apellido") String apellido, @Param("telefono") String telefono);
     
-    @Query(value = "CALL lsp_buscar_cliente_por_patron_nombre(:string)", nativeQuery = true)
-    List<Cliente> findClienteForPatternName(@Param("string") String string);
-//    mockito test
-//    @Query(value = "SELECT * FROM cliente where nombre like :string", nativeQuery = true)
+//    @Query(value = "CALL lsp_buscar_cliente_por_patron_nombre(:string)", nativeQuery = true)
 //    List<Cliente> findClienteForPatternName(@Param("string") String string);
+//    mockito test
+    @Query(value = "SELECT * FROM cliente where nombre like :string", nativeQuery = true)
+    List<Cliente> findClienteForPatternName(@Param("string") String string);
 
 }
 

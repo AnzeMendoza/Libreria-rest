@@ -1,7 +1,4 @@
-
 package edu.sucho.libreriaweb.repository;
-
-
 
 import java.util.List;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
@@ -35,13 +32,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class ClienteRepositoryTest {
-    
+
     @Autowired
     ClienteRepository clienteRepository;
-    
+
     static int id;
     static Connection conexion;
-    static Comparacion<Cliente>comparacion;
+    static Comparacion<Cliente> comparacion;
 
     @BeforeAll
     public static void beforeAllTest() {
@@ -79,6 +76,7 @@ public class ClienteRepositoryTest {
         Assertions.assertNotNull(clienteRepository, "la referencia al  repositorio cliente es  nula");
 
     }
+
     @DisplayName("Cambio de Estado Cliente")
     @org.junit.jupiter.api.Test
     void changeStatusTest() {
@@ -92,18 +90,18 @@ public class ClienteRepositoryTest {
     void updateClienteTest() {
         String esperado = "OK," + id;
         String actual = modificarCliente(id);
-         Assertions.assertEquals(esperado, actual, "Existe ese documento.");
+        Assertions.assertEquals(esperado, actual, "Existe ese documento.");
     }
 
     private String modificarCliente(int id) {
-        String nombreCliente= "PruebaModificar";
-        String apellidoCliente="PruebaModificar";
-        String telefonoCliente="PruebaModificar";
+        String nombreCliente = "PruebaModificar";
+        String apellidoCliente = "PruebaModificar";
+        String telefonoCliente = "PruebaModificar";
         Long documentoCliente;
         String actual;
         do {
             documentoCliente = Long.parseLong(new Random().ints(9, 0, 9).boxed().map(value -> value.toString()).collect(Collectors.joining()));
-            actual = clienteRepository.updateCliente(id, documentoCliente,nombreCliente,apellidoCliente,telefonoCliente );
+            actual = clienteRepository.updateCliente(id, documentoCliente, nombreCliente, apellidoCliente, telefonoCliente);
         } while (actual == "Existe ese documento.");
         return actual;
     }
@@ -113,25 +111,24 @@ public class ClienteRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Cliente> esperado = Util.getClientes(conexion, "SELECT * FROM cliente WHERE cliente.alta = true");
         List<Cliente> actual = clienteRepository.findAllByAlta();
-       Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+        Assertions.assertEquals(esperado, actual, "no son los mismo clientes");
     }
 
     @DisplayName("Buscar coincidencias por campo nombre")
     @Test
     void findClienteForPatternName() throws SQLException {
-        
-////        Prueba usando mockito
-//        Cliente cliente = new Cliente();
-//        cliente.setAlta(Boolean.TRUE);
-//        cliente.setId(1);
-//        cliente.setNombre("san yo");
-//        List<Cliente> esperado = new ArrayList<>();
-//        esperado.add(cliente);
-//        ClienteRepository clienteRepository = Mockito.mock(ClienteRepository.class);
-//        when(clienteRepository.findClienteForPatternName("san")).thenReturn(esperado);
 
-        List<Cliente> esperado = Util.getClientes(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
+//        Prueba usando mockito
+        Cliente cliente = new Cliente();
+        cliente.setAlta(Boolean.TRUE);
+        cliente.setId(1);
+        cliente.setNombre("san yo");
+        List<Cliente> esperado = new ArrayList<>();
+        esperado.add(cliente);
+        ClienteRepository clienteRepository = Mockito.mock(ClienteRepository.class);
+        when(clienteRepository.findClienteForPatternName("san")).thenReturn(esperado);
 
+//        List<Cliente> esperado = Util.getClientes(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
         List<Cliente> actual = clienteRepository.findClienteForPatternName("san");
         Assertions.assertEquals(esperado, actual, "no son los mismo clientes");
     }
