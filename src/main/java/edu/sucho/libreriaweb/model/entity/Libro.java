@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -44,6 +45,19 @@ public class Libro {
 
     public Libro() {
         this.alta = true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Libro)) return false;
+        Libro libro = (Libro) o;
+        return Objects.equals(id, libro.id) && Objects.equals(titulo, libro.titulo) && Objects.equals(isbn, libro.isbn) && Objects.equals(anio, libro.anio) && Objects.equals(ejemplares, libro.ejemplares) && Objects.equals(ejemplaresPrestados, libro.ejemplaresPrestados) && Objects.equals(ejemplaresRestantes, libro.ejemplaresRestantes) && Objects.equals(alta, libro.alta);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titulo, isbn, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, alta);
     }
 
     public void actualizarStockPostPrestamo() {

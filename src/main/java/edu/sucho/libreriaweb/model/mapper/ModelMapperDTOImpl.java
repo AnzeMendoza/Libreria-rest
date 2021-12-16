@@ -22,7 +22,7 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     public List<AutorDTO> listAutorToDto(List<Autor> autores) {
         return autores.stream()
                 .map(this::autorToDto)
-                .collect(Collectors.toList());
+                    .collect(Collectors.toList());
     }
 
     @Override

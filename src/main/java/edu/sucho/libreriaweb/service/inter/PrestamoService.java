@@ -5,10 +5,10 @@ import edu.sucho.libreriaweb.model.entity.Prestamo;
 
 import java.util.List;
 
-public interface PrestamoService extends BaseService<Prestamo, Integer>{
+public interface PrestamoService extends BaseService<Prestamo, Integer> {
     List<Prestamo> findAllByAlta() throws ExceptionBBDD;
-    
-     String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD;
+
+    String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD;
 
     String disableStatus(int id) throws ExceptionBBDD;
 

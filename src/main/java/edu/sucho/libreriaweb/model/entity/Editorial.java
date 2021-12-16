@@ -33,33 +33,17 @@ public class Editorial {
     private List<Libro> libros;
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-
-        hash = 59 * hash + Objects.hashCode(this.nombre);
-
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Editorial editorial = (Editorial) o;
+        return Objects.equals(nombre, editorial.nombre);
     }
 
 
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Editorial other = (Editorial) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(nombre);
     }
-    
-
 }

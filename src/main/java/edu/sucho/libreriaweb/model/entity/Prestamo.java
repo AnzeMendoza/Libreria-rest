@@ -10,6 +10,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.util.Calendar;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -45,4 +46,17 @@ public class Prestamo {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_libro")
     private Libro libro;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prestamo prestamo = (Prestamo) o;
+        return Objects.equals(id, prestamo.id) && Objects.equals(alta, prestamo.alta) && Objects.equals(fechaDevolucion, prestamo.fechaDevolucion) && Objects.equals(fechaPrestamo, prestamo.fechaPrestamo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, alta, fechaDevolucion, fechaPrestamo);
+    }
 }

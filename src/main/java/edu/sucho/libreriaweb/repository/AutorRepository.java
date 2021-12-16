@@ -23,4 +23,7 @@ public interface AutorRepository extends BaseRepository<Autor, Integer> {
     
     @Query(value = "SELECT id,alta,nombre FROM autor WHERE autor.nombre =:name", nativeQuery = true)
     Autor findByValueField(@Param("name")String name);
+    
+    @Query(value = "CALL lsp_buscar_por_patron_nombre(:string)", nativeQuery = true)
+    List<Autor> findAutorForPatternName(@Param("string") String string);
 }
