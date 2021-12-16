@@ -34,4 +34,5 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
                     @Param("fecha_prestamo") Date fecha_prestamo,
                     @Param("fk_cliente") Integer fk_cliente,
                     @Param("fk_libro") Integer fk_libro);
+
 }
