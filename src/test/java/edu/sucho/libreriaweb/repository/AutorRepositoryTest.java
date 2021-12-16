@@ -122,7 +122,7 @@ public class AutorRepositoryTest {
 
         List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
 
-        List<Autor> actual = autorRepository.findAutorForPatternName("san");
+        List<Autor> actual = autorRepository.findAutorForPatternName("nom");
         Assertions.assertEquals(esperado, actual, "no son los mismo autores");
     }
     
