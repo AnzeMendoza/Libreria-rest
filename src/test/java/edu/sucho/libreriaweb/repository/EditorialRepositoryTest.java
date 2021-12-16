@@ -1,6 +1,5 @@
 package edu.sucho.libreriaweb.repository;
 
-
 import edu.sucho.libreriaweb.model.dto.EditorialDTO;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
@@ -10,6 +9,7 @@ import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -74,6 +74,7 @@ class EditorialRepositoryTest {
 
     @DisplayName("Validar Referencia No Nula EditorialRepository")
     @Test
+    @Order(8)
     void editorialRepositoryNotNullTest() {
 
         Assertions.assertNotNull(editorialRepository, "la referencia al  repositorio editorial es  nula");
@@ -82,6 +83,7 @@ class EditorialRepositoryTest {
 
     @DisplayName("Cambio de Estado Editorial")
     @Test
+    @Order(2)
     void changeStatusTest() {
         String esperado = "OK";
         String actual = editorialRepository.changeStatus(id, true);
@@ -92,6 +94,7 @@ class EditorialRepositoryTest {
 
     @DisplayName("Modificar Editorial")
     @Test
+    @Order(3)
     void updateEditorialTest() {
         String esperado = "OK," + id;
         String actual = modificarEditorial(id);
@@ -114,34 +117,47 @@ class EditorialRepositoryTest {
 
     @DisplayName("validar Editoriales activos")
     @Test
+    @Order(4)
     void findAllByAltaTest() throws SQLException {
         List<Editorial> esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.alta = true");
         List<Editorial> actual = editorialRepository.findAllByAlta();
 
-        //List<Editorial> actualLibrosNull;
-        //actualLibrosNull = actual.stream().forEach(editorial->{editorial.setLibros(null);}).collect(Collectors.toList());
-        actual.forEach((editorial) -> {
-            editorial.setLibros(null);
-        });
-
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado, actual), "los array no son iguales");
-
+      Assertions.assertEquals(esperado, actual,"Las listas de editoriales activos no son iguales");
     }
 
     @DisplayName("validar Editoriales por nombre ")
     @Test
     void findByValueField() throws SQLException {
-        String nombre = "santillana";
+        String nombre = "ola";
 
-        Editorial esperado = Util.getEditoriales(conexion, 
-                "SELECT * FROM editorial WHERE editorial.nombre = \"santillana\" ").get(0);
+        Editorial esperado = Util.getEditoriales(conexion,
+                "SELECT * FROM editorial WHERE editorial.nombre = \"ola\" ").get(0);
 
-//        EditorialDTO esperadoDto = modelMapperDto.editorialToDto(esperado);
         Editorial actual = editorialRepository.findByValueField(nombre);
         actual.setLibros(null);
-//        EditorialDTO actualDto = modelMapperDto.editorialToDto(actual);
+
         Assertions.assertEquals(esperado, actual, "no son los mismo editoriales");
 
     }
 
+    // throw SQlException
+    @DisplayName("Buscar coincidencias en el campo nombre")
+    @Test
+    @Order(1)
+    void findByValueName() {
+        Editorial editorial = new Editorial();
+        editorial.setAlta(Boolean.TRUE);
+        editorial.setId(1);
+        editorial.setNombre("kape");
+        List<Editorial> esperado = new ArrayList();
+        esperado.add(editorial);
+        
+        EditorialRepository editorialRepo = Mockito.mock(EditorialRepository.class);
+
+        when(editorialRepo.findEditorialForPatternName("kape")).thenReturn(esperado);
+
+        List<Editorial> actual = editorialRepo
+                .findEditorialForPatternName("kape");
+        Assertions.assertEquals(esperado, actual, "Las editoriales no son iguales");
+    }
 }
