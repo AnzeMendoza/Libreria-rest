@@ -1,14 +1,10 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.entity.Libro;
-import edu.sucho.libreriaweb.model.entity.Prestamo;
-import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +12,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +28,7 @@ class LibroRepositoryTest {
 
     static Connection conexion;
 
-    static Comparacion<Libro> comparacion;
+
 
     @BeforeAll
     public static void beforeAllTest(){
@@ -51,7 +46,7 @@ class LibroRepositoryTest {
     @BeforeEach
     void setUp() {
         conexion = Conexion.conect();
-        comparacion = new Comparacion<>();
+
         System.out.println("se ejecuta por cada Test");
         System.out.println("@BeforeEach --> setUp()");
     }
@@ -59,7 +54,6 @@ class LibroRepositoryTest {
     @AfterEach
     void tearDown() {
         Conexion.disconect(conexion);
-        comparacion = null;
         System.out.println("se ejecuta por cada Test");
         System.out.println("@AfterEach --> tearDown()");
     }
@@ -75,7 +69,7 @@ class LibroRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Libro> esperado = Util.getLibro(conexion, "SELECT * FROM libro WHERE libro.alta = true");
         List<Libro> actual = libroRepository.findAllByAlta();
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+        Assertions.assertEquals(esperado,actual, "los arrays no son iguales");
     }
 
     @DisplayName("validar Libros activos y con stock dsiponible")
@@ -83,16 +77,9 @@ class LibroRepositoryTest {
     void findAllByAltaAndInStock() throws SQLException {
         List<Libro> esperado = Util.getLibro(conexion, "SELECT * FROM libro WHERE libro.alta = true AND libro.ejemplares_restantes > 0");
         List<Libro> actual = libroRepository.findAllByAltaAndInStock();
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+        Assertions.assertEquals(esperado,actual, "los arrays no son iguales");
     }
 
-    // Se prueba mas arriba 
-//    @Test
-//    void findByIdAndAlta() {
-//        Libro libro = libroRepository.
-//    }
-
-    // Camino NO feliz
     @DisplayName("Encuentra el libro con el titulo buscado")
     @Test
     void findByTitulo() throws SQLException{

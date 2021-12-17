@@ -1,33 +1,23 @@
 package edu.sucho.libreriaweb.repository;
 
-import java.util.List;
-import edu.sucho.libreriaweb.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import edu.sucho.libreriaweb.model.entity.Cliente;
-import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.stream.Collectors;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -38,7 +28,6 @@ public class ClienteRepositoryTest {
 
     static int id;
     static Connection conexion;
-    static Comparacion<Cliente> comparacion;
 
     @BeforeAll
     public static void beforeAllTest() {
@@ -56,7 +45,6 @@ public class ClienteRepositoryTest {
     @BeforeEach
     void setUp() {
         conexion = Conexion.conect();
-        comparacion = new Comparacion<>();
         System.out.println("se ejecuta por cada Test");
         System.out.println("@BeforeEach --> setUp()");
     }
@@ -64,7 +52,6 @@ public class ClienteRepositoryTest {
     @AfterEach
     void tearDown() {
         Conexion.disconect(conexion);
-        comparacion = null;
         System.out.println("se ejecuta por cada Test");
         System.out.println("@AfterEach --> tearDown()");
     }
@@ -72,9 +59,7 @@ public class ClienteRepositoryTest {
     @DisplayName("Validar Referencia No Nula ClienteRepository")
     @Test
     void clienteRepositoryNotNullTest() {
-
         Assertions.assertNotNull(clienteRepository, "la referencia al  repositorio cliente es  nula");
-
     }
 
     @DisplayName("Cambio de Estado Cliente")

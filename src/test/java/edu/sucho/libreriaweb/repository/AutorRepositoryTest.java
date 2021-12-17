@@ -1,20 +1,18 @@
 package edu.sucho.libreriaweb.repository;
 
 import edu.sucho.libreriaweb.model.entity.Autor;
-import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
-import edu.sucho.libreriaweb.util.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import edu.sucho.libreriaweb.util.Conexion;
+import edu.sucho.libreriaweb.util.Util;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -24,10 +22,8 @@ public class AutorRepositoryTest {
     AutorRepository autorRepository;
     static int id;
     static Connection conexion;
-    static Comparacion<Autor>comparacion;
 
-    @Autowired
-    ModelMapperDTO modelMapperDto;
+
     
     @BeforeAll
     public static void beforeAllTest() {
@@ -45,7 +41,6 @@ public class AutorRepositoryTest {
     @BeforeEach
     void setUp() {
         conexion = Conexion.conect();
-        comparacion = new Comparacion<>();
         System.out.println("se ejecuta por cada Test");
         System.out.println("@BeforeEach --> setUp()");
     }
@@ -53,7 +48,6 @@ public class AutorRepositoryTest {
     @AfterEach
     void tearDown() {
         Conexion.disconect(conexion);
-        comparacion = null;
         System.out.println("se ejecuta por cada Test");
         System.out.println("@AfterEach --> tearDown()");
     }
@@ -81,7 +75,6 @@ public class AutorRepositoryTest {
     }
 
     private String modificarAutor(int id) {
-        
         String nombreAutor =UUID.randomUUID().toString().replace("-", "").substring(0, 9);
         String actual = autorRepository.updateSp(id, nombreAutor);
      
@@ -93,8 +86,8 @@ public class AutorRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.alta = true");
         List<Autor> actual = autorRepository.findAllByAlta();
+        Assertions.assertEquals(esperado, actual, "los array no son iguales");
         
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
     }
 
     @DisplayName("validar Autor por nombre ")
@@ -103,14 +96,14 @@ public class AutorRepositoryTest {
         String nombre ="Nombre cinco";
         Autor esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.nombre = \"Nombre cinco\" ").get(0);
         Autor actual = autorRepository.findByValueField(nombre);
-        
         Assertions.assertEquals(esperado, actual, "no son los mismo autores");
     }
-    
+
     @DisplayName("Buscar coincidencias por campo nombre")
     @Test
     void findAutorForPatternName() throws SQLException {
         //Prueba usando mockito
+
 //        Autor autor = new Autor();
 //        autor.setAlta(Boolean.TRUE);
 //        autor.setId(1);

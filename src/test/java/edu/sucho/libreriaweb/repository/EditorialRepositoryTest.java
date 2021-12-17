@@ -1,20 +1,17 @@
 package edu.sucho.libreriaweb.repository;
 
+
 import edu.sucho.libreriaweb.model.entity.Editorial;
-import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
-import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +23,7 @@ class EditorialRepositoryTest {
     EditorialRepository editorialRepository;
     static int id;
     static Connection conexion;
-    static Comparacion<Editorial> comparacion;
+
 
 
     @BeforeAll
@@ -45,7 +42,6 @@ class EditorialRepositoryTest {
     @BeforeEach
     void setUp() {
         conexion = Conexion.conect();
-        comparacion = new Comparacion<>();
         System.out.println("se ejecuta por cada Test");
         System.out.println("@BeforeEach --> setUp()");
     }
@@ -53,16 +49,15 @@ class EditorialRepositoryTest {
     @AfterEach
     void tearDown() {
         Conexion.disconect(conexion);
-        comparacion = null;
         System.out.println("se ejecuta por cada Test");
         System.out.println("@AfterEach --> tearDown()");
     }
 
     @DisplayName("Validar Referencia No Nula EditorialRepository")
     @Test
-    @Order(1)
+
     void editorialRepositoryNotNullTest() {
-        Assertions.assertNotNull(editorialRepository, "no funciona el autowired");
+        Assertions.assertNotNull(editorialRepository, "la referencia al  repositorio editorial es  nula");
     }
 
     @DisplayName("Cambio de Estado Editorial")
@@ -96,7 +91,7 @@ class EditorialRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Editorial> esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE editorial.alta = true");
         List<Editorial> actual = editorialRepository.findAllByAlta();
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+        Assertions.assertEquals(esperado,actual," los array no son iguales");
     }
 
 
@@ -120,12 +115,12 @@ class EditorialRepositoryTest {
         editorial.setNombre("kape");
         List<Editorial> esperado = new ArrayList();
         esperado.add(editorial);*/
-      
+
         String patron="c";
         List<Editorial> esperado =
                 Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE nombre LIKE "+ patron +"%");
-        
-        
+
+
        // EditorialRepository editorialRepo = Mockito.mock(EditorialRepository.class);
 
        // when(editorialRepo.findEditorialForPatternName("kape")).thenReturn(esperado);
