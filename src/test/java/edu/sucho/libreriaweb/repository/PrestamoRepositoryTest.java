@@ -1,7 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
 import edu.sucho.libreriaweb.model.entity.Prestamo;
-import edu.sucho.libreriaweb.util.Comparacion;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
 import org.junit.jupiter.api.*;
@@ -26,7 +25,6 @@ public class PrestamoRepositoryTest {
 
     static Connection conexion;
 
-    static Comparacion<Prestamo> comparacion;
 
     @BeforeAll
     public static void beforeAllTest(){
@@ -44,7 +42,6 @@ public class PrestamoRepositoryTest {
     @BeforeEach
     void setUp() {
         conexion = Conexion.conect();
-        comparacion = new Comparacion<>();
         System.out.println("se ejecuta por cada Test");
         System.out.println("@BeforeEach --> setUp()");
     }
@@ -52,7 +49,6 @@ public class PrestamoRepositoryTest {
     @AfterEach
     void tearDown() {
         Conexion.disconect(conexion);
-        comparacion = null;
         System.out.println("se ejecuta por cada Test");
         System.out.println("@AfterEach --> tearDown()");
     }
@@ -76,14 +72,16 @@ public class PrestamoRepositoryTest {
     void findAllByAltaTest() throws SQLException {
         List<Prestamo> esperado = Util.getPrestamo(conexion, "SELECT * FROM prestamo WHERE prestamo.alta = true");
         List<Prestamo> actual = prestamoRepository.findAllByAlta();
-        Assertions.assertTrue(comparacion.IsEqualsLists(esperado,actual), "los array no son iguales");
+        Assertions.assertEquals(esperado, actual," los array no son iguales");
     }
 
     @DisplayName("Modificar Prestamo")
     @Test
     void updateTest() {
         String esperado = "OK,"+ id ;
-        String actual = modificarPrestamo(id);
+        int idLibro=1;
+        int idCliente=2;
+        String actual = modificarPrestamo(id,idCliente,idLibro);
         Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
     }
 
@@ -91,9 +89,9 @@ public class PrestamoRepositoryTest {
         return prestamoRepository.changeStatusSp(id, true);
     }
 
-    private String modificarPrestamo(int id){
+    private String modificarPrestamo(int id, int idCliente, int idLibro){
         Date currentDay = new Date();
-        String resultado = prestamoRepository.updateSp(id,Util.addDays(currentDay, 10), currentDay, id, id);
+        String resultado = prestamoRepository.updateSp(id,Util.addDays(currentDay, 10), currentDay, idCliente, idLibro);
         return resultado;
     }
 }

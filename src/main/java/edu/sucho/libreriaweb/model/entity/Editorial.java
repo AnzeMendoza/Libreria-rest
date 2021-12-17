@@ -40,6 +40,8 @@ public class Editorial {
         return Objects.equals(nombre, editorial.nombre);
     }
 
+
+
     @Override
     public int hashCode() {
         return Objects.hash(nombre);
