@@ -93,8 +93,8 @@ public class AutorRepositoryTest {
     @DisplayName("validar Autor por nombre ")
     @Test
     void findByValueField() throws SQLException {
-        String nombre ="Nombre cinco";
-        Autor esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.nombre = \"Nombre cinco\" ").get(0);
+        String nombre ="nombre";
+        Autor esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE autor.nombre = \""+nombre+"\" ").get(0);
         Autor actual = autorRepository.findByValueField(nombre);
         Assertions.assertEquals(esperado, actual, "no son los mismo autores");
     }
@@ -114,7 +114,6 @@ public class AutorRepositoryTest {
 //        when(aRepository.findAutorForPatternName("san")).thenReturn(esperado);
 
         List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
-
         List<Autor> actual = autorRepository.findAutorForPatternName("nom");
         Assertions.assertEquals(esperado, actual, "no son los mismo autores");
     }

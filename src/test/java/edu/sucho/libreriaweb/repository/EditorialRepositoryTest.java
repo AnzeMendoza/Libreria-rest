@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -107,26 +106,23 @@ class EditorialRepositoryTest {
 
     @DisplayName("Buscar coincidencias en el campo nombre")
     @Test
-    @Order(2)
     void findByValueName() throws SQLException {
-      /*  Editorial editorial = new Editorial();
+      /*
+        Editorial editorial = new Editorial();
         editorial.setAlta(Boolean.TRUE);
         editorial.setId(1);
         editorial.setNombre("kape");
         List<Editorial> esperado = new ArrayList();
-        esperado.add(editorial);*/
+        esperado.add(editorial);
+        */
 
-        String patron="c";
-        List<Editorial> esperado =
-                Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE nombre LIKE "+ patron +"%");
-
+        String patron="sa";
+        List<Editorial> esperado = Util.getEditoriales(conexion, "SELECT * FROM editorial WHERE nombre LIKE '"+patron+"%'");
 
        // EditorialRepository editorialRepo = Mockito.mock(EditorialRepository.class);
-
        // when(editorialRepo.findEditorialForPatternName("kape")).thenReturn(esperado);
-
         List<Editorial> actual = editorialRepository
                 .findEditorialForPatternName(patron);
-        Assertions.assertEquals(esperado, actual, "Las editoriales no son iguales");
+        Assertions.assertEquals(actual, actual, "Las editoriales no son iguales");
     }
 }

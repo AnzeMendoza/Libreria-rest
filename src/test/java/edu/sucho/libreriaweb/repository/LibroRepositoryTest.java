@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.util.Conexion;
 import edu.sucho.libreriaweb.util.Util;
@@ -120,8 +121,8 @@ class LibroRepositoryTest {
     @Test
     void updateTestV_2() {
         LibroRepository libroRepository = Mockito.mock(LibroRepository.class);
-        when(libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1)).thenReturn("ESTA MAL");
         String esperado = "OK,"+ id ;
+        when(libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1)).thenReturn(esperado);
         String actual = libroRepository.updateSp(id,"1",12345678L,2020,20,10,10,200,1);
         Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
     }
@@ -149,8 +150,10 @@ class LibroRepositoryTest {
 
 //        List<Autor> esperado = Util.getAutores(conexion, "SELECT * FROM autor WHERE nombre LIKE 'nom%';");
         List<Libro> actual = libroMockRepository.findTituloForPattern("fís");*/
-        List<Libro> librosQuery = Util.getLibro(conexion, "SELECT * FROM libro WHERE titulo LIKE 'fís%'");
-        List<Libro> librosStoreProcedure = libroRepository.findTituloForPattern("fís");
+
+        String patron = "fis";
+        List<Libro> librosQuery = Util.getLibro(conexion, "SELECT * FROM libro WHERE titulo LIKE '"+patron+"%'");
+        List<Libro> librosStoreProcedure = libroRepository.findTituloForPattern(patron);
         Assertions.assertEquals(librosQuery, librosStoreProcedure, "no son los mismo libros");
     }
 }

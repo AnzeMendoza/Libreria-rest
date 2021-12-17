@@ -79,7 +79,9 @@ public class PrestamoRepositoryTest {
     @Test
     void updateTest() {
         String esperado = "OK,"+ id ;
-        String actual = modificarPrestamo(id);
+        int idLibro=1;
+        int idCliente=2;
+        String actual = modificarPrestamo(id,idCliente,idLibro);
         Assertions.assertEquals(esperado, actual, "La actualización no fue correcta");
     }
 
@@ -87,9 +89,9 @@ public class PrestamoRepositoryTest {
         return prestamoRepository.changeStatusSp(id, true);
     }
 
-    private String modificarPrestamo(int id){
+    private String modificarPrestamo(int id, int idCliente, int idLibro){
         Date currentDay = new Date();
-        String resultado = prestamoRepository.updateSp(id,Util.addDays(currentDay, 10), currentDay, id, id);
+        String resultado = prestamoRepository.updateSp(id,Util.addDays(currentDay, 10), currentDay, idCliente, idLibro);
         return resultado;
     }
 }
