@@ -50,3 +50,4 @@ SALIR:BEGIN
         VALUES(pIdLibro, 1, pAnio, pEjemplares, pEjemplaresPrestados, pEjemplaresRestantes, pIsbn, pTitulo, pFkAutor, pFkEditorial);
         SELECT 'OK' AS Mensaje, pIdLibro AS 'id';
     COMMIT;
+    END
