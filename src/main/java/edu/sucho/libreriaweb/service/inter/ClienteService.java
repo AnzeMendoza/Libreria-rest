@@ -14,5 +14,7 @@ public interface ClienteService extends BaseService<Cliente, Integer> {
 
     Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD;
 
+    Cliente findByUsername(String username) throws ExceptionBBDD;
+
     String changeStatus(int id, Boolean estado) throws ExceptionBBDD;
 }

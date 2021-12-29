@@ -12,4 +12,6 @@ public class ClienteDTO {
     private String apellido;
     private String telefono;
     private Boolean alta;
+    private String username;
+    private String userPassword;
 }

@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
+import edu.sucho.libreriaweb.security.EncryptPassword;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private EncryptPassword encryptPassword;
 
     public ClienteServiceImpl(BaseRepository<Cliente, Integer> baseRepository) {
         super(baseRepository);
@@ -55,14 +59,30 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public Cliente save(Cliente cliente) throws ExceptionBBDD {
+        String userPassswordCrypt = encryptPassword.encriptarCadena(cliente.getUserPassword());
+
         return retornarCliente(clienteRepository
-                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+                .saveCliente(cliente.getDocumento(),
+                        cliente.getNombre(),
+                        cliente.getApellido(),
+                        cliente.getTelefono(),
+                        cliente.getUsername(),
+                        userPassswordCrypt));
     }
 
     @Override
     public Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD {
         return retornarCliente(clienteRepository
                 .updateCliente(cliente.getId(), cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+    }
+
+    @Override
+    public Cliente findByUsername(String username) throws ExceptionBBDD {
+        Cliente clienteEncontrado = clienteRepository.findByUsername(username).get();
+        if(clienteEncontrado==null){
+            throw new ExceptionBBDD("No se encontro el username");
+        }
+        return clienteEncontrado;
     }
 
     @Override
