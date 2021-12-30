@@ -5,6 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
+import edu.sucho.libreriaweb.security.JWT;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
@@ -28,9 +29,15 @@ public class ClienteController {
     @Autowired
     private ModelMapperDTO modelMapperDTO;
 
+    @Autowired
+    private JWT jwt_service;
+
     @GetMapping("/")
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAll(@RequestHeader("jwt") String jwt) {
         try {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            System.out.println(jwt_service.getValue(jwt));
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.listClienteToDto(clienteService.findAll()));
         } catch (ExceptionBBDD e) {
