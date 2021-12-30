@@ -35,9 +35,9 @@ public class ClienteController {
     @GetMapping("/")
     public ResponseEntity<?> getAll(@RequestHeader("jwt") String jwt) {
         try {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println(jwt_service.getValue(jwt));
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            if(clienteService.findByUsername(jwt_service.getValue(jwt))==null){
+                throw new ExceptionBBDD("no se encontro el cliente en la BBDD");
+            }
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.listClienteToDto(clienteService.findAll()));
         } catch (ExceptionBBDD e) {
