@@ -2,6 +2,7 @@ package edu.sucho.libreriaweb.controller;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.JwtDTO;
+import edu.sucho.libreriaweb.model.dto.UserNotAutorizer;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.security.EncryptPassword;
 import edu.sucho.libreriaweb.security.JWT;
@@ -27,18 +28,22 @@ public class AuthUsernameController {
     @Autowired
     private JWT jwt;
 
+    @Autowired
+    private JwtDTO dato;
+
     @PostMapping(value = "/")
     public ResponseEntity<?> login(@RequestBody Cliente cliente) {
         String tokenJwt="";
         try {
             Cliente clienteLogueado = clienteService.findByUsername(cliente.getUsername());
             if(!encryptPassword.verificarIgualdadDeCadenas(clienteLogueado.getUserPassword(), cliente.getUserPassword())){
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new JwtDTO(tokenJwt));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new UserNotAutorizer("access_denied","Unauthorized"));
             }
             tokenJwt = jwt.create(String.valueOf(clienteLogueado.getId()), clienteLogueado.getUsername());
         } catch (ExceptionBBDD e) {
             e.printStackTrace();
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body( new JwtDTO(tokenJwt));
+        dato.setJwt(tokenJwt);
+        return ResponseEntity.status(HttpStatus.OK).body( dato);
     }
 }
