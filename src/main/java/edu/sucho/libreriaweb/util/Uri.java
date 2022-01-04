@@ -26,6 +26,10 @@ public class Uri {
     public static final String PRESTAMO_ACTIVAR = PRESTAMO + ACTIVAR;
     public static final String PRESTAMO_DESACTIVAR = PRESTAMO + DESACTIVAR;
 
+    public static final String LOGIN = URI + "/login";
+
+    public static final String REGISTER= URI + "/register";
+
     public static final String AUTH = URI + "/auth";
 
 
