@@ -4,7 +4,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
-import edu.sucho.libreriaweb.service.inter.EditorialService;
+import edu.sucho.libreriaweb.service.impl.inter.EditorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

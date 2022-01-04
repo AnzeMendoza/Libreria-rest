@@ -9,13 +9,15 @@ import javax.validation.constraints.Email;
 @Entity
 @Getter
 @Setter
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Rol rol;
 
     @Column(nullable = false, unique = true, length = 100)

@@ -6,7 +6,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.security.JWT;
-import edu.sucho.libreriaweb.service.inter.ClienteService;
+import edu.sucho.libreriaweb.service.impl.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;

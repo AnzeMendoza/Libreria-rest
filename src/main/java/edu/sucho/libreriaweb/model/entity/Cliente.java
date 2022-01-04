@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @Table(name = "cliente")
+@PrimaryKeyJoinColumn(name = "idCliente")
 public class Cliente extends Usuario {
 
     @Column(length = 8, unique = true, nullable = false, updatable = false)

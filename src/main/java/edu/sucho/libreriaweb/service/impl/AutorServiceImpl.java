@@ -5,7 +5,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.repository.AutorRepository;
 import edu.sucho.libreriaweb.repository.BaseRepository;
-import edu.sucho.libreriaweb.service.inter.AutorService;
+import edu.sucho.libreriaweb.service.impl.inter.AutorService;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
