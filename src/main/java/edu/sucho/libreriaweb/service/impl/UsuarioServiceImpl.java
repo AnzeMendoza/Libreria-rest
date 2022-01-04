@@ -8,17 +8,15 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-public class UsuarioServiceImpl extends BaseServiceImpl<Usuario, Integer> implements UserDetailsService {
+@Service
+public class UsuarioServiceImpl implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    public UsuarioServiceImpl(BaseRepository<Usuario, Integer> baseRepository) {
-        super(baseRepository);
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
