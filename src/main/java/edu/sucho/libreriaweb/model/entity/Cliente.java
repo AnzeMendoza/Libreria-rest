@@ -19,10 +19,7 @@ import javax.validation.constraints.Size;
 @Table(name = "cliente")
 public class Cliente {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
-    private Integer id;
+
 
     @Column(length = 8, unique = true, nullable = false, updatable = false)
     private Long documento;
@@ -43,15 +40,9 @@ public class Cliente {
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
 
-    @Column(nullable = false)
-    private Boolean alta = true;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String userPassword;
 
-    @Column(nullable = false, unique = true, length = 64)
-    @Email(message = "No es un mail valido")
-    private String username;
+
 
     @Override
     public int hashCode() {
