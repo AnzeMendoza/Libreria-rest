@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -17,9 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @Table(name = "cliente")
-public class Cliente {
-
-
+public class Cliente extends Usuario {
 
     @Column(length = 8, unique = true, nullable = false, updatable = false)
     private Long documento;
@@ -40,11 +37,7 @@ public class Cliente {
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
 
-
-
-
-
-    @Override
+        @Override
     public int hashCode() {
         int hash = 5;
         hash = 53 * hash + Objects.hashCode(this.documento);

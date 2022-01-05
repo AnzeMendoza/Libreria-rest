@@ -12,8 +12,8 @@ public class Rol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Byte id;
+    private Byte Id;
 
-    @Column(length = 32, nullable = false, unique = true)
+    @Column(length = 32,nullable = false,unique = true)
     private String type;
 }
