@@ -6,7 +6,7 @@ import edu.sucho.libreriaweb.model.dto.UserNotAutorizer;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.security.EncryptPassword;
 import edu.sucho.libreriaweb.security.JWT;
-import edu.sucho.libreriaweb.service.impl.inter.ClienteService;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
