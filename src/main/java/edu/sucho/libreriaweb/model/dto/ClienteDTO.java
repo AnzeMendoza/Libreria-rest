@@ -14,4 +14,5 @@ public class ClienteDTO {
     private Boolean alta;
     private String username;
     private String userPassword;
+    private  Byte  rolId;
 }
