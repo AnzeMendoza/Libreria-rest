@@ -1,4 +1,4 @@
-package edu.sucho.libreriaweb.service.impl.inter;
+package edu.sucho.libreriaweb.service.inter;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.entity.Autor;
