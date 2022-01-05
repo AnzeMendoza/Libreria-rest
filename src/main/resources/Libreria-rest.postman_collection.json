@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "adf94965-4bf7-400f-b5ef-4cf8ac19e5d8",
+		"_postman_id": "61d9fdbd-b0c4-4dc2-b126-2dd8b9e31759",
 		"name": "Libreria-rest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -32,12 +32,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{autor}}/",
+							"raw": "{{url}}{{endPoint}}{{autor}}",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								""
+								"{{url}}{{endPoint}}{{autor}}"
 							]
 						}
 					},
@@ -68,12 +65,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{autor}}/1",
+							"raw": "{{url}}{{endPoint}}{{autor}}1",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								"1"
+								"{{url}}{{endPoint}}{{autor}}1"
 							]
 						}
 					},
@@ -111,12 +105,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{autor}}/",
+							"raw": "{{url}}{{endPoint}}{{autor}}",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								""
+								"{{url}}{{endPoint}}{{autor}}"
 							]
 						}
 					},
@@ -154,12 +145,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{autor}}/1",
+							"raw": "{{url}}{{endPoint}}{{autor}}1",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								"1"
+								"{{url}}{{endPoint}}{{autor}}1"
 							]
 						}
 					},
@@ -191,13 +179,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{autor}}/activar/1",
+							"raw": "{{url}}{{endPoint}}{{autor}}{{activar}}1",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								"activar",
-								"1"
+								"{{url}}{{endPoint}}{{autor}}{{activar}}1"
 							]
 						}
 					},
@@ -230,13 +214,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{autor}}/desactivar/2",
+							"raw": "{{url}}{{endPoint}}{{autor}}{{desactivar}}1",
 							"host": [
-								"{{autor}}"
-							],
-							"path": [
-								"desactivar",
-								"2"
+								"{{url}}{{endPoint}}{{autor}}{{desactivar}}1"
 							]
 						}
 					},
@@ -285,13 +265,9 @@
 							"file": {}
 						},
 						"url": {
-							"raw": "{{url}}/cliente/",
+							"raw": "{{url}}{{endPoint}}{{cliente}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cliente",
-								""
+								"{{url}}{{endPoint}}{{cliente}}"
 							],
 							"query": [
 								{
@@ -331,13 +307,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/cliente/1",
+							"raw": "{{url}}{{endPoint}}{{cliente}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cliente",
-								"1"
+								"{{url}}{{endPoint}}{{cliente}}1"
 							]
 						}
 					},
@@ -350,7 +322,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"documento\": 3577773,\r\n        \"nombre\": \"nombre G\",\r\n        \"apellido\": \"Apellido Uno\",\r\n        \"telefono\": \"3415245\",\r\n        \"alta\": true,\r\n        \"username\": \"mail@mail.com\",\r\n        \"userPassword\": \"123\"\r\n    }",
+							"raw": "{\r\n    \"rol\": {\r\n        \"type\": \"ADMIN\",\r\n        \"id\": 1\r\n    },\r\n    \"userPassword\": \"admin\",\r\n    \"username\": \"admin@gmail.com\",\r\n    \"documento\": 34354546,\r\n    \"nombre\": \"prueba\",\r\n    \"apellido\": \"prueba\",\r\n    \"telefono\": \"3445\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -358,12 +330,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/auth",
+							"raw": "{{url}}{{endPoint}}{{cliente}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"auth"
+								"{{url}}{{endPoint}}{{cliente}}"
 							]
 						}
 					},
@@ -384,13 +353,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/cliente/5",
+							"raw": "{{url}}{{endPoint}}{{cliente}}5",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cliente",
-								"5"
+								"{{url}}{{endPoint}}{{cliente}}5"
 							]
 						}
 					},
@@ -423,14 +388,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/cliente/activar/1",
+							"raw": "{{url}}{{endPoint}}{{cliente}}{{activar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cliente",
-								"activar",
-								"1"
+								"{{url}}{{endPoint}}{{cliente}}{{activar}}1"
 							]
 						}
 					},
@@ -463,14 +423,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/cliente/desactivar/1",
+							"raw": "{{url}}{{endPoint}}{{cliente}}{{desactivar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cliente",
-								"desactivar",
-								"1"
+								"{{url}}{{endPoint}}{{cliente}}{{desactivar}}1"
 							]
 						}
 					},
@@ -503,9 +458,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{editorial}}",
+							"raw": "{{url}}{{endPoint}}{{editorial}}",
 							"host": [
-								"{{editorial}}"
+								"{{url}}{{endPoint}}{{editorial}}"
 							]
 						}
 					},
@@ -533,13 +488,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/editorial/1",
+							"raw": "{{url}}{{endPoint}}{{editorial}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"editorial",
-								"1"
+								"{{url}}{{endPoint}}{{editorial}}1"
 							]
 						}
 					},
@@ -577,13 +528,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/editorial/",
+							"raw": "{{url}}{{endPoint}}{{editorial}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"editorial",
-								""
+								"{{url}}{{endPoint}}{{editorial}}"
 							]
 						}
 					},
@@ -621,13 +568,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/editorial/2",
+							"raw": "{{url}}{{endPoint}}{{editorial}}2",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"editorial",
-								"2"
+								"{{url}}{{endPoint}}{{editorial}}2"
 							]
 						}
 					},
@@ -657,14 +600,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/editorial/activar/1",
+							"raw": "{{url}}{{endPoint}}{{editorial}}{{activar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"editorial",
-								"activar",
-								"1"
+								"{{url}}{{endPoint}}{{editorial}}{{activar}}1"
 							]
 						}
 					},
@@ -694,14 +632,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/editorial/desactivar/1",
+							"raw": "{{url}}{{endPoint}}{{editorial}}{{desactivar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"editorial",
-								"desactivar",
-								"1"
+								"{{url}}{{endPoint}}{{editorial}}{{desactivar}}1"
 							]
 						}
 					},
@@ -747,13 +680,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/libro/",
+							"raw": "{{url}}{{endPoint}}{{libro}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"libro",
-								""
+								"{{url}}{{endPoint}}{{libro}}"
 							]
 						}
 					},
@@ -765,13 +694,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/libro/",
+							"raw": "{{url}}{{endPoint}}{{libro}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"libro",
-								""
+								"{{url}}{{endPoint}}{{libro}}"
 							]
 						}
 					},
@@ -814,13 +739,9 @@
 							"raw": "{\r\n    \"id\": 2\r\n}"
 						},
 						"url": {
-							"raw": "{{url}}/libro/1",
+							"raw": "{{url}}{{endPoint}}{{libro}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"libro",
-								"1"
+								"{{url}}{{endPoint}}{{libro}}1"
 							]
 						}
 					},
@@ -844,13 +765,9 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/prestamo/",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								""
+								"{{url}}{{endPoint}}{{prestamo}}"
 							]
 						}
 					},
@@ -862,13 +779,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/prestamo/1",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								"1"
+								"{{url}}{{endPoint}}{{prestamo}}1"
 							]
 						}
 					},
@@ -889,13 +802,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/prestamo/",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								""
+								"{{url}}{{endPoint}}{{prestamo}}"
 							]
 						}
 					},
@@ -916,13 +825,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/prestamo/1",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								"1"
+								"{{url}}{{endPoint}}{{prestamo}}1"
 							]
 						}
 					},
@@ -953,14 +858,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/prestamo/activar/1",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}{{activar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								"activar",
-								"1"
+								"{{url}}{{endPoint}}{{prestamo}}{{activar}}1"
 							]
 						}
 					},
@@ -990,14 +890,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/prestamo/desactivar/1",
+							"raw": "{{url}}{{endPoint}}{{prestamo}}{{desactivar}}1",
 							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"prestamo",
-								"desactivar",
-								"1"
+								"{{url}}{{endPoint}}{{prestamo}}{{desactivar}}1"
 							]
 						}
 					},
@@ -1029,7 +924,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"id\": 5,\r\n        \"documento\": 3577773,\r\n        \"nombre\": \"nombre G\",\r\n        \"apellido\": \"Apellido Uno\",\r\n        \"telefono\": \"3415245\",\r\n        \"alta\": true,\r\n        \"username\": \"mail@mail.com\",\r\n        \"userPassword\": \"123\"\r\n    }",
+							"raw": "    {\r\n        \"username\": \"admin@gmail.com\",\r\n        \"userPassword\": \"admin\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1037,16 +932,9 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/v1/auth/",
+							"raw": "{{url}}{{endPoint}}{{auth}}",
 							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								""
+								"{{url}}{{endPoint}}{{auth}}"
 							]
 						}
 					},
