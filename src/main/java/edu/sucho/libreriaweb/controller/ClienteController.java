@@ -6,7 +6,7 @@ import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.security.JWT;
-import edu.sucho.libreriaweb.service.impl.inter.ClienteService;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,7 @@ public class ClienteController {
 
     @GetMapping("/")
     public ResponseEntity<?> getAll(@RequestHeader("jwt") String jwt) {
+
         try {
             if(clienteService.findByUsername(jwt_service.getValue(jwt))==null){
                 throw new ExceptionBBDD("no se encontro el cliente en la BBDD");
@@ -49,7 +50,7 @@ public class ClienteController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(modelMapperDTO.clienteToDto(clienteService.findById(id)));
+                    .body(clienteService.findById(id));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE,id)));
         }
