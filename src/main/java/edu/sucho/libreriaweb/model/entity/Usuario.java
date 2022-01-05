@@ -6,10 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
-@Entity
+
 @Getter
 @Setter
-@Inheritance(strategy=InheritanceType.JOINED)
+@MappedSuperclass
 public class Usuario {
 
     @Id
