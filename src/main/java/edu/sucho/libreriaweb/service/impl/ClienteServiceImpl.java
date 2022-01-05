@@ -6,7 +6,7 @@ import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
 import edu.sucho.libreriaweb.security.EncryptPassword;
-import edu.sucho.libreriaweb.service.impl.inter.ClienteService;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +67,8 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
                         cliente.getApellido(),
                         cliente.getTelefono(),
                         cliente.getUsername(),
-                        userPassswordCrypt));
+                        userPassswordCrypt,
+                        cliente.getRol().getId()));
     }
 
     @Override
