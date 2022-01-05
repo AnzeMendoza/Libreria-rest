@@ -1,5 +1,6 @@
 package edu.sucho.libreriaweb.model.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,24 +14,33 @@ import java.util.Objects;
 @Getter
 @Setter
 @Table(name = "libro")
+@EqualsAndHashCode
 public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(length = 64)
     @NotEmpty(message = "El titulo es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
+    @EqualsAndHashCode.Include
     private String titulo;
 
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private Long isbn;
 
+    @EqualsAndHashCode.Include
     private Integer anio;
+    @EqualsAndHashCode.Include
     private Integer ejemplares;
+    @EqualsAndHashCode.Include
     private Integer ejemplaresPrestados;
+    @EqualsAndHashCode.Include
     private Integer ejemplaresRestantes;
+    @EqualsAndHashCode.Include
     private Boolean alta;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -47,18 +57,7 @@ public class Libro {
         this.alta = true;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Libro)) return false;
-        Libro libro = (Libro) o;
-        return Objects.equals(id, libro.id) && Objects.equals(titulo, libro.titulo) && Objects.equals(isbn, libro.isbn) && Objects.equals(anio, libro.anio) && Objects.equals(ejemplares, libro.ejemplares) && Objects.equals(ejemplaresPrestados, libro.ejemplaresPrestados) && Objects.equals(ejemplaresRestantes, libro.ejemplaresRestantes) && Objects.equals(alta, libro.alta);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, titulo, isbn, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, alta);
-    }
 
     public void actualizarStockPostPrestamo() {
         this.ejemplaresPrestados++;
