@@ -19,6 +19,9 @@ public class JwtDTO {
 
     public JwtDTO(String jwt) {
         this.date=new Date().toString();
-        this.jwt = jwt;
+        this.jwt=jwt;
     }
+
+
+
 }

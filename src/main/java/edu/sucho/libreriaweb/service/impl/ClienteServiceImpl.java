@@ -67,7 +67,8 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
                         cliente.getApellido(),
                         cliente.getTelefono(),
                         cliente.getUsername(),
-                        userPassswordCrypt));
+                        userPassswordCrypt,
+                        cliente.getRol().getId()));
     }
 
     @Override

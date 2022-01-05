@@ -1,12 +1,13 @@
 package edu.sucho.libreriaweb.model.entity;
 
-import java.util.Objects;
-
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -14,11 +15,14 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @Table(name = "cliente")
+
 public class Cliente extends Usuario {
 
     @Column(length = 8, unique = true, nullable = false, updatable = false)
+    @EqualsAndHashCode.Include
     private Long documento;
 
     @Column(length = 64, nullable = false)
@@ -36,31 +40,5 @@ public class Cliente extends Usuario {
     @Column(length = 20, nullable = false)
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
-
-        @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.documento);
-        return hash;
-    }
-
-    // Todo ver despues
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Cliente other = (Cliente) obj;
-        if (!Objects.equals(this.documento, other.documento)) {
-            return false;
-        }
-        return true;
-    }
 
 }
