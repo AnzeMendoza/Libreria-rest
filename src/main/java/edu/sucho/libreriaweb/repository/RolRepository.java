@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RolRepository  extends BaseRepository<Rol, Integer> {
-    Optional<Rol> findByType(String trype);
+public interface RolRepository  extends BaseRepository<Rol, Byte> {
+    Optional<Rol> findByType(String type);
 }

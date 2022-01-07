@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.security;
 
 
+import edu.sucho.libreriaweb.service.inter.UserService;
 import edu.sucho.libreriaweb.util.Constants;
 import edu.sucho.libreriaweb.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;

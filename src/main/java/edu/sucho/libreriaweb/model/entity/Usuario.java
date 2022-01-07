@@ -1,14 +1,15 @@
 package edu.sucho.libreriaweb.model.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 
-@Getter
-@Setter
+
+@Builder
+@AllArgsConstructor
+@Data
 @MappedSuperclass
 public class Usuario {
 

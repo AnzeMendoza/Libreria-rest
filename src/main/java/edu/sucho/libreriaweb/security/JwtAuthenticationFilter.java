@@ -2,6 +2,7 @@ package edu.sucho.libreriaweb.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.sucho.libreriaweb.util.TokenProvider;
+import edu.sucho.libreriaweb.web.presentation.AuthorizationRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

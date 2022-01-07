@@ -5,15 +5,17 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Data
-@Builder
-@AllArgsConstructor
-@EqualsAndHashCode
+
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode
+
 @Table(name = "cliente")
 
 public class Cliente extends Usuario {
@@ -38,4 +40,7 @@ public class Cliente extends Usuario {
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
 
+    public Cliente(Integer Id, Rol rol, String userPassword, @Email(message = "No es un mail valido") String username, Boolean alta) {
+        super(Id, rol, userPassword, username, alta);
+    }
 }
