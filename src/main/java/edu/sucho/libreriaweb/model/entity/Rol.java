@@ -1,13 +1,14 @@
 package edu.sucho.libreriaweb.model.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
+
+@Data
+@Builder
+@AllArgsConstructor
 @Entity
-@Getter
-@Setter
 public class Rol {
 
     @Id

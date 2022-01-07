@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService {
+public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService  {
 
     @Autowired
     private ClienteRepository clienteRepository;

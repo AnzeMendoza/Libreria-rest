@@ -1,9 +1,6 @@
 package edu.sucho.libreriaweb.model.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +9,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Entity
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
 @EqualsAndHashCode
-@NoArgsConstructor
+@Entity
 @Table(name = "cliente")
 
 public class Cliente extends Usuario {
