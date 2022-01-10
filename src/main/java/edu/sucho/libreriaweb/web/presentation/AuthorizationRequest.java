@@ -14,9 +14,9 @@ public class AuthorizationRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("user")
-	private String userName;
+	private String username;
 
+	@JsonProperty("userPassword")
 	private String password;
 
 	public AuthorizationRequest() {

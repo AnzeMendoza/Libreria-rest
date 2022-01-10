@@ -36,7 +36,7 @@ public class AuthUsernameController {
         String tokenJwt="";
         try {
             Cliente clienteLogueado = clienteService.findByUsername(cliente.getUsername());
-            if(!encryptPassword.verificarIgualdadDeCadenas(clienteLogueado.getUserPassword(), cliente.getUserPassword())){
+            if(!encryptPassword.verificarIgualdadDeCadenas(clienteLogueado.getPassword(), cliente.getPassword())){
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new UserNotAutorizer("access_denied","Unauthorized"));
             }
             tokenJwt = jwt.create(String.valueOf(clienteLogueado.getId()), clienteLogueado.getUsername());

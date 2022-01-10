@@ -2,23 +2,25 @@ package edu.sucho.libreriaweb.model.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "cliente")
+public class Cliente {
 
-public class Cliente extends Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(length = 8, unique = true, nullable = false, updatable = false)
     @EqualsAndHashCode.Include
@@ -40,7 +42,18 @@ public class Cliente extends Usuario {
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
 
-    public Cliente(Integer Id, Rol rol, String userPassword, @Email(message = "No es un mail valido") String username, Boolean alta) {
-        super(Id, rol, userPassword, username, alta);
-    }
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Rol rol;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String password;
+
+    @Column(nullable = false, unique = true, length = 64)
+    @Email(message = "No es un mail valido")
+    private String username;
+
+    @Column(nullable = false)
+    private Boolean alta = true;
 }
+

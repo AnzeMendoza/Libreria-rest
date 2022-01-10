@@ -33,6 +33,7 @@ import java.util.Optional;
     @Query(value = "SELECT * FROM cliente where nombre like :string", nativeQuery = true)
     List<Cliente> findClienteForPatternName(@Param("string") String string);
 
-    Optional<Cliente> findByUsername(String username);
+    @Query(value = "SELECT * FROM cliente where username =:username", nativeQuery = true)
+    Cliente findByUsername(@Param("username") String username);
 }
 

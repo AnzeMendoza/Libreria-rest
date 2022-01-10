@@ -10,12 +10,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "autor")
 @EqualsAndHashCode
+@Table(name = "autor")
 public class Autor {
 
     @Id
@@ -28,6 +29,6 @@ public class Autor {
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras.")
     private String nombre;
-    private Boolean alta = true;
 
+    private Boolean alta = true;
 }

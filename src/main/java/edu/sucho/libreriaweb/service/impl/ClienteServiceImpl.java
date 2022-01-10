@@ -35,7 +35,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        final Cliente retrievedUser = clienteRepository.findByUsername(userName).get();
+        final Cliente retrievedUser = clienteRepository.findByUsername(userName);
         if (retrievedUser == null) {
             throw new UsernameNotFoundException("Invalid username or password");
         }
@@ -74,7 +74,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public Cliente save(Cliente cliente) throws ExceptionBBDD {
-        String userPassswordCrypt = encryptPassword.encriptarCadena(cliente.getUserPassword());
+        String userPassswordCrypt = encryptPassword.encriptarCadena(cliente.getPassword());
 
         return retornarCliente(clienteRepository
                 .saveCliente(cliente.getDocumento(),
@@ -94,7 +94,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public Cliente findByUsername(String username) throws ExceptionBBDD {
-        Cliente clienteEncontrado = clienteRepository.findByUsername(username).get();
+        Cliente clienteEncontrado = clienteRepository.findByUsername(username);
         if(clienteEncontrado==null){
             throw new ExceptionBBDD("No se encontro el username");
         }
