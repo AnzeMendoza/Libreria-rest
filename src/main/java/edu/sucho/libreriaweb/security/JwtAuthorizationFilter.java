@@ -1,7 +1,7 @@
 package edu.sucho.libreriaweb.security;
 
 
-import edu.sucho.libreriaweb.service.inter.UserService;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Constants;
 import edu.sucho.libreriaweb.util.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +20,22 @@ import java.io.IOException;
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private UserService userService;
+	private ClienteService userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
 		String authorizationHeader = httpServletRequest.getHeader(Constants.HEADER_AUTHORIZATION_KEY);
 
-		if (StringUtils.isEmpty(authorizationHeader) || !authorizationHeader
+		/*if (StringUtils.isEmpty(authorizationHeader) || !authorizationHeader
 				.startsWith(Constants.TOKEN_BEARER_PREFIX)) {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 			return;
-		}
+		}*/
 		final String token = authorizationHeader.replace(Constants.TOKEN_BEARER_PREFIX + " ", "");
 
 		String userName = TokenProvider.getUserName(token);
+		//"cliente@gmail.com";
 		UserDetails user = userService.loadUserByUsername(userName);
 
 		UsernamePasswordAuthenticationToken authenticationToken = TokenProvider.getAuthentication(token, user);

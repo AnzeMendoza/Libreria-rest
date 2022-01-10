@@ -2,12 +2,16 @@ package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 
+import edu.sucho.libreriaweb.mapper.UserDetailsMapper;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
 import edu.sucho.libreriaweb.security.EncryptPassword;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +19,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService  {
+public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService, UserDetailsService {
 
     @Autowired
     private ClienteRepository clienteRepository;
 
     @Autowired
     private EncryptPassword encryptPassword;
+    @Autowired
+    private UserDetailsMapper userDetailsMapper;
 
     public ClienteServiceImpl(BaseRepository<Cliente, Integer> baseRepository) {
         super(baseRepository);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        final Cliente retrievedUser = clienteRepository.findByUsername(userName).get();
+        if (retrievedUser == null) {
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
+        return userDetailsMapper.build(retrievedUser);
     }
 
     @Override
@@ -105,4 +120,6 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
         throw new ExceptionBBDD(resultado);
     }
+
+
 }
