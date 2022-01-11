@@ -1,9 +1,8 @@
 package edu.sucho.libreriaweb.model.entity;
 
 import java.util.Objects;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +13,9 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "cliente")
+@Builder
 public class Cliente {
 
     @Id
@@ -43,6 +44,15 @@ public class Cliente {
     
     @Column(nullable = false)
     private Boolean alta = true;
+
+    @Column
+    private String username;
+
+    @Column
+    private String password;
+
+    @ManyToOne
+    private Role role;
 
     @Override
     public int hashCode() {
