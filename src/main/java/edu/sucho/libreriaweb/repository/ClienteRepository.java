@@ -7,10 +7,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
+
+    @Query(value = "SELECT * FROM cliente WHERE cliente.username = :username", nativeQuery = true)
+    Cliente findByUsername(@Param("username") String username);
+
     @Query(value = "SELECT * FROM cliente WHERE cliente.alta = true", nativeQuery = true)
     List<Cliente> findAllByAlta();
 
-    @Query(value = "SELECT * FROM editorial WHERE cleinte.documento =:documento ", nativeQuery = true)
+    @Query(value = "SELECT * FROM cliente WHERE cliente.documento =:documento ", nativeQuery = true)
     Cliente findByValueField(@Param("documento") String documento);
 
     @Query(value = "CALL lsp_cambiar_estado_cliente(:id,:status);", nativeQuery = true)

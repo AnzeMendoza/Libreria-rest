@@ -326,6 +326,11 @@
 								"key": "jwt",
 								"value": "{{jwt}}",
 								"type": "string"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
 							}
 						],
 						"body": {
@@ -395,10 +400,16 @@
 					"name": "Cliente:CREATE",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"documento\": 10858972,\r\n        \"nombre\": \"Cliente\",\r\n        \"apellido\": \"Apellido Cliente\",\r\n        \"telefono\": \"3415245\",\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"cliente\",\r\n        \"rol\":{\r\n            \"id\":1,\r\n            \"type\":\"CLIENTE\"\r\n        }\r\n    }",
+							"raw": "    {\r\n        \"documento\": 33333334,\r\n        \"nombre\": \"Nombre Cliente dos\",\r\n        \"apellido\": \"Apellido Cliente dos\",\r\n        \"telefono\": \"321321321\",\r\n        \"username\": \"personal@gmail.com\",\r\n        \"password\": \"1234\",\r\n        \"roleId\": 3\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1058,15 +1069,14 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Auth : JWT",
+					"name": "JWT : LOGIN",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"let body = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"jwt\", body.jwt); \r",
-									"\r",
+									"const authorization = pm.response.headers.get(\"Authorization\");\r",
+									"postman.setEnvironmentVariable(\"Authorization\", authorization); \r",
 									""
 								],
 								"type": "text/javascript"
@@ -1074,11 +1084,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"cliente\"\r\n    }",
+							"raw": "{\r\n    \"username\": \"personal@gmail.com\",\r\n    \"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1086,113 +1106,19 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/v1/auth/",
+							"raw": "localhost:8080/login",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"api",
-								"v1",
-								"auth",
-								""
+								"login"
 							]
 						}
 					},
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "LOGIN",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"let body = JSON.parse(responseBody);\r",
-							"console.log(responseBody) ;\r",
-							"postman.setEnvironmentVariable(\"jwt\", body.jwt);\r",
-							"console.log(jwt) ;"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "    {\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"123\"\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/login",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "JWT : LOGIN",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"const authorization = pm.response.headers.get(\"Authorization\");\r",
-							"postman.setEnvironmentVariable(\"Authorization\", authorization); \r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"user\": \"user3\",\r\n    \"password\": \"password3\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/login",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }

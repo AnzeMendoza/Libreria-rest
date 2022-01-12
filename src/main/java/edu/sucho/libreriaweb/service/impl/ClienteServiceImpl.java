@@ -4,10 +4,14 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 
 import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
+import edu.sucho.libreriaweb.model.mapper.UserDetailsMapper;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +22,25 @@ import java.util.Optional;
 public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implements ClienteService {
 
     @Autowired
+    private UserDetailsMapper userDetailsMapper;
+
+    @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     public ClienteServiceImpl(BaseRepository<Cliente, Integer> baseRepository) {
         super(baseRepository);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        final Cliente retrievedUser = clienteRepository.findByUsername(username);
+        if (retrievedUser == null) {
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
+        return userDetailsMapper.build(retrievedUser);
     }
 
     @Override
@@ -37,8 +56,11 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public Cliente save(ClienteRequestDTO cliente) throws ExceptionBBDD {
+
+        String passwordEncode = encoder.encode(cliente.getPassword());
+
         return retornarCliente(clienteRepository
-                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getUsername(),cliente.getPassword(),cliente.getRoleId()));
+                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getUsername(),passwordEncode,cliente.getRoleId()));
     }
 
     @Override
@@ -66,4 +88,6 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
         throw new ExceptionBBDD(resultado);
     }
+
+
 }
