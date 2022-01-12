@@ -97,6 +97,4 @@ public class ClienteController {
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE_DESACTIVAR,id)));
         }
     }
-    
-
 }

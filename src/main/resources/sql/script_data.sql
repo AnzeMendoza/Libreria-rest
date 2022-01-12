@@ -41,6 +41,8 @@ INSERT INTO libreria_rest.`role` (description, name) VALUES('administración', '
 INSERT INTO libreria_rest.`role` (description, name) VALUES('cliente', 'CLIENTE');
 INSERT INTO libreria_rest.`role` (description, name) VALUES('personal', 'PERSONAL');
 
--- CREAR CLIENTE SIN ENCRIPTAR
-call lsp_crear_cliente (11111111, "Nombre Cliente", "Apellido Cliente", "123123123", "cliente@gmail.com", "123", 1)
-
+-- CREAR CLIENTE ENCRIPTAR
+INSERT INTO cliente (alta, apellido, documento, nombre, password, telefono, username, role_id) VALUES
+    (b'1', 'Apellido Cliente dos', 11111112, 'Nombre Cliente uno', '$2a$10$Rx2ltqhb8GTJH6rBOPdvxeSEhM3VMc48S/Vf5rTMoZaghGZ8JJ4Pi', '321321321', 'cliente@api.com', 2),
+    (b'1', 'Apellido Personal dos', 11111113, 'Nombre Personal uno', '$2a$10$Hp/kaevHZ5vSIvGGCwc0eeZTtpyjLgTdwzCDMmRwiUnSUniSD2gAS', '321321321', 'personal@api.com', 3),
+    (b'1', 'Apellido Admin dos', 11111110, 'Nombre Admin uno', '$2a$10$hxv1rpgoGCD2ZY7C.10iLOGF3cLpM8.buf.KTHsBOS6Geow4I7.7S', '321321321', 'admin@api.com', 1);

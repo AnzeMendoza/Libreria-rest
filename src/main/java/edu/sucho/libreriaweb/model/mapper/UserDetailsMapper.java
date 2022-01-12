@@ -28,5 +28,4 @@ public class UserDetailsMapper {
         return authorities;
 
     }
-
 }
