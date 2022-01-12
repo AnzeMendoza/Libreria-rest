@@ -56,9 +56,7 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
 
     @Override
     public Cliente save(ClienteRequestDTO cliente) throws ExceptionBBDD {
-
         String passwordEncode = encoder.encode(cliente.getPassword());
-
         return retornarCliente(clienteRepository
                 .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getUsername(),passwordEncode,cliente.getRoleId()));
     }
@@ -88,6 +86,4 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
         throw new ExceptionBBDD(resultado);
     }
-
-
 }
