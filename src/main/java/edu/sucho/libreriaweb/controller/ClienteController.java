@@ -3,6 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
@@ -49,7 +50,7 @@ public class ClienteController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Cliente cliente, BindingResult result)
+    public ResponseEntity<?> save(@Valid @RequestBody ClienteRequestDTO cliente, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);

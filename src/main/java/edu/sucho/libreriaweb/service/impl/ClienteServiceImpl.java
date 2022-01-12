@@ -2,6 +2,7 @@ package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 
+import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.ClienteRepository;
@@ -24,25 +25,6 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
     }
 
     @Override
-    @Transactional
-    public boolean deleteByIdSoft(int id) throws ExceptionBBDD {
-        try {
-            Optional<Cliente> clienteOptional = clienteRepository.findById(id);
-
-            if (clienteOptional.isPresent()) {
-                Cliente cliente = clienteOptional.get();
-                cliente.setAlta(!cliente.getAlta());
-                clienteRepository.save(cliente);
-            } else {
-                throw new ExceptionBBDD("deleteByIdSoft");
-            }
-            return true;
-        } catch (Exception e) {
-            throw new ExceptionBBDD(e.getMessage());
-        }
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<Cliente> findAllByAlta() throws ExceptionBBDD {
         try {
@@ -54,9 +36,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
     }
 
     @Override
-    public Cliente save(Cliente cliente) throws ExceptionBBDD {
+    public Cliente save(ClienteRequestDTO cliente) throws ExceptionBBDD {
         return retornarCliente(clienteRepository
-                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+                .saveCliente(cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono(), cliente.getUsername(),cliente.getPassword(),cliente.getRoleId()));
     }
 
     @Override

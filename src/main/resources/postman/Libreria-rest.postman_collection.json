@@ -1,0 +1,1198 @@
+{
+	"info": {
+		"_postman_id": "adf94965-4bf7-400f-b5ef-4cf8ac19e5d8",
+		"name": "Libreria-rest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autor",
+			"item": [
+				{
+					"name": "Autor : GET_ALL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"cabecera = pm.response;\r",
+									"pm.test(\"validar CODE-STATUS\", function(){\r",
+									"\r",
+									"pm.expect(pm.response.code).to.equals(200);\r",
+									"pm.expect(pm.response.status).to.equals(\"OK\")\r",
+									"})\r",
+									"\r",
+									"console.log(cabecera);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{autor}}/",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autor  : GET_ONE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"cabecera = pm.response;\r",
+									"pm.test(\"validar ID-CODE-STATUS\", function(){\r",
+									"pm.expect(1).to.equals(body.id);\r",
+									"pm.expect(pm.response.code).to.equals(200);\r",
+									"pm.expect(pm.response.status).to.equals(\"OK\")\r",
+									"})\r",
+									"console.log(body);\r",
+									"console.log(cabecera);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{autor}}/1",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autor : CREATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera);\r",
+									"pm.test(\"validar autor creado\", function(){\r",
+									"    pm.expect(201).to.equals(pm.response.code)\r",
+									"    pm.expect(\"Created\").to.equals(pm.response.status)\r",
+									"      \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Nombre cinco\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{autor}}/",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autor : UPDATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera);\r",
+									"pm.test(\"validar autor creada\", function(){\r",
+									"    pm.expect(200).to.equals(pm.response.code)\r",
+									"    pm.expect(\"OK\").to.equals(pm.response.status)\r",
+									"      \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Nombre Uno\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{autor}}/1",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JWT : GET_ONE",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autor : ACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Autor Activado\";\r",
+									"pm.test(\"validar MESSAGE-PATH-STATUS\", function(){\r",
+									"   \r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"    pm.expect(pm.response.code).to.equals(200);\r",
+									"    \r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{autor}}/activar/1",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								"activar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autor : DESACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Autor Desactivado\";\r",
+									"\r",
+									"pm.test(\"validar MESSAGE-PATH-STATUS\", function(){\r",
+									"   \r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"    pm.expect(pm.response.code).to.equals(200);\r",
+									"    \r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{autor}}/desactivar/2",
+							"host": [
+								"{{autor}}"
+							],
+							"path": [
+								"desactivar",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "Cliente : GET_ALL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"cabecera = pm.response;\r",
+									"pm.test(\"validar CODE-STATUS\", function(){\r",
+									"\r",
+									"pm.expect(pm.response.code).to.equals(200);\r",
+									"pm.expect(pm.response.status).to.equals(\"OK\")\r",
+									"})\r",
+									"\r",
+									"console.log(cabecera);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "jwt",
+								"value": "{{jwt}}",
+								"type": "string"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {}
+						},
+						"url": {
+							"raw": "{{url}}/cliente/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								""
+							],
+							"query": [
+								{
+									"key": "hola",
+									"value": "asdf",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente : GET_ONE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"cabecera = pm.response;\r",
+									"pm.test(\"validar ID-CODE-STATUS\", function(){\r",
+									"pm.expect(1).to.equals(body.id);\r",
+									"pm.expect(pm.response.code).to.equals(200);\r",
+									"pm.expect(pm.response.status).to.equals(\"OK\")\r",
+									"})\r",
+									"console.log(body);\r",
+									"console.log(cabecera);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cliente/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente:CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"documento\": 10858972,\r\n        \"nombre\": \"Cliente\",\r\n        \"apellido\": \"Apellido Cliente\",\r\n        \"telefono\": \"3415245\",\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"cliente\",\r\n        \"rol\":{\r\n            \"id\":1,\r\n            \"type\":\"CLIENTE\"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cliente/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente:UPDATE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"id\":5,\r\n        \"documento\": 33445521,\r\n        \"nombre\": \"nombre F\",\r\n        \"apellido\": \"Apellido Uno\",\r\n        \"telefono\": \"3415214586\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cliente/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente:ACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Cliente Activado\";\r",
+									"\r",
+									"pm.test(\"validar MESSAGE-PATH-STATUS\", function(){\r",
+									"   \r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"    pm.expect(pm.response.code).to.equals(200);\r",
+									"    \r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cliente/activar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								"activar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cliente:DESACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Cliente Desactivado\";\r",
+									"\r",
+									"pm.test(\"validar MESSAGE-PATH-STATUS\", function(){\r",
+									"   \r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"    pm.expect(pm.response.code).to.equals(200);\r",
+									"    \r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/cliente/desactivar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cliente",
+								"desactivar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Editorial",
+			"item": [
+				{
+					"name": "Editorial : GET_ALL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera);\r",
+									"pm.test(\"validar url valida\", function () {    \r",
+									"    pm.expect(pm.response.code).to.equals(200);\r",
+									"    pm.expect(pm.response.status).to.equals(\"OK\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{editorial}}",
+							"host": [
+								"{{editorial}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editorial : GET_ONE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cuerpo = JSON.parse(responseBody);\r",
+									"pm.test(\"validar id editorial\", function(){\r",
+									"    pm.expect(1).to.equals(cuerpo.id);\r",
+									"})\r",
+									"\r",
+									"console.log(cuerpo);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/editorial/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"editorial",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editorial: CREATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera);\r",
+									"pm.test(\"validar editorial creada\", function(){\r",
+									"    pm.expect(201).to.equals(pm.response.code)\r",
+									"    pm.expect(\"OK\").to.equals(pm.response.status)\r",
+									"      \r",
+									"      });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"nombre\":\"martes\",\r\n\"alta\":true,\r\n\"libros\":[]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/editorial/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"editorial",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editorial: UPDATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera);\r",
+									"pm.test(\"validar editorial creada\", function(){\r",
+									"    pm.expect(200).to.equals(pm.response.code)\r",
+									"    pm.expect(\"OK\").to.equals(pm.response.status)\r",
+									"      \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":1,\r\n\"nombre\":\"ene\",\r\n\"alta\":true,\r\n\"libros\":[]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/editorial/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"editorial",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editorial: ACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Editorial Activada\";\r",
+									"\r",
+									"pm.test(\"validar activar editorial\", function(){\r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/editorial/activar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"editorial",
+								"activar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editorial: DESACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Editorial Desactivado\";\r",
+									"\r",
+									"pm.test(\"validar desactivar editorial\", function(){\r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/editorial/desactivar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"editorial",
+								"desactivar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Libro",
+			"item": [
+				{
+					"name": "Libro : CREATE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"<p> Hola </p>"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"alta\": true,\r\n  \"anio\": 2021,\r\n  \"autor\": { \"id\": 1 },\r\n  \"editorial\": { \"id\": 1 },\r\n  \"ejemplares\": 180,\r\n  \"ejemplaresPrestados\": 20,\r\n  \"ejemplaresRestantes\": 160,\r\n  \"isbn\": 12345555,\r\n  \"titulo\": \"Titulo uno\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/libro/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"libro",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Libro : GET_ALL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/libro/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"libro",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Libro : GET_ONE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let cabecera = pm.response;\r",
+									"console.log(cabecera.json());\r",
+									"\r",
+									"pm.test(\"LIBRO GET ONE\", () => {\r",
+									"    pm.expect(\"OK\").to.equals(pm.response.status);\r",
+									"    pm.expect(200).to.equals(pm.response.code);\r",
+									"    pm.expect(1).to.equals(pm.response.json().id);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/libro/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"libro",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prestamo",
+			"item": [
+				{
+					"name": "Prestamo : GET_ALL",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/prestamo/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prestamo : GET_ONE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/prestamo/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prestamo : CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cliente\": { \"id\": 1 },\r\n    \"fechaDevolucion\": \"2021-12-30\",\r\n    \"fechaPrestamo\": \"2021-12-07\",\r\n    \"libro\": { \"id\": 1 }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/prestamo/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prestamo : UPDATE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"alta\": true,\r\n    \"cliente\": { \"id\": 1 },\r\n    \"fechaDevolucion\": \"2021-12-29\",\r\n    \"fechaPrestamo\": \"2021-12-07\",\r\n    \"libro\": { \"id\": 1 }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/prestamo/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prestamo : ACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Prestamo Activado\";\r",
+									"\r",
+									"pm.test(\"validar id editorial\", function(){\r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/prestamo/activar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								"activar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Prestamo : DESACTIVAR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"const pathInfo = pm.variables.replaceIn(pm.request.url.getPath());\r",
+									"const messageOK = \"Prestamo Desactivado\";\r",
+									"\r",
+									"pm.test(\"validar id editorial\", function(){\r",
+									"    pm.expect(messageOK).to.equals(body.message);\r",
+									"    pm.expect(body.path).to.equals(pathInfo);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/prestamo/desactivar/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"prestamo",
+								"desactivar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth : JWT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let body = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"jwt\", body.jwt); \r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"cliente\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let body = JSON.parse(responseBody);\r",
+							"console.log(responseBody) ;\r",
+							"postman.setEnvironmentVariable(\"jwt\", body.jwt);\r",
+							"console.log(jwt) ;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"username\": \"cliente@gmail.com\",\r\n        \"userPassword\": \"123\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "JWT : LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const authorization = pm.response.headers.get(\"Authorization\");\r",
+							"postman.setEnvironmentVariable(\"Authorization\", authorization); \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"user3\",\r\n    \"password\": \"password3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
