@@ -14,12 +14,12 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public AutorDTO autorToDto(Autor autor) {
-        return modelMapper.map(autor, AutorDTO.class);
+    public AutorResponseDTO autorToDto(Autor autor) {
+        return modelMapper.map(autor, AutorResponseDTO.class);
     }
 
     @Override
-    public List<AutorDTO> listAutorToDto(List<Autor> autores) {
+    public List<AutorResponseDTO> listAutorToDto(List<Autor> autores) {
         return autores.stream()
                 .map(this::autorToDto)
                     .collect(Collectors.toList());

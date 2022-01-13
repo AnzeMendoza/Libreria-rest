@@ -3,7 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.entity.Autor;
+import edu.sucho.libreriaweb.model.dto.AutorRequestDTO;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.AutorService;
 import edu.sucho.libreriaweb.util.Uri;
@@ -49,13 +49,14 @@ public class AutorController {
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , e.getMessage(), String.format("/%s/%d", Uri.AUTOR,id)));
+                            , e.getMessage(), String.format("/%s/%d", Uri.AUTOR, id)));
         }
     }
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> save(@Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> save(@Valid @RequestBody AutorRequestDTO autor,
+                                  BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).body(autorService.save(autor));
@@ -68,45 +69,44 @@ public class AutorController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> update(@PathVariable("id") int id,
+                                    @Valid @RequestBody AutorRequestDTO autor,
+                                    BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(autorService.update(id,autor));
+                    .body(autorService.update(id, autor));
 
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , ebd.getMessage(), String.format("/%s/%d", Uri.AUTOR,id)));
+                            , ebd.getMessage(), String.format("/%s/%d", Uri.AUTOR, id)));
         }
     }
 
-    @GetMapping("activar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
+    @GetMapping("/activar/{id}")
+//    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
+    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value()
-                            , autorService.enableStatus(id), String.format("%s/%d", Uri.AUTOR_ACTIVAR,id)));
-        } catch (ExceptionBBDD ebd){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), autorService.enableStatus(id), String.format("%s/%d", Uri.AUTOR_ACTIVAR, id)));
+        } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_ACTIVAR,id)));
+                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_ACTIVAR, id)));
         }
     }
 
-    @GetMapping("desactivar/{id}")
+    @GetMapping("/desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value()
-                            , autorService.disableStatus(id),String.format("%s/%d", Uri.AUTOR_DESACTIVAR,id)));
+                            , autorService.disableStatus(id), String.format("%s/%d", Uri.AUTOR_DESACTIVAR, id)));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value()
-                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_DESACTIVAR,id)));
+                            , ebd.getMessage(), String.format("%s/%d", Uri.AUTOR_DESACTIVAR, id)));
         }
     }
 }
