@@ -31,7 +31,7 @@ public class ClienteController {
     private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('ROLE_CLIENTE') OR hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -42,6 +42,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -52,11 +53,11 @@ public class ClienteController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDTO));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -65,6 +66,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Cliente cliente, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -73,12 +75,11 @@ public class ClienteController {
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE,id)));
-
         }
-
     }
 
     @GetMapping("activar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -90,6 +91,7 @@ public class ClienteController {
     }
 
     @GetMapping("desactivar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.FALSE), String.format("%s/%d",Uri.CLIENTE_DESACTIVAR,id)));

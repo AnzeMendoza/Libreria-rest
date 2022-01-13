@@ -8,22 +8,15 @@ import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -52,61 +45,55 @@ public class LibroController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.libroToDto(libroService.findById(id)));
         } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \""+e.getMessage()+"\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"" + e.getMessage() + "\"}");
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody Libro libro,BindingResult result) throws ExceptionBadRequest {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> save(@Valid @RequestBody Libro libro, BindingResult result) throws ExceptionBadRequest {
         try {
-                Util.ValidarParametros(result);
-          return ResponseEntity.status(HttpStatus.CREATED)
-                  .body(modelMapperDTO.libroToDto(libroService.save(libro)));
-         }
-        catch (ExceptionBBDD | ExceptionBadRequest e) {
+            Util.ValidarParametros(result);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(modelMapperDTO.libroToDto(libroService.save(libro)));
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),e.getMessage(),Uri.LIBRO));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.LIBRO));
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro,BindingResult result )
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Libro libro, BindingResult result)
             throws ExceptionBadRequest {
-         try {
+        try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(libroService.update(id,libro));
+                    .body(libroService.update(id, libro));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") int id){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(libroService.delete(id));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\" : \"error\"}");
-        }
-    }
-    
     @GetMapping("desactivar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), libroService.disableStatus(id),Uri.LIBRO_DESACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), libroService.disableStatus(id), Uri.LIBRO_DESACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
     }
 
     @GetMapping("activar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> activar(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), libroService.enableStatus(id),Uri.LIBRO_ACTIVAR));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), libroService.enableStatus(id), Uri.LIBRO_ACTIVAR));
         } catch (ExceptionBBDD ebd) {
             throw new ExceptionBadRequest(ebd.getMessage());
         }
