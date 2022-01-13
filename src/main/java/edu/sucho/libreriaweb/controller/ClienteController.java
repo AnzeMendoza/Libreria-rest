@@ -52,11 +52,12 @@ public class ClienteController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody ClienteRequestDTO cliente, BindingResult result)
+    public ResponseEntity<?> save(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cliente));
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDTO));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.CLIENTE));
