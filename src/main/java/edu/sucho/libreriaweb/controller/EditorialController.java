@@ -73,12 +73,12 @@ public class EditorialController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
-            @Valid @RequestBody Editorial editorial, BindingResult result)
+            @Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(editorialService.update(id, editorial));
+                    .body(editorialService.update(id, editorialDTORequest));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),

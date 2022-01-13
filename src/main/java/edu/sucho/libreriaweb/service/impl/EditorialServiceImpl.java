@@ -60,8 +60,8 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     }
 
     @Override
-    public Editorial update(Integer id, Editorial editorial) throws ExceptionBBDD {
-    return retornarEditorial(editorialRepository.updateEditorial(id,editorial.getNombre()));
+    public Editorial update(Integer id, EditorialDTORequest editorialDTORequest) throws ExceptionBBDD {
+    return retornarEditorial(editorialRepository.updateEditorial(id,editorialDTORequest.getNombre()));
     }
 
     public String changeStatus(int id, Boolean estado)throws ExceptionBBDD{

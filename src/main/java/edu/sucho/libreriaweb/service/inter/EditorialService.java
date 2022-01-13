@@ -13,7 +13,7 @@ public interface EditorialService extends BaseService<Editorial, Integer>{
 
     Editorial save(EditorialDTORequest editorialDTORequest) throws ExceptionBBDD;
 
-    Editorial update (Integer id,Editorial editorial) throws ExceptionBBDD;
+    Editorial update (Integer id,EditorialDTORequest editorialDTORequest) throws ExceptionBBDD;
 
     String changeStatus(int id, Boolean estado)throws ExceptionBBDD;
 }
