@@ -38,12 +38,12 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     }
 
     @Override
-    public EditorialDTO editorialToDto(Editorial editorial) {
-        return modelMapper.map(editorial, EditorialDTO.class);
+    public EditorialDTOResponse editorialToDto(Editorial editorial) {
+        return modelMapper.map(editorial, EditorialDTOResponse.class);
     }
 
     @Override
-    public List<EditorialDTO> listEditorialToDto(List<Editorial> editoriales) {
+    public List<EditorialDTOResponse> listEditorialToDto(List<Editorial> editoriales) {
         return editoriales.stream()
                 .map(this::editorialToDto)
                 .collect(Collectors.toList());
