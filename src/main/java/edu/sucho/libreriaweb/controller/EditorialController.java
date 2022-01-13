@@ -3,6 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.EditorialDTORequest;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.EditorialService;
@@ -56,12 +57,12 @@ public class EditorialController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> save(@Valid @RequestBody Editorial editorial, BindingResult result)
+    public ResponseEntity<?> save(@Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).
-                    body(editorialService.save(editorial));
+                    body(editorialService.save(editorialDTORequest));
         } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),

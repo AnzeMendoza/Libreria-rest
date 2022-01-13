@@ -13,8 +13,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Getter
 @Setter
-
-
 @Table(name = "editorial")
 public class Editorial {
 
@@ -22,8 +20,6 @@ public class Editorial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "El nombre es obligatorio")
-    @Size(min = 2, max = 64, message = "Min: 2 y Max: 64 caracteres")
     @Column(length = 64, unique = true, nullable = false)
     private String nombre;
     
@@ -39,8 +35,6 @@ public class Editorial {
         Editorial editorial = (Editorial) o;
         return Objects.equals(nombre, editorial.nombre);
     }
-
-
 
     @Override
     public int hashCode() {
