@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -29,6 +31,7 @@ public class PrestamoController {
     private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -39,32 +42,35 @@ public class PrestamoController {
         }
     }
 
+    // Todo filtrar por rol
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOne(@PathVariable("id") int id) {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENTE')")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id, HttpServletRequest request) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO+"/"+id));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
         }
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-          return ResponseEntity.status(HttpStatus.CREATED)
-                  .body( modelMapperDTO.prestamoToDto(prestamoService.save(prestamo)));
-         }
-        catch (ExceptionBBDD | ExceptionBadRequest e) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(modelMapperDTO.prestamoToDto(prestamoService.save(prestamo)));
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
         }
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
                                     @Valid @RequestBody Prestamo prestamo,
                                     BindingResult result)
@@ -80,11 +86,12 @@ public class PrestamoController {
     }
 
     @GetMapping("desactivar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> deactivate(@PathVariable("id") int id)
             throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.disableStatus(id),Uri.PRESTAMO_DESACTIVAR + "/" + id));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.disableStatus(id), Uri.PRESTAMO_DESACTIVAR + "/" + id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_DESACTIVAR + "/" + id));
@@ -92,13 +99,15 @@ public class PrestamoController {
     }
 
     @GetMapping("activar/{id}")
-    private ResponseEntity<?> activar(@PathVariable("id") int id) 
-     throws ExceptionBadRequest {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
+    private ResponseEntity<?> activar(@PathVariable("id") int id)
+            throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id),Uri.PRESTAMO_ACTIVAR + "/" + id));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id), Uri.PRESTAMO_ACTIVAR + "/" + id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/{id}"));        }
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/{id}"));
+        }
     }
 }

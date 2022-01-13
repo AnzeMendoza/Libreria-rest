@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,7 @@ public class AutorController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
@@ -65,6 +67,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Autor autor, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
@@ -80,6 +83,7 @@ public class AutorController {
     }
 
     @GetMapping("activar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -93,6 +97,7 @@ public class AutorController {
     }
 
     @GetMapping("desactivar/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)

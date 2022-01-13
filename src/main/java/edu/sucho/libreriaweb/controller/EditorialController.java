@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,6 +55,7 @@ public class EditorialController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody Editorial editorial, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -68,6 +70,7 @@ public class EditorialController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
             @Valid @RequestBody Editorial editorial, BindingResult result)
             throws ExceptionBadRequest {
@@ -83,6 +86,7 @@ public class EditorialController {
     }
 
     @GetMapping(Uri.ACTIVAR + "/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -98,6 +102,7 @@ public class EditorialController {
     }
 
     @GetMapping(Uri.DESACTIVAR + "/{id}")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
