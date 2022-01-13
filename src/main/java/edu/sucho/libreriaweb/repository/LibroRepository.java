@@ -1,6 +1,6 @@
 package edu.sucho.libreriaweb.repository;
 
-import edu.sucho.libreriaweb.model.Libro;
+import edu.sucho.libreriaweb.model.entity.Libro;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -31,26 +31,25 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
             + ":ejemplares,:ejemplaresPrestados,:ejemplaresRestantes,"
             + ":autor,:editorial);", nativeQuery = true)
     String updateSp(@Param("id") Integer id, @Param("titulo") String titulo,
-                    @Param("isbn") Long isbn,@Param("anio") Integer anio,
+                    @Param("isbn") Long isbn, @Param("anio") Integer anio,
                     @Param("ejemplares") Integer ejemplares,
                     @Param("ejemplaresPrestados") Integer ejemplaresPrestados,
                     @Param("ejemplaresRestantes") Integer ejemplaresRestantes,
-                    @Param("autor") Integer autorId,@Param("editorial") Integer editorialId);
+                    @Param("autor") Integer autorId, @Param("editorial") Integer editorialId);
 
 
-    @Query(
-            value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
+    @Query( value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
             nativeQuery = true)
-    String createSp( @Param("alta") boolean alta,
-                     @Param("anio") int anio,
-                     @Param("ejemplares") int ejemplares,
-                     @Param("ejemplaresPrestados") int ejemplaresPrestados,
-                     @Param("ejemplaresRestantes") int ejemplaresRestantes,
-                     @Param("isbn") Long isbn,
-                     @Param("titulo") String titulo,
-                     @Param("fk_autor") int fk_autor,
-                     @Param("fk_editorial") int fk_editorial);
+    String createSp(@Param("alta") boolean alta,
+                    @Param("anio") int anio,
+                    @Param("ejemplares") int ejemplares,
+                    @Param("ejemplaresPrestados") int ejemplaresPrestados,
+                    @Param("ejemplaresRestantes") int ejemplaresRestantes,
+                    @Param("isbn") Long isbn,
+                    @Param("titulo") String titulo,
+                    @Param("fk_autor") int fk_autor,
+                    @Param("fk_editorial") int fk_editorial);
 
-
-
+    @Query(value = "CALL lsp_buscar_por_patron_titulo(:pattern)", nativeQuery = true)
+    List<Libro> findTituloForPattern(String pattern);
 }
