@@ -80,7 +80,7 @@ public class ClienteController {
 
     @GetMapping("activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.TRUE), String.format("%s/%d",Uri.CLIENTE_ACTIVAR,id)));
@@ -92,7 +92,7 @@ public class ClienteController {
 
     @GetMapping("desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.FALSE), String.format("%s/%d",Uri.CLIENTE_DESACTIVAR,id)));
         } catch (ExceptionBBDD e) {

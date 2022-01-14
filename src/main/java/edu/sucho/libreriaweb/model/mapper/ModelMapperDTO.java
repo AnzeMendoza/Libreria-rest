@@ -10,13 +10,13 @@ public interface ModelMapperDTO {
 
     List<AutorResponseDTO> listAutorToDto(List<Autor> libros);
 
-    ClienteDTO clienteToDto(Cliente libro);
+    ClienteResponseDTO clienteToDto(Cliente libro);
 
-    List<ClienteDTO> listClienteToDto(List<Cliente> libros);
+    List<ClienteResponseDTO> listClienteToDto(List<Cliente> libros);
 
-    EditorialDTO editorialToDto(Editorial libro);
+    EditorialDTOResponse editorialToDto(Editorial libro);
 
-    List<EditorialDTO> listEditorialToDto(List<Editorial> libros);
+    List<EditorialDTOResponse> listEditorialToDto(List<Editorial> libros);
 
     LibroDTO libroToDto(Libro libro);
 

@@ -81,6 +81,7 @@ public class AutorController {
     @GetMapping("/activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> active(@PathVariable("id") int id) {
+
         try {
             return responseAutorEnable(id);
         } catch (ExceptionBBDD ebd) {
@@ -91,6 +92,7 @@ public class AutorController {
     @GetMapping("/desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deactivate(@PathVariable("id") int id) {
+
         try {
             return responseAutorDisable(id);
         } catch (ExceptionBBDD ebd) {
