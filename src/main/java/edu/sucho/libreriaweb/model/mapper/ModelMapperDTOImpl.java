@@ -26,12 +26,12 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     }
 
     @Override
-    public ClienteDTO clienteToDto(Cliente cliente) {
-        return modelMapper.map(cliente, ClienteDTO.class);
+    public ClienteResponseDTO clienteToDto(Cliente cliente) {
+        return modelMapper.map(cliente, ClienteResponseDTO.class);
     }
 
     @Override
-    public List<ClienteDTO> listClienteToDto(List<Cliente> clientes) {
+    public List<ClienteResponseDTO> listClienteToDto(List<Cliente> clientes) {
         return clientes.stream()
                 .map(this::clienteToDto)
                 .collect(Collectors.toList());

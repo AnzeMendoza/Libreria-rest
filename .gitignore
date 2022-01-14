@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**src/main/resources/sql/store_procedure_12_01_2021.sql
 
 ### STS ###
 .apt_generated

@@ -84,7 +84,7 @@ public class AutorController {
 
     @GetMapping("activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
+    public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest{
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value()
@@ -98,7 +98,7 @@ public class AutorController {
 
     @GetMapping("desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value()

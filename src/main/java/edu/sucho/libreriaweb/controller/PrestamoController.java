@@ -87,7 +87,7 @@ public class PrestamoController {
 
     @GetMapping("desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> deactivate(@PathVariable("id") int id)
+    public ResponseEntity<?> deactivate(@PathVariable("id") int id)
             throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -100,7 +100,7 @@ public class PrestamoController {
 
     @GetMapping("activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> activar(@PathVariable("id") int id)
+    public ResponseEntity<?> activar(@PathVariable("id") int id)
             throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
