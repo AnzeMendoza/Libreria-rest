@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -105,4 +106,50 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
             throw new ExceptionBadRequest("El año de publicacion debe ser menor o igual al actual");
         }
     }
-}
+
+    @Override
+    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD {
+        try {
+            if (isbn!=null && titulo != null){
+            if (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn)){
+                return libroRepository.findIdByIsbn(isbn);
+            }else {
+                throw new ExceptionBadRequest("El isbn no coincide con el titulo ingresado");
+            }}
+            if (isbn!=null) {
+                return libroRepository.findIdByIsbn(isbn);
+            }
+            if (titulo != null ) {
+                return libroRepository.findIdByTitulo(titulo);
+            }
+            else {
+                throw new ExceptionBadRequest("Se debe proporcionar un isbn y titulo valido");
+            }
+
+        }catch(Exception e){
+                throw new ExceptionBBDD(e.getMessage());
+            }
+        }
+
+   /* @Override
+    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD {
+        try {
+            if (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn)){
+                return libroRepository.findIdByIsbn(isbn);
+            }
+            if (isbn==null) {
+                return libroRepository.findIdByTitulo(titulo);
+            }
+            if (titulo == null || titulo.equals("")) {
+                return libroRepository.findIdByIsbn(isbn);
+            }
+
+            else {
+                throw new ExceptionBadRequest("Se debe proporcionar un isbn y titulo valido");
+            }
+
+        }catch(Exception e){
+            throw new ExceptionBBDD(e.getMessage());
+        }
+    }*/
+    }

@@ -86,4 +86,18 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
         throw new ExceptionBBDD(resultado);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer findIdByDocumento(long documento) throws ExceptionBBDD {
+        try {
+            Integer idCliente;
+            return idCliente = clienteRepository.findByDocumento(documento);
+        } catch (Exception e) {
+            throw new ExceptionBBDD(e.getMessage());
+        }
+
+    }
+
+
 }

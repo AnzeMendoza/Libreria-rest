@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 @Getter
 @Setter
-public class PrestamoDTO {
+public class PrestamoDTOResponse {
     private Integer id;
     private Boolean alta;
     private ClienteDTO cliente;
