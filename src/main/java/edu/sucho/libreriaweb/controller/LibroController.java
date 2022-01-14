@@ -79,7 +79,7 @@ public class LibroController {
 
     @GetMapping("desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> deactivate(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(), libroService.disableStatus(id), Uri.LIBRO_DESACTIVAR));
@@ -90,7 +90,7 @@ public class LibroController {
 
     @GetMapping("activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> activar(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> activar(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(), libroService.enableStatus(id), Uri.LIBRO_ACTIVAR));
