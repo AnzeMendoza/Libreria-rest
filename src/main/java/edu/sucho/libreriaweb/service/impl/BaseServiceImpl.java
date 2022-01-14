@@ -61,13 +61,15 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
     @Override
     @Transactional(readOnly = true)
     public E findById(ID id) throws ExceptionBBDD {
-        Optional<E> entityEncontrada;
+
         try {
+            Optional<E> entityEncontrada;
             entityEncontrada = baseRepository.findById(id);
+            return entityEncontrada.get();
         } catch (Exception e) {
             throw new ExceptionBBDD(e.getMessage());
         }
-        return entityEncontrada.get();
+
     }
 
     @Override

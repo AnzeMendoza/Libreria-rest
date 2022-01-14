@@ -1,6 +1,7 @@
 package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.model.dto.EditorialDTORequest;
 import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
@@ -54,13 +55,13 @@ public class EditorialServiceImpl extends BaseServiceImpl<Editorial, Integer> im
     }
 
     @Override
-    public Editorial save(Editorial editorial) throws ExceptionBBDD{
-         return retornarEditorial(editorialRepository.saveEditorial(editorial.getNombre()));
+    public Editorial save(EditorialDTORequest editorialDTORequest) throws ExceptionBBDD{
+         return retornarEditorial(editorialRepository.saveEditorial(editorialDTORequest.getNombre()));
     }
 
     @Override
-    public Editorial update(Integer id, Editorial editorial) throws ExceptionBBDD {
-    return retornarEditorial(editorialRepository.updateEditorial(id,editorial.getNombre()));
+    public Editorial update(Integer id, EditorialDTORequest editorialDTORequest) throws ExceptionBBDD {
+    return retornarEditorial(editorialRepository.updateEditorial(id,editorialDTORequest.getNombre()));
     }
 
     public String changeStatus(int id, Boolean estado)throws ExceptionBBDD{
