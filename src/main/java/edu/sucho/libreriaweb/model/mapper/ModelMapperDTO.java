@@ -6,9 +6,9 @@ import edu.sucho.libreriaweb.model.entity.*;
 import java.util.List;
 
 public interface ModelMapperDTO {
-    AutorDTO autorToDto(Autor libro);
+    AutorResponseDTO autorToDto(Autor libro);
 
-    List<AutorDTO> listAutorToDto(List<Autor> libros);
+    List<AutorResponseDTO> listAutorToDto(List<Autor> libros);
 
     ClienteResponseDTO clienteToDto(Cliente libro);
 
