@@ -88,7 +88,7 @@ public class EditorialController {
 
     @GetMapping(Uri.ACTIVAR + "/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(),
@@ -104,7 +104,7 @@ public class EditorialController {
 
     @GetMapping(Uri.DESACTIVAR + "/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseInfo(HttpStatus.OK.value(),
