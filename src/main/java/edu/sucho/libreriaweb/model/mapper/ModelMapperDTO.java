@@ -14,9 +14,9 @@ public interface ModelMapperDTO {
 
     List<ClienteResponseDTO> listClienteToDto(List<Cliente> libros);
 
-    EditorialDTO editorialToDto(Editorial libro);
+    EditorialDTOResponse editorialToDto(Editorial libro);
 
-    List<EditorialDTO> listEditorialToDto(List<Editorial> libros);
+    List<EditorialDTOResponse> listEditorialToDto(List<Editorial> libros);
 
     LibroDTO libroToDto(Libro libro);
 
