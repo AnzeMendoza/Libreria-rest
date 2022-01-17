@@ -9,25 +9,26 @@ import org.springframework.validation.ObjectError;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Util {
 
     public static void ValidarParametros(BindingResult result) throws ExceptionBadRequest {
         if (result.hasErrors()) {
-            List<ObjectError> oEs = result.getAllErrors().stream().collect(Collectors.toList());
-            String err = "";
-            for (ObjectError oE : oEs) {
-                FieldError fieldError = (FieldError) oE;
-                err += fieldError.getField() + " : " + fieldError.getDefaultMessage()+" | ";
-            }
-            throw new ExceptionBadRequest(err);
+            String errorsValidation = collectErrorsToString(result);
+            throw new ExceptionBadRequest(errorsValidation);
         }
+    }
+
+    private static String collectErrorsToString(BindingResult result) {
+        List<ObjectError> oEs = result.getAllErrors().stream().collect(Collectors.toList());
+        String err = "";
+        for (ObjectError oE : oEs) {
+            FieldError fieldError = (FieldError) oE;
+            err += fieldError.getField() + " : " + fieldError.getDefaultMessage() + " | ";
+        }
+        return err.substring(0, err.length() - 3);
     }
 
     public static int getResponseId(String response) throws ExceptionBadRequest {
@@ -38,21 +39,23 @@ public class Util {
         }
     }
 
+    //Todo todos los metodos deben estar en Test y no en main.
+
     private static boolean getBoolean(int valor) {
         return (valor == 1);
     }
 
-    public static String generarString(){
+    public static String generarString() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 9);
     }
 
     /* sector base de datos */
-    public static  int getIdMax(Connection conexion, String query)  {
+    public static int getIdMax(Connection conexion, String query) {
         int indice = 0;
         try {
-            ResultSet rs = Conexion.getResultSet(conexion,query);
+            ResultSet rs = Conexion.getResultSet(conexion, query);
             rs.next();
-            indice =rs.getInt("max(id)");
+            indice = rs.getInt("max(id)");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,12 +94,11 @@ public class Util {
 
         return libros;
     }
-    
+
     public static List<Autor> getAutores(Connection conexion, String query) throws SQLException {
-        ResultSet rs = Conexion.getResultSet(conexion,query);
-        List<Autor> autores= new ArrayList<>();
-        while (Conexion.existeNext(rs))
-        {
+        ResultSet rs = Conexion.getResultSet(conexion, query);
+        List<Autor> autores = new ArrayList<>();
+        while (Conexion.existeNext(rs)) {
             Autor autor = new Autor();
             autor.setId(rs.getInt("id"));
             autor.setAlta(getBoolean(rs.getInt("alta")));
@@ -107,27 +109,27 @@ public class Util {
     }
 
     public static List<Prestamo> getPrestamo(Connection conexion, String query) throws SQLException {
-        ResultSet rs = Conexion.getResultSet(conexion,query);
-        List<Prestamo> prestamos= new ArrayList<>();
+        ResultSet rs = Conexion.getResultSet(conexion, query);
+        List<Prestamo> prestamos = new ArrayList<>();
 
         while (Conexion.existeNext(rs)) {
             Prestamo prestamo = new Prestamo();
             prestamo.setId(rs.getInt("id"));
             prestamo.setAlta(getBoolean(rs.getInt("alta")));
-            prestamo.setFechaPrestamo(dateToCalendar( rs.getDate("fecha_prestamo")));
+            prestamo.setFechaPrestamo(dateToCalendar(rs.getDate("fecha_prestamo")));
             prestamo.setFechaDevolucion(dateToCalendar(rs.getDate("fecha_devolucion")));
             prestamos.add(prestamo);
         }
         return prestamos;
     }
 
-    private static Calendar dateToCalendar(Date date){
+    private static Calendar dateToCalendar(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
     }
 
-    public static Date addDays(Date fecha, int dias){
+    public static Date addDays(Date fecha, int dias) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
         calendar.add(Calendar.DAY_OF_YEAR, dias);

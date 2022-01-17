@@ -2,7 +2,6 @@ package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.dto.LibroDTO;
 import edu.sucho.libreriaweb.model.dto.LibroRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.repository.BaseRepository;
@@ -61,7 +60,6 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
                 libro.getTitulo(),
                 libro.getAutorId(),
                 libro.getEditorialId()));
-
     }
 
     @Override
@@ -115,7 +113,37 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         if (anio > anioInt) {
             throw new ExceptionBadRequest("El año de publicacion debe ser menor o igual al actual");
         }
-
     }
 
+    @Override
+    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBadRequest {
+        try {
+            verificaSiHayDatos(titulo, isbn);
+            verificaSiNoSonNulos(titulo, isbn);
+
+            return titulo != null ? libroRepository.findIdByTitulo(titulo) : libroRepository.findIdByIsbn(isbn);
+
+        } catch (Exception e) {
+            throw new ExceptionBadRequest(e.getMessage());
+        }
+    }
+
+    private void verificaSiHayDatos(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (isbn == null && titulo == null) {
+            throw new ExceptionBadRequest("El isbn o titulo son obligatorios");
+        }
+    }
+
+    private void verificaSiNoSonNulos(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (isbn != null && titulo != null) {
+            verificaSiHayCoincidencia(titulo, isbn);
+        }
+    }
+
+    private void verificaSiHayCoincidencia(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (libroRepository.findIdByTitulo(titulo) != libroRepository.findIdByIsbn(isbn)) {
+            throw new ExceptionBadRequest("El isbn o titulo no coinciden");
+        }
+    }
 }
+

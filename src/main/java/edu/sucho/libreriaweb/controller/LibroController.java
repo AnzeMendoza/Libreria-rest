@@ -3,9 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.dto.LibroRequestDTO;
-import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
@@ -99,7 +97,6 @@ public class LibroController {
                             ebd.getMessage(),
                             String.format("%s/%d", Uri.LIBRO_ACTIVAR, id)));
         }
-
     }
 
     @GetMapping("desactivar/{id}")
