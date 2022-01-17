@@ -24,7 +24,7 @@ public class Util {
             String err = "";
             for (ObjectError oE : oEs) {
                 FieldError fieldError = (FieldError) oE;
-                err += fieldError.getField() + " : " + fieldError.getDefaultMessage();
+                err += fieldError.getField() + " : " + fieldError.getDefaultMessage()+" | ";
             }
             throw new ExceptionBadRequest(err);
         }
