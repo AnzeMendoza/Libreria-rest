@@ -60,13 +60,4 @@ public class Libro {
         return Objects.hash(id, titulo, isbn, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, alta);
     }
 
-    public void actualizarStockPostPrestamo() {
-        this.ejemplaresPrestados++;
-        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
-    }
-
-    public void actualizarStockPostDevolucion() {
-        this.ejemplaresPrestados--;
-        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
-    }
-}
+   }

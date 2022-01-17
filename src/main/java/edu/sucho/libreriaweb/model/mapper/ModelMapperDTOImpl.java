@@ -1,8 +1,13 @@
 package edu.sucho.libreriaweb.model.mapper;
 
+import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.*;
 import edu.sucho.libreriaweb.model.entity.*;
+import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.service.impl.PrestamoServiceImpl;
+import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +17,8 @@ import java.util.stream.Collectors;
 public class ModelMapperDTOImpl implements ModelMapperDTO {
 
     private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private PrestamoService prestamoService;
 
     @Override
     public AutorResponseDTO autorToDto(Autor autor) {
@@ -62,14 +69,16 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     }
 
     @Override
-    public PrestamoDTO prestamoToDto(Prestamo prestamo) {
-        return modelMapper.map(prestamo, PrestamoDTO.class);
+    public PrestamoDTOResponse prestamoToDto(Prestamo prestamo) {
+
+        return modelMapper.map(prestamo, PrestamoDTOResponse.class);
     }
 
     @Override
-    public List<PrestamoDTO> listPrestamoToDto(List<Prestamo> prestamos) {
+    public List<PrestamoDTOResponse> listPrestamoToDto(List<Prestamo> prestamos) {
         return prestamos.stream()
                 .map(this::prestamoToDto)
                 .collect(Collectors.toList());
     }
+
 }

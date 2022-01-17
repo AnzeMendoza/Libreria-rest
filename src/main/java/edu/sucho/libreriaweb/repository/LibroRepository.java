@@ -52,4 +52,13 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
 
     @Query(value = "CALL lsp_buscar_por_patron_titulo(:pattern)", nativeQuery = true)
     List<Libro> findTituloForPattern(String pattern);
-}
+
+    @Query(value = "SELECT id FROM libro WHERE libro.isbn=:isbn ", nativeQuery = true)
+    Integer findIdByIsbn(@Param("isbn") long isbn);
+
+    @Query(value = "SELECT id FROM libro WHERE libro.titulo LIKE %:titulo%" , nativeQuery = true)
+    Integer findIdByTitulo(@Param("titulo") String titulo);
+
+    //@Query(value = "SELECT boolean FROM libro WHERE libro.titulo LIKE %:titulo%\" ", nativeQuery = true)
+    //Boolean checkIsbnAndTitulo(@Param("titulo") String titulo,@Param("isbn") long isbn);
+    }

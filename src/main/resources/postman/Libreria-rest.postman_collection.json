@@ -111,7 +111,6 @@
 									"pm.test(\"validar autor creado\", function(){\r",
 									"    pm.expect(201).to.equals(pm.response.code)\r",
 									"    pm.expect(\"Created\").to.equals(pm.response.status)\r",
-									"      \r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -133,7 +132,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Nombre cinco\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Howard Anton II\"\r\n}   ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -186,7 +185,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Nombre Uno actualizado tres\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Manuel Sadosky uno\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -199,54 +198,6 @@
 								"{{autor}}"
 							],
 							"path": [
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "JWT : GET_ONE",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{Authorization}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/users/1",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
 								"1"
 							]
 						}
@@ -268,7 +219,6 @@
 									"    pm.expect(messageOK).to.equals(body.message);\r",
 									"    pm.expect(body.path).to.equals(pathInfo);\r",
 									"    pm.expect(pm.response.code).to.equals(200);\r",
-									"    \r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -338,13 +288,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{autor}}/desactivar/2",
+							"raw": "{{autor}}/desactivar/1",
 							"host": [
 								"{{autor}}"
 							],
 							"path": [
 								"desactivar",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -669,6 +619,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -699,6 +659,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -734,11 +704,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"nombre\":\"martes\",\r\n\"alta\":true,\r\n\"libros\":[]\r\n}\r\n",
+							"raw": "{\r\n\"nombre\":\"Guillermo Kraft\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -778,6 +758,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -823,8 +813,25 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "{{url}}/editorial/activar/1",
 							"host": [
@@ -860,6 +867,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -931,6 +948,16 @@
 				{
 					"name": "Libro : GET_ALL",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1006,6 +1033,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -1028,6 +1065,16 @@
 				{
 					"name": "Prestamo : GET_ONE",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1046,11 +1093,21 @@
 				{
 					"name": "Prestamo : CREATE",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cliente\": { \"id\": 1 },\r\n    \"fechaDevolucion\": \"2021-12-30\",\r\n    \"fechaPrestamo\": \"2021-12-07\",\r\n    \"libro\": { \"id\": 1 }\r\n}",
+							"raw": "{\r\n    \"dniCliente\": 11111112,\r\n    \"fechaPrestamo\": \"2022-01-14\",\r\n    \"fechaDevolucion\": \"2022-01-30\",\r\n    \"isbn\": 139788481301915,\r\n    \"tituloLibro\": \"Los viajes de Gulliver\"\r\n    \r\n\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1073,11 +1130,21 @@
 				{
 					"name": "Prestamo : UPDATE",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"alta\": true,\r\n    \"cliente\": { \"id\": 1 },\r\n    \"fechaDevolucion\": \"2021-12-29\",\r\n    \"fechaPrestamo\": \"2021-12-07\",\r\n    \"libro\": { \"id\": 1 }\r\n}\r\n",
+							"raw": "{\r\n    \"dniCliente\": 33333335,\r\n    \"fechaPrestamo\": \"2022-01-14\",\r\n    \"fechaDevolucion\": \"2022-01-30\",\r\n    \"isbn\":138436534539532,\r\n    \"tituloLibro\": \"Matar un ruiseñor\"\r\n\r\n    }\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1085,13 +1152,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/prestamo/1",
+							"raw": "{{url}}/prestamo/39",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"prestamo",
-								"1"
+								"39"
 							]
 						}
 					},
@@ -1119,17 +1186,27 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/prestamo/activar/1",
+							"raw": "{{url}}/prestamo/activar/30",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"prestamo",
 								"activar",
-								"1"
+								"30"
 							]
 						}
 					},
@@ -1156,17 +1233,27 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{Authorization}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/prestamo/desactivar/1",
+							"raw": "{{url}}/prestamo/desactivar/30",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"prestamo",
 								"desactivar",
-								"1"
+								"30"
 							]
 						}
 					},
@@ -1193,21 +1280,11 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"cliente@api.com\",\r\n    \"password\": \"cliente\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin@api.com\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
