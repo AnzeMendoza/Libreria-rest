@@ -81,7 +81,7 @@ public class PrestamoController {
                     .body(modelMapperDTO.prestamoToDto(prestamoService.update(id, prestamoDTORequest)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/{id}"));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/"+id));
         }
     }
 
@@ -107,7 +107,7 @@ public class PrestamoController {
                     .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id), Uri.PRESTAMO_ACTIVAR + "/" + id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/{id}"));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/"+id));
         }
     }
 }
