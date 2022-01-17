@@ -108,42 +108,33 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     }
 
     @Override
-    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws  ExceptionBadRequest {
+    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBadRequest {
         try {
-            if (isbn!=null && titulo != null){
-                return (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn))?
-                        libroRepository.findIdByIsbn(isbn):throw new ExceptionBadRequest("El isbn no coincide con el titulo ingresado");
-            }
+            verificaSiHayDatos(titulo, isbn);
+            verificaSiNoSonNulos(titulo, isbn);
 
             return titulo != null ? libroRepository.findIdByTitulo(titulo) : libroRepository.findIdByIsbn(isbn);
 
-        }catch(Exception e){
-                throw new ExceptionBadRequest("El isbn o titulo son obligatorios");
-            }
+        } catch (Exception e) {
+            throw new ExceptionBadRequest(e.getMessage());
         }
-
-   /* @Override
-    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD {
-        try {
-            if (isbn!=null && titulo != null){
-            if (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn)){
-                return libroRepository.findIdByIsbn(isbn);
-            }else {
-                throw new ExceptionBadRequest("El isbn no coincide con el titulo ingresado");
-            }}
-            if (isbn!=null) {
-                return libroRepository.findIdByIsbn(isbn);
-            }
-            if (titulo != null ) {
-                return libroRepository.findIdByTitulo(titulo);
-            }
-            else {
-                throw new ExceptionBadRequest("Se debe proporcionar un isbn y titulo valido");
-            }
-
-        }catch(Exception e){
-                throw new ExceptionBBDD(e.getMessage());
-            }
-        }
-    }*/
     }
+
+    private void verificaSiHayDatos(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (isbn == null && titulo == null) {
+            throw new ExceptionBadRequest("El isbn o titulo son obligatorios");
+        }
+    }
+
+    private void verificaSiNoSonNulos(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (isbn != null && titulo != null) {
+            verificaSiHayCoincidencia(titulo, isbn);
+        }
+    }
+
+    private void verificaSiHayCoincidencia(String titulo, Long isbn) throws ExceptionBadRequest {
+        if (libroRepository.findIdByTitulo(titulo) != libroRepository.findIdByIsbn(isbn)) {
+            throw new ExceptionBadRequest("El isbn o titulo no coinciden");
+        }
+    }
+   }
