@@ -108,6 +108,21 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
     }
 
     @Override
+    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws  ExceptionBadRequest {
+        try {
+            if (isbn!=null && titulo != null){
+                return (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn))?
+                        libroRepository.findIdByIsbn(isbn):throw new ExceptionBadRequest("El isbn no coincide con el titulo ingresado");
+            }
+
+            return titulo != null ? libroRepository.findIdByTitulo(titulo) : libroRepository.findIdByIsbn(isbn);
+
+        }catch(Exception e){
+                throw new ExceptionBadRequest("El isbn o titulo son obligatorios");
+            }
+        }
+
+   /* @Override
     public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD {
         try {
             if (isbn!=null && titulo != null){
@@ -129,27 +144,6 @@ public class LibroServiceImpl extends BaseServiceImpl<Libro, Integer> implements
         }catch(Exception e){
                 throw new ExceptionBBDD(e.getMessage());
             }
-        }
-
-   /* @Override
-    public Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD {
-        try {
-            if (libroRepository.findIdByTitulo(titulo)==libroRepository.findIdByIsbn(isbn)){
-                return libroRepository.findIdByIsbn(isbn);
-            }
-            if (isbn==null) {
-                return libroRepository.findIdByTitulo(titulo);
-            }
-            if (titulo == null || titulo.equals("")) {
-                return libroRepository.findIdByIsbn(isbn);
-            }
-
-            else {
-                throw new ExceptionBadRequest("Se debe proporcionar un isbn y titulo valido");
-            }
-
-        }catch(Exception e){
-            throw new ExceptionBBDD(e.getMessage());
         }
     }*/
     }
