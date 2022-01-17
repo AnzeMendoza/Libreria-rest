@@ -30,15 +30,17 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
     @Query(value = "CALL lsp_modificar_libro(:id,:titulo,:isbn,:anio,"
             + ":ejemplares,:ejemplaresPrestados,:ejemplaresRestantes,"
             + ":autor,:editorial);", nativeQuery = true)
-    String updateSp(@Param("id") Integer id, @Param("titulo") String titulo,
-                    @Param("isbn") Long isbn, @Param("anio") Integer anio,
+    String updateSp(@Param("id") Integer id,
+                    @Param("titulo") String titulo,
+                    @Param("isbn") Long isbn,
+                    @Param("anio") Integer anio,
                     @Param("ejemplares") Integer ejemplares,
                     @Param("ejemplaresPrestados") Integer ejemplaresPrestados,
                     @Param("ejemplaresRestantes") Integer ejemplaresRestantes,
                     @Param("autor") Integer autorId, @Param("editorial") Integer editorialId);
 
 
-    @Query( value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
+    @Query(value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
             nativeQuery = true)
     String createSp(@Param("alta") boolean alta,
                     @Param("anio") int anio,
