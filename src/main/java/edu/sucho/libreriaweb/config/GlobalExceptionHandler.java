@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice(annotations = RestController.class)
-public class GlobalExceptionHandler {
+public class    GlobalExceptionHandler {
 
     @ExceptionHandler({ExceptionBadRequest.class})
     public ResponseEntity<?> BadRequestException(HttpServletRequest request, Exception e) {

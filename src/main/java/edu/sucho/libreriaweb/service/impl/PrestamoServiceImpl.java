@@ -65,6 +65,11 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
                 );
     }
 
+    @Override
+    public List<Prestamo> findAllByIdClienteAndAlta(Integer idCliente) throws ExceptionBBDD {
+        return prestamoRepository.findAllByIdClienteAndAlta(idCliente);
+    }
+
     private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
         isResponseOK(response);
         int id = Util.getResponseId(response);

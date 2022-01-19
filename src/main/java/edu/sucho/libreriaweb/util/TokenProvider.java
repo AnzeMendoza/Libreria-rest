@@ -52,4 +52,21 @@ public class TokenProvider {
 
         return claimsJws.getBody().getSubject();
     }
+
+
+    public String getUserNameWithBearer(final String tokenWithBearer) {
+        final String token = tokenWithBearer.replace(Constants.TOKEN_BEARER_PREFIX + " ", "");
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+
+        return claimsJws.getBody().getSubject();
+    }
+
+    public String getRoleWithBearer(final String tokenWithBearer) {
+        final String token = tokenWithBearer.replace(Constants.TOKEN_BEARER_PREFIX + " ", "");
+        final JwtParser jwtParser = Jwts.parser().setSigningKey(SIGNING_KEY);
+        final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+
+        return claimsJws.getBody().get("CLAIM_TOKEN").toString();
+    }
 }

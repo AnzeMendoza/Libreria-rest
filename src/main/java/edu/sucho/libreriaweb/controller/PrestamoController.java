@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,10 +44,21 @@ public class PrestamoController {
         }
     }
 
-    // Todo filtrar por rol
+    @GetMapping("/getAll/{id}")
+    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    public ResponseEntity<?> getAllCliente(@PathVariable("id") int id ) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.listPrestamoToDto(prestamoService.findAllByIdClienteAndAlta(id)));
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
+        }
+    }
+
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENTE')")
-    public ResponseEntity<?> getOne(@PathVariable("id") int id, HttpServletRequest request) {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.userIdByPrestamoId(authentication,#id)")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id ) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));

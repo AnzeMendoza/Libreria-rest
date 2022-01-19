@@ -18,5 +18,6 @@ public interface ClienteService extends BaseService<Cliente, Integer>, UserDetai
 
     Integer findIdByDocumento(long documento) throws ExceptionBBDD;
 
+    Cliente findByUsername (String username);
 
-}
+    }
