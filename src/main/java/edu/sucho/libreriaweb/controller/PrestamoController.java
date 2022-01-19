@@ -42,10 +42,9 @@ public class PrestamoController {
         }
     }
 
-    // Todo filtrar por rol
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENTE')")
-    public ResponseEntity<?> getOne(@PathVariable("id") int id, HttpServletRequest request) {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.userIdByPrestamoId(authentication,#id)")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));

@@ -72,6 +72,11 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         return retornarMensaje(clienteRepository.changeStatus(id, estado), estado);
     }
 
+    @Override
+    public Cliente findByUsername(String username) {
+        return clienteRepository.findByUsername(username);
+    }
+
     private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
         if (resultado.contains("OK")) {
             return (estado) ? "Cliente Activado" : "Cliente Desactivado";
