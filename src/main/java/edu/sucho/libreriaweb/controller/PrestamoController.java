@@ -18,13 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = Uri.PRESTAMO, produces = MediaType.APPLICATION_JSON_VALUE)
-public class PrestamoController {
+public class PrestamoController{
 
     @Autowired
     private PrestamoService prestamoService;
@@ -62,7 +61,7 @@ public class PrestamoController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
-        } catch (ExceptionBBDD e) {
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
         }

@@ -12,7 +12,7 @@ public interface BaseService<E, I> {
 
     Boolean delete(I i) throws ExceptionBBDD;
 
-    E findById(I i) throws ExceptionBBDD;
+    E findById(I i) throws ExceptionBBDD, ExceptionBadRequest;
 
     List<E> findAll() throws ExceptionBBDD;
 }
