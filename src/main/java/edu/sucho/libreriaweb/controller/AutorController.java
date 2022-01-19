@@ -44,7 +44,7 @@ public class AutorController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return responseAutor(id);
-        } catch (ExceptionBBDD ebd) {
+        } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             return responseExceptionBBDD(ebd, Uri.AUTOR + "/" + id);
         }
     }
@@ -116,7 +116,7 @@ public class AutorController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), autorService.disableStatus(id), String.format("%s/%d", Uri.AUTOR_DESACTIVAR, id)));
     }
 
-    private ResponseEntity<?> responseAutor(int id) throws ExceptionBBDD {
+    private ResponseEntity<?> responseAutor(int id) throws ExceptionBBDD, ExceptionBadRequest {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.autorToDto(autorService.findById(id)));
     }
 

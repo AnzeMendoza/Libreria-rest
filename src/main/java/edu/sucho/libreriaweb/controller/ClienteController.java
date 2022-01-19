@@ -52,7 +52,7 @@ public class ClienteController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.findById(id)));
-        } catch (ExceptionBBDD e) {
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE, id)));
         }
     }
