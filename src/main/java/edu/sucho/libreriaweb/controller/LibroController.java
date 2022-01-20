@@ -83,7 +83,6 @@ public class LibroController {
             return responseLibroEnable(id);
         } catch (ExceptionBBDD ebd) {
             return responseExceptionBBDD(ebd, String.format("%s/%d", Uri.LIBRO_ACTIVAR, id));
-
         }
     }
 
@@ -94,7 +93,6 @@ public class LibroController {
             return responseLibroDisable(id);
         } catch (ExceptionBBDD ebd) {
             return responseExceptionBBDD(ebd, Uri.LIBRO_DESACTIVAR + "/" + id);
-
         }
     }
 
