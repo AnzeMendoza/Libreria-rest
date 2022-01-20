@@ -330,7 +330,7 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_cambiar_estado_prestamo`(pIdPrestamo int, pEstado bit)
 SALIR:BEGIN
-
+	DECLARE pIdLibro int(4);
      -- Manejo de error en la transacción
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN 
@@ -338,6 +338,7 @@ SALIR:BEGIN
 		SELECT 'Error en la transacción. Contáctese con el administrador.' Mensaje;
 		ROLLBACK;
 	END;
+	
 
 	IF NOT EXISTS(select * from prestamo where id = pIdPrestamo) THEN
 		SELECT 'Debe proveer un Prestamo existente.' AS Mensaje;
@@ -347,6 +348,13 @@ SALIR:BEGIN
     
 	START TRANSACTION;
 		UPDATE	prestamo SET alta = pEstado  WHERE id = pIdPrestamo;  
+		SET pIdLibro =(SELECT prestamo.fk_libro FROM prestamo WHERE id = pIdPrestamo);
+		IF (pEstado=TRUE )THEN
+      CALL lsp_actualizarStockPostPrestamo(pIdLibro);
+      END IF;
+      IF (pEstado=FALSE )THEN
+      CALL lsp_actualizarStockPostDevolucion(pIdLibro);
+      END IF;
 		SELECT 'OK' AS Mensaje;
 	COMMIT;
 END ;;
@@ -607,6 +615,7 @@ SALIR:BEGIN
 
     DECLARE pIdPrestamo int(4) ;
 
+
 	-- Manejo de error en la transacción
     declare exit HANDLER for sqlexception
     begin
@@ -663,10 +672,10 @@ SALIR:BEGIN
         SET  pIdPrestamo = 1 + (SELECT COALESCE(MAX(id),0) FROM prestamo);
         INSERT INTO prestamo (alta, fecha_devolucion, fecha_prestamo, fk_cliente, fk_libro)
         VALUES(1, pFechaDevolucion, pFechaPrestamo, pFkCliente, pFkLibro);
-
+			CALL lsp_actualizarStockPostPrestamo(pFkLibro);
         SELECT 'OK' AS Mensaje, pIdPrestamo AS 'id';
     COMMIT;
-end ;;
+end;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -875,14 +884,17 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_modificar_prestamo`(
 pId int, pFechaDevolucion date, pFechaPrestamo date, pFkCliente INT, pFkLibro INT)
 SALIR: BEGIN
-
+		
+	DECLARE pIdLibroAnterior INT(4);
     -- Manejo de error en la transacción
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    
     BEGIN 
         SHOW ERRORS;
         SELECT 'Error en la transacción. Contáctese con el administrador.' Mensaje;
         ROLLBACK;
     END;
+    
     
     -- Controla que el prestamo exista en BBDD 
     IF NOT EXISTS(select id from prestamo where id = pId) THEN
@@ -933,11 +945,82 @@ SALIR: BEGIN
     END IF;
     
       START TRANSACTION;
-        UPDATE prestamo SET fecha_prestamo = date(pFechaPrestamo), fecha_devolucion = date(pFechaDevolucion), fk_cliente = pFkCliente, fk_libro = pFkLibro WHERE id = pId ;
+      SET pIdLibroAnterior =(SELECT prestamo.fk_libro FROM prestamo WHERE id = pId);
+      CALL lsp_actualizarStockPostDevolucion(pIdLibroAnterior); 
+      UPDATE prestamo SET fecha_prestamo = date(pFechaPrestamo), fecha_devolucion = date(pFechaDevolucion), fk_cliente = pFkCliente, fk_libro = pFkLibro WHERE id = pId;
+      CALL lsp_actualizarStockPostPrestamo(pFkLibro);
         SELECT 'OK' AS Mensaje, pId AS 'id';     
     COMMIT;
-END ;;
+END;;
 DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `lsp_actualizarStockPostPrestamo` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_actualizarStockPostPrestamo`(
+	IN `pIdLibro` INT
+)
+SALIR: BEGIN
+    DECLARE pEjemplares int(4);
+    DECLARE pEjemplaresRestantes int(4);
+    DECLARE pEjemplaresPrestados int(4);
+
+    START TRANSACTION;
+        
+			SET pEjemplares = (SELECT ejemplares FROM libro WHERE libro.id=pIdLibro);
+			SET pEjemplaresPrestados = (SELECT ejemplares_prestados FROM libro WHERE libro.id=pIdLibro)+1;
+			SET pEjemplaresRestantes =pEjemplares-pEjemplaresPrestados;
+			UPDATE libro SET libro.ejemplares_prestados =pEjemplaresPrestados , libro.ejemplares_restantes=pEjemplaresRestantes WHERE libro.id=pIdLibro;
+       
+    COMMIT;
+END;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `lsp_actualizarStockPostDevolucion` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lsp_actualizarStockPostDevolucion`(
+	IN `pIdLibro` INT
+)
+BEGIN
+
+    DECLARE pEjemplares int(4);
+    DECLARE pEjemplaresRestantes int(4);
+    DECLARE pEjemplaresPrestados int(4);
+
+    START TRANSACTION;
+        
+			SET pEjemplares = (SELECT ejemplares FROM libro WHERE libro.id=pIdLibro);
+			SET pEjemplaresPrestados = (SELECT ejemplares_prestados FROM libro WHERE libro.id=pIdLibro)-1;
+			SET pEjemplaresRestantes =pEjemplares-pEjemplaresPrestados;
+			UPDATE libro SET libro.ejemplares_prestados =pEjemplaresPrestados , libro.ejemplares_restantes=pEjemplaresRestantes WHERE libro.id=pIdLibro;
+       
+    COMMIT;
+END;;
+
+DELIMITER ;
+
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;

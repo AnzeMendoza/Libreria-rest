@@ -40,5 +40,8 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
     @Query(value = "SELECT * FROM cliente where nombre like :string", nativeQuery = true)
     List<Cliente> findClienteForPatternName(@Param("string") String string);
 
+    @Query(value = "SELECT id FROM cliente WHERE cliente.documento = :documento", nativeQuery = true)
+    Integer findByDocumento(@Param("documento") Long documento);
+
 }
 

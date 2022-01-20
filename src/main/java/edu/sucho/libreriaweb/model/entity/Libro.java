@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -25,12 +26,25 @@ public class Libro {
     private String titulo;
 
     @Column(unique = true, nullable = false)
+    @NotEmpty(message = "El ISBN es obligatorio")
+    @Size(min = 10, max = 13, message = "Debe tener min 10 caracteres y menos de 13")
+    @Pattern(regexp = "[\\d*\\-]{10,13}", message = "Debe contener solo numeros.")
     private Long isbn;
 
+    @Column
+    @NotEmpty(message = "Es recomendable ingresar el año")
+    @Size(min = 4, max = 4, message = "Debe tener 4 caracteres")
+    @Pattern(regexp = "[\\d*\\-]{4}", message = "Debe contener solo numeros.")
     private Integer anio;
+
+    @Column
+    @NotEmpty(message = "El numero de ejempleres es obligatorio")
     private Integer ejemplares;
+
     private Integer ejemplaresPrestados;
     private Integer ejemplaresRestantes;
+
+    @Column(nullable = false)
     private Boolean alta;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -60,13 +74,4 @@ public class Libro {
         return Objects.hash(id, titulo, isbn, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, alta);
     }
 
-    public void actualizarStockPostPrestamo() {
-        this.ejemplaresPrestados++;
-        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
-    }
-
-    public void actualizarStockPostDevolucion() {
-        this.ejemplaresPrestados--;
-        this.ejemplaresRestantes = this.ejemplares - this.ejemplaresPrestados;
-    }
-}
+   }

@@ -3,6 +3,7 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.PrestamoDTORequest;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
@@ -55,12 +56,11 @@ public class PrestamoController{
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> save(@Valid @RequestBody Prestamo prestamo, BindingResult result)
+    public ResponseEntity<?> save(@Valid @RequestBody PrestamoDTORequest prestamoDTORequest, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(modelMapperDTO.prestamoToDto(prestamoService.save(prestamo)));
+            return ResponseEntity.status(HttpStatus.CREATED).body(modelMapperDTO.prestamoToDto(prestamoService.save(prestamoDTORequest)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO));
@@ -70,16 +70,16 @@ public class PrestamoController{
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
-                                    @Valid @RequestBody Prestamo prestamo,
+                                    @Valid @RequestBody PrestamoDTORequest prestamoDTORequest,
                                     BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(modelMapperDTO.prestamoToDto(prestamoService.update(id, prestamo)));
+                    .body(modelMapperDTO.prestamoToDto(prestamoService.update(id, prestamoDTORequest)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/{id}"));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/"+id));
         }
     }
 
@@ -105,7 +105,7 @@ public class PrestamoController{
                     .body(new ResponseInfo(HttpStatus.OK.value(), prestamoService.enableStatus(id), Uri.PRESTAMO_ACTIVAR + "/" + id));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/{id}"));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), Uri.PRESTAMO_ACTIVAR + "/"+id));
         }
     }
 }

@@ -1,8 +1,9 @@
 package edu.sucho.libreriaweb.service.inter;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.LibroRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Libro;
-
 import java.util.List;
 
 public interface LibroService extends BaseService<Libro, Integer> {
@@ -15,4 +16,11 @@ public interface LibroService extends BaseService<Libro, Integer> {
     String disableStatus(int id) throws ExceptionBBDD;
 
     String enableStatus(int id) throws ExceptionBBDD;
+
+    Libro save(LibroRequestDTO libro) throws ExceptionBBDD, ExceptionBadRequest;
+
+    Libro update(int id, LibroRequestDTO libro) throws ExceptionBBDD, ExceptionBadRequest;
+
+    Integer findIdByIsbnOrTitulo(String titulo, Long isbn) throws ExceptionBBDD, ExceptionBadRequest;
+
 }
