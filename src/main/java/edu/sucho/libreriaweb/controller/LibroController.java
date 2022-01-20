@@ -44,7 +44,7 @@ public class LibroController {
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return responseLibro(id);
-        } catch (ExceptionBBDD ebd) {
+        } catch (ExceptionBBDD | ExceptionBadRequest ebd) {
             return responseExceptionBBDD(ebd, String.format("%s/%d", Uri.LIBRO, id));
         }
     }
@@ -100,7 +100,7 @@ public class LibroController {
         return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.listLibroToDto(libros));
     }
 
-    private ResponseEntity<?> responseLibro(int id) throws ExceptionBBDD {
+    private ResponseEntity<?> responseLibro(int id) throws ExceptionBBDD, ExceptionBadRequest {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapperDTO.libroToDto(libroService.findById(id)));
     }
