@@ -11,8 +11,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.servlet.http.HttpServletRequest;
 
+
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalExceptionHandler {
+
     @ExceptionHandler({ExceptionBadRequest.class})
     public ResponseEntity<?> BadRequestException(HttpServletRequest request, ExceptionBadRequest e) {
         ResponseInfo errorInfo = new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI());

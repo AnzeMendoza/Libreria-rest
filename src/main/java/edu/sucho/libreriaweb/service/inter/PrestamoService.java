@@ -21,4 +21,5 @@ public interface PrestamoService extends BaseService<Prestamo, Integer> {
 
     Prestamo update(Integer id, PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest;
 
-}
+    List<Prestamo> prestamosPorIdCliente(Integer idCliente) throws ExceptionBBDD;
+    }

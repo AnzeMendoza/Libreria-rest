@@ -23,6 +23,7 @@ public class Uri {
     public static final String EDITORIAL_DESACTIVAR = EDITORIAL + DESACTIVAR;
 
     public static final String PRESTAMO = URI + "/prestamo";
+    public static final String GETALL = "/getall";
     public static final String PRESTAMO_ACTIVAR = PRESTAMO + ACTIVAR;
     public static final String PRESTAMO_DESACTIVAR = PRESTAMO + DESACTIVAR;
 
