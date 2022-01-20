@@ -48,7 +48,7 @@ public class EditorialController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.editorialToDto(editorialService.findById(id)));
-        } catch (ExceptionBBDD e) {
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
                             e.getMessage(), String.format("%s/%d", Uri.EDITORIAL, id)));

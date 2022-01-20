@@ -17,13 +17,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(path = Uri.PRESTAMO, produces = MediaType.APPLICATION_JSON_VALUE)
-public class PrestamoController {
+public class PrestamoController{
 
     @Autowired
     private PrestamoService prestamoService;
@@ -43,14 +42,13 @@ public class PrestamoController {
         }
     }
 
-    // Todo filtrar por rol
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENTE')")
-    public ResponseEntity<?> getOne(@PathVariable("id") int id, HttpServletRequest request) {
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.userIdByPrestamoId(authentication,#id)")
+    public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
-        } catch (ExceptionBBDD e) {
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.PRESTAMO + "/" + id));
         }

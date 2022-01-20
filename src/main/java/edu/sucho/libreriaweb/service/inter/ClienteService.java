@@ -16,7 +16,7 @@ public interface ClienteService extends BaseService<Cliente, Integer>, UserDetai
 
     String changeStatus(int id, Boolean estado) throws ExceptionBBDD;
 
+    Cliente findByUsername (String username);
+  
     Integer findIdByDocumento(long documento) throws ExceptionBBDD;
-
-
 }
