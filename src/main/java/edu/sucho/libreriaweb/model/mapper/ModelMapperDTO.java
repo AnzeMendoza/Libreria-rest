@@ -1,28 +1,30 @@
 package edu.sucho.libreriaweb.model.mapper;
 
+import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.*;
 import edu.sucho.libreriaweb.model.entity.*;
 
 import java.util.List;
 
 public interface ModelMapperDTO {
-    AutorDTO autorToDto(Autor libro);
+    AutorResponseDTO autorToDto(Autor libro);
 
-    List<AutorDTO> listAutorToDto(List<Autor> libros);
+    List<AutorResponseDTO> listAutorToDto(List<Autor> libros);
 
-    ClienteDTO clienteToDto(Cliente libro);
+    ClienteResponseDTO clienteToDto(Cliente libro);
 
-    List<ClienteDTO> listClienteToDto(List<Cliente> libros);
+    List<ClienteResponseDTO> listClienteToDto(List<Cliente> libros);
 
-    EditorialDTO editorialToDto(Editorial libro);
+    EditorialDTOResponse editorialToDto(Editorial libro);
 
-    List<EditorialDTO> listEditorialToDto(List<Editorial> libros);
+    List<EditorialDTOResponse> listEditorialToDto(List<Editorial> libros);
 
     LibroDTO libroToDto(Libro libro);
 
     List<LibroDTO> listLibroToDto(List<Libro> libros);
 
-    PrestamoDTO prestamoToDto(Prestamo prestamo);
+    PrestamoDTOResponse prestamoToDto(Prestamo prestamo);
 
-    List<PrestamoDTO> listPrestamoToDto(List<Prestamo> prestamos);
-}
+    List<PrestamoDTOResponse> listPrestamoToDto(List<Prestamo> prestamos);
+
+    }

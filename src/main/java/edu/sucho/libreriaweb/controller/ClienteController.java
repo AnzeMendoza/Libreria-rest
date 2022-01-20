@@ -7,6 +7,7 @@ import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
+import edu.sucho.libreriaweb.util.TokenProvider;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -29,6 +32,9 @@ public class ClienteController {
 
     @Autowired
     private ModelMapperDTO modelMapperDTO;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
@@ -42,13 +48,12 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.hasUserId(authentication,#id)")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(modelMapperDTO.clienteToDto(clienteService.findById(id)));
-        } catch (ExceptionBBDD e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE,id)));
+            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.findById(id)));
+        } catch (ExceptionBBDD | ExceptionBadRequest e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE, id)));
         }
     }
 
@@ -74,30 +79,30 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.OK).body(clienteService.update(id, cliente));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE,id)));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE, id)));
         }
     }
 
     @GetMapping("activar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.TRUE), String.format("%s/%d",Uri.CLIENTE_ACTIVAR,id)));
+                    .body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.TRUE), String.format("%s/%d", Uri.CLIENTE_ACTIVAR, id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE_ACTIVAR,id)));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE_ACTIVAR, id)));
         }
     }
 
     @GetMapping("desactivar/{id}")
     @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
-    private ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
+    public ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.FALSE), String.format("%s/%d",Uri.CLIENTE_DESACTIVAR,id)));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.FALSE), String.format("%s/%d", Uri.CLIENTE_DESACTIVAR, id)));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d",Uri.CLIENTE_DESACTIVAR,id)));
+                    .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE_DESACTIVAR, id)));
         }
     }
 }

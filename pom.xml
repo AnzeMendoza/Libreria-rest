@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.sucho</groupId>
 	<artifactId>libreria-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>V1.1.0-SNAPSHOT</version>
 	<name>libreria-web</name>
 	<description>Libreria web</description>
 	<properties>

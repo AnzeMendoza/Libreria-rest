@@ -2,9 +2,11 @@ package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.PrestamoDTORequest;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
+import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Util;
@@ -22,7 +24,10 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     private PrestamoRepository prestamoRepository;
 
     @Autowired
-    private LibroService libroService;
+    private  LibroService libroService;
+
+    @Autowired
+    private  ClienteService clienteService;
 
     public PrestamoServiceImpl(BaseRepository<Prestamo, Integer> baseRepository) {
         super(baseRepository);
@@ -40,23 +45,29 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     @Override
-    public Prestamo save(Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
-        return getPrestamoOk(prestamoRepository
+    public Prestamo save(PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+               return getPrestamoOk(prestamoRepository
                 .createSp(
-                        prestamo.getCliente().getId(),
+                        clienteService.findIdByDocumento(prestamo.getDniCliente()),
                         prestamo.getFechaDevolucion().getTime(),
                         prestamo.getFechaPrestamo().getTime(),
-                        prestamo.getLibro().getId()
+                        libroService.findIdByIsbnOrTitulo(prestamo.getTituloLibro(),prestamo.getIsbn())
                 ));
     }
 
     @Override
-    public Prestamo update(Integer id, Prestamo prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+    public Prestamo update(Integer id, PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
         return getPrestamoOk(prestamoRepository.updateSp(id,
                 prestamo.getFechaDevolucion().getTime(),
                 prestamo.getFechaPrestamo().getTime(),
-                prestamo.getCliente().getId(),
-                prestamo.getLibro().getId()));
+                clienteService.findIdByDocumento(prestamo.getDniCliente()),
+                libroService.findIdByIsbnOrTitulo(prestamo.getTituloLibro(),prestamo.getIsbn()))
+                );
+    }
+
+    @Override
+    public List<Prestamo> prestamosPorIdCliente(Integer idCliente) throws ExceptionBBDD {
+        return prestamoRepository.prestamosPorIdCliente(idCliente);
     }
 
     private Prestamo getPrestamoOk(String response) throws ExceptionBBDD, ExceptionBadRequest {
@@ -85,4 +96,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         isResponseOK(responseStatus);
         return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
+
+
+
 }

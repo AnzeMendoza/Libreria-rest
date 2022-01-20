@@ -72,6 +72,11 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         return retornarMensaje(clienteRepository.changeStatus(id, estado), estado);
     }
 
+    @Override
+    public Cliente findByUsername(String username) {
+        return clienteRepository.findByUsername(username);
+    }
+
     private String retornarMensaje(String resultado, Boolean estado) throws ExceptionBBDD {
         if (resultado.contains("OK")) {
             return (estado) ? "Cliente Activado" : "Cliente Desactivado";
@@ -86,4 +91,22 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
         }
         throw new ExceptionBBDD(resultado);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer findIdByDocumento(long documento) throws ExceptionBBDD {
+        try {
+            Integer idCliente= clienteRepository.findByDocumento(documento);
+            if (idCliente == null ){
+                throw new Exception("El cliente ingresado no existe");
+            }
+            return idCliente;
+
+        } catch (Exception e) {
+            throw new ExceptionBBDD(e.getMessage());
+        }
+
+    }
+
+
 }

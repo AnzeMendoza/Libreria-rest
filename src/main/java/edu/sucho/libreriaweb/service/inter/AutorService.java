@@ -1,14 +1,13 @@
 package edu.sucho.libreriaweb.service.inter;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
+import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.AutorRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Autor;
 
 import java.util.List;
 
 public interface AutorService extends BaseService<Autor, Integer> {
-
-    boolean deleteByIdSoft(int id) throws ExceptionBBDD;
-
     List<Autor> findAllByAlta() throws ExceptionBBDD;
 
     String enableStatus(int id) throws ExceptionBBDD;
@@ -16,5 +15,8 @@ public interface AutorService extends BaseService<Autor, Integer> {
     String disableStatus(int id) throws ExceptionBBDD;
 
     String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD;
-}
 
+    Autor save(AutorRequestDTO autor) throws ExceptionBBDD, ExceptionBadRequest;
+
+    Autor update(int id, AutorRequestDTO autor) throws ExceptionBBDD, ExceptionBadRequest;
+}
