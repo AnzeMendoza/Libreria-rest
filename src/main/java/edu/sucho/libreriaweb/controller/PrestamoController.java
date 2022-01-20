@@ -41,7 +41,7 @@ public class PrestamoController {
         }
     }
 
-    @GetMapping(Uri.GETALL+"/{id}")
+    @GetMapping("/{id}/"+Uri.GETALL)
     @PreAuthorize("@userAccess.hasUserId(authentication,#id)")
     public ResponseEntity<?> getAllCliente(@PathVariable("id") int id) {
         try {
