@@ -41,11 +41,11 @@ public class PrestamoController {
         }
     }
 
-    @GetMapping((Uri.GETALL+)"/getall/{id}")
-    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    @GetMapping(Uri.GETALL+"/{id}")
+    @PreAuthorize("@userAccess.hasUserId(authentication,#id)")
     public ResponseEntity<?> getAllCliente(@PathVariable("id") int id) {
         try {
-            return responsePrestamos(prestamoService.findAllByIdClienteAndAlta(id));
+            return responsePrestamos(prestamoService.prestamosPorIdCliente(id));
         } catch (ExceptionBBDD ebd) {
             return responseExceptionBBDD(ebd, Uri.PRESTAMO);
         }

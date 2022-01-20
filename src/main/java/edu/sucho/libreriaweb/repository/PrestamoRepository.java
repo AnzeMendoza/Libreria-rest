@@ -15,8 +15,8 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
     @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true", nativeQuery = true)
     List<Prestamo> findAllByAlta();
 
-    @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true AND prestamo.fk_cliente=fk_cliente", nativeQuery = true)
-    List<Prestamo> findbyClienteIdAndAlta(@Param("fk_cliente") Integer fkCliente);
+    @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true AND prestamo.fk_cliente=:fk_cliente", nativeQuery = true)
+    List<Prestamo> prestamosPorIdCliente(@Param("fk_cliente") Integer fk_cliente);
 
     @Query(value = "CALL lsp_cambiar_estado_prestamo(:id,:alta);", nativeQuery = true)
     String changeStatusSp(@Param("id") int id, @Param("alta") Boolean alta);
