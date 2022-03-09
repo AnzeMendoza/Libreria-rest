@@ -4,7 +4,6 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.EditorialDTORequest;
-import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.EditorialService;
 import edu.sucho.libreriaweb.util.Uri;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +54,6 @@ public class EditorialController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -71,7 +68,6 @@ public class EditorialController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
             @Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result)
             throws ExceptionBadRequest {
@@ -87,7 +83,6 @@ public class EditorialController {
     }
 
     @GetMapping(Uri.ACTIVAR + "/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -103,7 +98,6 @@ public class EditorialController {
     }
 
     @GetMapping(Uri.DESACTIVAR + "/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)

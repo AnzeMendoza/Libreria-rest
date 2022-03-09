@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,6 @@ public class PrestamoController {
     private ModelMapperDTO modelMapperDTO;
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         try {
             return responsePrestamos(prestamoService.findAll());
@@ -42,7 +40,6 @@ public class PrestamoController {
     }
 
     @GetMapping("/{id}/"+Uri.GETALL)
-    @PreAuthorize("@userAccess.hasUserId(authentication,#id)")
     public ResponseEntity<?> getAllCliente(@PathVariable("id") int id) {
         try {
             return responsePrestamos(prestamoService.prestamosPorIdCliente(id));
@@ -52,7 +49,6 @@ public class PrestamoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.userIdByPrestamoId(authentication,#id)")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return responsePrestamo(id);
@@ -62,7 +58,6 @@ public class PrestamoController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody PrestamoDTORequest prestamo, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -74,7 +69,6 @@ public class PrestamoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id,
                                     @Valid @RequestBody PrestamoDTORequest prestamo,
                                     BindingResult result)
@@ -88,7 +82,6 @@ public class PrestamoController {
     }
 
     @GetMapping("desactivar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deactivate(@PathVariable("id") int id){
         try {
             return responsePrestamoDisable(id);
@@ -98,7 +91,6 @@ public class PrestamoController {
     }
 
     @GetMapping("activar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> activar(@PathVariable("id") int id){
              try {
             return responsePrestamoEnable(id);

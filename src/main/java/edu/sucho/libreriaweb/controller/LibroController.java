@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +49,6 @@ public class LibroController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody LibroRequestDTO libro, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
@@ -63,7 +61,6 @@ public class LibroController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody LibroRequestDTO libro, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -77,7 +74,6 @@ public class LibroController {
     }
 
     @GetMapping("activar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> activar(@PathVariable("id") int id) {
         try {
             return responseLibroEnable(id);
@@ -87,7 +83,6 @@ public class LibroController {
     }
 
     @GetMapping("desactivar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> desactivar(@PathVariable("id") int id) {
         try {
             return responseLibroDisable(id);

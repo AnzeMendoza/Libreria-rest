@@ -7,20 +7,16 @@ import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
-import edu.sucho.libreriaweb.util.TokenProvider;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -33,11 +29,7 @@ public class ClienteController {
     @Autowired
     private ModelMapperDTO modelMapperDTO;
 
-    @Autowired
-    private TokenProvider tokenProvider;
-
     @GetMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -48,7 +40,6 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN') OR @userAccess.hasUserId(authentication,#id)")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.findById(id)));
@@ -58,7 +49,6 @@ public class ClienteController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> save(@Valid @RequestBody ClienteRequestDTO clienteRequestDTO, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -71,7 +61,6 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Cliente cliente, BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -84,7 +73,6 @@ public class ClienteController {
     }
 
     @GetMapping("activar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> active(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -96,7 +84,6 @@ public class ClienteController {
     }
 
     @GetMapping("desactivar/{id}")
-    @PreAuthorize("hasRole('ROLE_PERSONAL') OR hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> desactive(@PathVariable("id") int id) throws ExceptionBadRequest {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseInfo(HttpStatus.OK.value(), clienteService.changeStatus(id, Boolean.FALSE), String.format("%s/%d", Uri.CLIENTE_DESACTIVAR, id)));

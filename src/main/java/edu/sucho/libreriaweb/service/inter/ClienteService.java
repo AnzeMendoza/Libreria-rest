@@ -3,11 +3,10 @@ package edu.sucho.libreriaweb.service.inter;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface ClienteService extends BaseService<Cliente, Integer>, UserDetailsService {
+public interface ClienteService extends BaseService<Cliente, Integer> {
     List<Cliente> findAllByAlta() throws ExceptionBBDD;
 
     Cliente save(ClienteRequestDTO cliente) throws ExceptionBBDD;
@@ -16,7 +15,7 @@ public interface ClienteService extends BaseService<Cliente, Integer>, UserDetai
 
     String changeStatus(int id, Boolean estado) throws ExceptionBBDD;
 
-    Cliente findByUsername (String username);
-  
+    Cliente findByUsername(String username);
+
     Integer findIdByDocumento(long documento) throws ExceptionBBDD;
 }
