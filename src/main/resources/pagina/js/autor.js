@@ -7,26 +7,27 @@ import {obtenerJson } from "./asincronico.js";
     console.warn(response)});
 }
 
-
-
 function obtenerAutores(url){
 obtenerJson(url).then(response => {
   console.log("*** aqui devuelvo todos los autores***")  
   console.table(response)
 });
 }
+
 function activarAutor(url,index){
    obtenerJson(url+index).then(response => {
     { console.log("aqui se aplica la logica");
    console.table(response);
  }});
 }
+
  function desactivarAutor(url, index){
   obtenerJson(url+index).then(response => {
     { console.log("aqui se aplica la logica");
    console.table(response);
  }});
 }
+
 function crearAutor(url,options){
  obtenerJson(url,options).then(response => {
    console.log("aqui se aplica la logica")
