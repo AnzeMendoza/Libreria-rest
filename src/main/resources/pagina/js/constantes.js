@@ -4,6 +4,6 @@ export const options = {method: '',
                'Content-type': 'application/json; charset=UTF-8',
                },
               }
-export const urlAutor =  "http://localhost:8080/api/v1/autor/"; 
+export const urlAutor =  "https://libreria-rest.herokuapp.com/api/v1/autor/"; 
 
 

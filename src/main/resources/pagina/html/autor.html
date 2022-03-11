@@ -16,7 +16,7 @@
 
 <body class="container">
 
-   <!-- <script src="../js/autor.js" type="module"></script> -->
+   <script src="../js/autor.js" type="module"></script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
@@ -67,29 +67,40 @@
         <tbody id="tableAutores">
         </tbody>
     </table>
-
     
-    <script>
-        const renderTableAutores = (autores) => {
-            let tablaDeAutores = document.getElementById("tableAutores");
+    <template id="crud-template">
+        <tr>
+          <td class="name"></td>
+          <td class="status"></td>
+          <td>
+            <button class="btn btn-success editar">Editar</button>
+            <button class="btn btn-success estado "> Activar</button>
+            <button class="btn btn-primary ver">Ver</button>
+          </td>
+        </tr>
+      </template>
 
-            autores.forEach(autor => {
-                tablaDeAutores.innerHTML += `
-                    <tr> 
-                        <td>${autor.nombre}</td>
-                        <td>${autor.alta}</td>
-                        <td>
-                            <button id="btn-${autor.id}" class="btn btn-danger" type="submit">${autor.alta ? "Desactivar" : "activar"}</button>
-                            <button class="btn btn-success">Editar</button>
-                        </td>
-                    </tr>`;
-            });
-        }
-        
-        fetch("http://localhost:8080/api/v1/autor/")
-            .then(response => response.json())
-            .then(autores => renderTableAutores(autores));
-    </script>
+
+      <!-- Modal -->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--END Modal-->
+
 </body>
 
 </html>
