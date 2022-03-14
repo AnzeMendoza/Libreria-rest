@@ -195,7 +195,7 @@ SALIR:BEGIN
     END IF;
 
 	START TRANSACTION;
-		UPDATE	Autor SET alta = pEstado  WHERE id = pIdAutor;
+		UPDATE autor SET alta = pEstado  WHERE id = pIdAutor;
 		SELECT 'OK' AS Mensaje;
 	COMMIT;
 END ;;
