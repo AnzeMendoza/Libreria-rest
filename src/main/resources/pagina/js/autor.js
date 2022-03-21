@@ -1,84 +1,120 @@
-import {options, urlAutor } from "./constantes.js";
-import {obtenerJson } from "./asincronico.js";
+import { options, urlAutor,optionsGET,urlDesactivarAutor, urlActivarAutor } from "./constantes.js";
+import { obtenerJson } from "./asincronico.js";
 
- function obtenerAutor(url,index){
-  obtenerJson(url+index).then(response => {
-    console.log("*** aqui devuelvo uno");
-    console.warn(response)});
+const d = document,
+  $table = d.querySelector(".table"),
+  $template = d.getElementById("crud-template").content,
+  $fragment = d.createDocumentFragment(),
+  $myModal = new bootstrap.Modal(d.getElementById("exampleModal"), options);
+
+
+function obtenerAutores() {
+  obtenerJson(urlAutor).then((autores) => {
+    autores.forEach((autor) => {
+
+      $template.querySelector(".name").textContent = autor.nombre;
+      $template.querySelector(".status").textContent = autor.alta;
+      $template.querySelector(".status").id = "status_" + autor.id;
+
+      $template.querySelector(".ver").dataset.nombre = autor.nombre;
+
+      /* Configuración del boton de desactivar/activar */
+      $template.querySelector(".estado").innerHTML = (autor.alta) ? "Desactivar" : "Activar";
+      $template.querySelector(".estado").style.backgroundColor = (autor.alta) ? 'red' :"#198754" // #198754 = verde
+
+      $template.querySelector(".estado").dataset.estado = autor.alta;
+      $template.querySelector(".estado").dataset.nombre = autor.nombre;
+      $template.querySelector(".estado").dataset.id = autor.id;
+
+    
+      let $clone = d.importNode($template, true);
+
+      $fragment.appendChild($clone);
+    });
+    $table.querySelector("tbody").appendChild($fragment);
+  });
 }
 
-function obtenerAutores(url){
-obtenerJson(url).then(response => {
-  console.log("*** aqui devuelvo todos los autores***")  
-  console.table(response)
-});
+function activarAutor(index) {
+  obtenerJson(urlActivarAutor + index,optionsGET).then((response) => {
+    {
+      console.table(response);
+    }
+  });
 }
 
-function activarAutor(url,index){
-   obtenerJson(url+index).then(response => {
-    { console.log("aqui se aplica la logica");
-   console.table(response);
- }});
+function desactivarAutor(index) {
+  obtenerJson(urlDesactivarAutor + index, optionsGET).then((response) => {
+    {
+      console.table(response);
+    }
+  });
 }
 
- function desactivarAutor(url, index){
-  obtenerJson(url+index).then(response => {
-    { console.log("aqui se aplica la logica");
-   console.table(response);
- }});
+function crearAutor(options) {
+  obtenerJson(urlAutor, options)
+    .then((response) => {
+      console.log("aqui se aplica la logica");
+      alert(`se creo el autor ${response.nombre}`);
+    })
+    .catch((error) => console.error(error));
+}
+function modificarAutor(options) {
+  obtenerJson(urlAutor, options)
+    .then((response) => {
+      console.log("aqui se aplica la logica");
+      alert(`se modifico el autor ${response.nombre}`);
+    })
+    .catch((error) => console.error(error));
 }
 
-function crearAutor(url,options){
- obtenerJson(url,options).then(response => {
-   console.log("aqui se aplica la logica")
-    alert(`se creo el autor ${response.nombre}`);
- }).catch(error=>console.error(error));
-}
+d.addEventListener("DOMContentLoaded", obtenerAutores());
 
+d.addEventListener("click", async (e) => {
+  if (e.target.matches(".ver")) {
+    d.querySelector(
+      ".modal-body"
+    ).innerHTML = `Autor: ${e.target.dataset.nombre}`;
+    $myModal.show();
+  }
 
- function modificarAutor(url,options){
-  obtenerJson(url,options).then(response => {
-    console.log("aqui se aplica la logica")
-     alert(`se modifico el autor ${response.nombre}`);
-  }).catch(error=>console.error(error));
-    //obtenerJson(url,options).then(response => console.log(response));
-}
+  if (e.target.matches(".editar")) {
+    d.querySelector(
+      ".modal-body"
+    ).innerHTML = `Autor: ${e.target.dataset.nombre}`;
+    $myModal.show();
+  }
 
-//obtenerAutores("http://localhost:8080/api/v1/autor/");
-//obtenerAutor("http://localhost:8080/api/v1/autor/",1)
-//activarAutor("http://localhost:8080/api/v1/autor/activar/",1);
-//desactivarAutor("http://localhost:8080/api/v1/autor/desactivar/",1)
+  if (e.target.matches(".estado")) {
 
+    let btn = e.target;
 
-//options.method='POST';
-//options.body= JSON.stringify({nombre: "Prueba Facundo"});
-//crearAutor("http://localhost:8080/api/v1/autor/",options)
-//options.method='PUT';
-//options.body= JSON.stringify({nombre: "PruebaF"});
-//modificarAutor("http://localhost:8080/api/v1/autor/"+45,options)
+    if (btn.dataset.estado == 'true') {
 
-   
+      desactivarAutor(btn.dataset.id);
 
-//desactivarAutor(urlAutor+'desactivar/',1)
-//activarAutor(urlAutor+'activar/',1);
-//obtenerAutor(urlAutor,1);
-//obtenerAutores(urlAutor);
-options.method='PUT';
-options.body =JSON.stringify({
-  nombre: "Gabriel Garcia Marquez"
-});
-modificarAutor(urlAutor+55,options)
+      btn.innerHTML = "Activar";
+      btn.style.backgroundColor = "#198754"; //verde
+      btn.dataset.estado = "false";
 
+      d.getElementById("status_"+ btn.dataset.id).innerHTML = "false";
 
+    } else {
 
+      activarAutor(btn.dataset.id);
 
-const form = document.querySelector("form");
+      btn.innerHTML = "Desactivar";
+      btn.style.backgroundColor = 'red';
+      btn.dataset.estado = "true";
+      
+      d.getElementById("status_"+ btn.dataset.id).innerHTML = "true";
 
-form.addEventListener("submit", function(e){
-  e.preventDefault();              
-  const data = new FormData(e.target);
-  const body = Object.fromEntries(data.entries());
-  options.method='POST';
-  options.body= JSON.stringify(body);
-  crearAutor(urlAutor,options);
+    }
+
+    d.querySelector(
+      ".modal-body"
+    ).innerHTML = `El estado del autor ${btn.dataset.nombre} ha sido modificado a ${btn.dataset.estado}`;
+    $myModal.show();
+  }
+
 });

@@ -38,6 +38,5 @@ public class ClienteRequestDTO {
     private String password;
 
     @NotNull(message = "El rol es obligatorio")
-    @NotEmpty(message = "El rol no puede estar vacio")
     private int roleId;
 }
