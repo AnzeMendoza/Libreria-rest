@@ -74,7 +74,7 @@ public class EditorialController {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(editorialService.update(id, editorialDTORequest));
+                    .body(modelMapperDTO.editorialToDto(editorialService.update(id, editorialDTORequest)));
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(),
