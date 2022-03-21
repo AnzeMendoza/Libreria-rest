@@ -11,7 +11,7 @@ public interface ClienteService extends BaseService<Cliente, Integer> {
 
     Cliente save(ClienteRequestDTO cliente) throws ExceptionBBDD;
 
-    Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD;
+    Cliente update(Integer id, ClienteRequestDTO cliente) throws ExceptionBBDD;
 
     String changeStatus(int id, Boolean estado) throws ExceptionBBDD;
 

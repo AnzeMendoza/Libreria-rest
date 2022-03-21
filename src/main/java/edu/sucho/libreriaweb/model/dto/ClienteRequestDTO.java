@@ -29,11 +29,11 @@ public class ClienteRequestDTO {
     @NotEmpty(message = "El telefono es obligatorio")
     private String telefono;
 
-    @NotEmpty(message = "El apellido es obligatorio")
+    @NotEmpty(message = "El username es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     private String username;
 
-    @NotEmpty(message = "El apellido es obligatorio")
+    @NotEmpty(message = "El password es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     private String password;
 

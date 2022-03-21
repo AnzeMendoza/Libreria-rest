@@ -42,9 +42,9 @@ public class ClienteServiceImpl extends BaseServiceImpl<Cliente, Integer> implem
     }
 
     @Override
-    public Cliente update(Integer id, Cliente cliente) throws ExceptionBBDD {
+    public Cliente update(Integer id, ClienteRequestDTO cliente) throws ExceptionBBDD {
         return retornarCliente(clienteRepository
-                .updateCliente(cliente.getId(), cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
+                .updateCliente(id, cliente.getDocumento(), cliente.getNombre(), cliente.getApellido(), cliente.getTelefono()));
     }
 
     @Override

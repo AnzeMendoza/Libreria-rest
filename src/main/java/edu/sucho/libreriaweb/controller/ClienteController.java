@@ -62,12 +62,12 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id,
-                                    @Valid @RequestBody Cliente cliente,
+                                    @Valid @RequestBody ClienteRequestDTO clienteRequestDTO,
                                     BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.update(id, cliente)));
+            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.update(id, clienteRequestDTO)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE, id)));
