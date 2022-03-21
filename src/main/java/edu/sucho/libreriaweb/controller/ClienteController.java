@@ -53,7 +53,7 @@ public class ClienteController {
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteRequestDTO));
+            return ResponseEntity.status(HttpStatus.CREATED).body(modelMapperDTO.clienteToDto(clienteService.save(clienteRequestDTO)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.CLIENTE));
@@ -61,11 +61,13 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody Cliente cliente, BindingResult result)
+    public ResponseEntity<?> update(@PathVariable("id") int id,
+                                    @Valid @RequestBody Cliente cliente,
+                                    BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
-            return ResponseEntity.status(HttpStatus.OK).body(clienteService.update(id, cliente));
+            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.clienteToDto(clienteService.update(id, cliente)));
         } catch (ExceptionBBDD | ExceptionBadRequest e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE, id)));

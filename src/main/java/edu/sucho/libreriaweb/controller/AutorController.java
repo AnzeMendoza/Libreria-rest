@@ -100,7 +100,7 @@ public class AutorController {
     }
 
     private ResponseEntity<?> responseSaveAutor(AutorRequestDTO autor) throws ExceptionBBDD, ExceptionBadRequest {
-        return ResponseEntity.status(HttpStatus.CREATED).body(autorService.save(autor));
+        return ResponseEntity.status(HttpStatus.CREATED).body(modelMapperDTO.autorToDto(autorService.save(autor)));
     }
 
     private ResponseEntity<?> responseAutorEnable(int id) throws ExceptionBBDD {
@@ -116,7 +116,7 @@ public class AutorController {
     }
 
     private ResponseEntity<?> responseAutorUpdate(int id, AutorRequestDTO autor) throws ExceptionBBDD, ExceptionBadRequest {
-        return ResponseEntity.status(HttpStatus.OK).body(autorService.update(id, autor));
+        return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.autorToDto(autorService.update(id, autor)));
     }
 
     private ResponseEntity<?> responseExceptionBBDD(Exception exception, String path) {
