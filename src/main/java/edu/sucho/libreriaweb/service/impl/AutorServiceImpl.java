@@ -3,7 +3,9 @@ package edu.sucho.libreriaweb.service.impl;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.AutorRequestDTO;
+import edu.sucho.libreriaweb.model.dto.AutorResponseDTO;
 import edu.sucho.libreriaweb.model.entity.Autor;
+import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.repository.AutorRepository;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.service.inter.AutorService;
@@ -22,6 +24,9 @@ public class AutorServiceImpl extends BaseServiceImpl<Autor, Integer> implements
 
     @Autowired
     private AutorRepository autorRepository;
+
+    @Autowired
+    private ModelMapperDTO modelMapperDTO;
 
     public AutorServiceImpl(BaseRepository<Autor, Integer> baseRepository) {
         super(baseRepository);
