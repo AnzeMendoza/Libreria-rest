@@ -6,6 +6,8 @@ import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.EditorialRepository;
 import edu.sucho.libreriaweb.service.inter.BaseService;
 import edu.sucho.libreriaweb.service.inter.BaseValidationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -81,6 +83,16 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
             throw new ExceptionBBDD(e.getMessage());
         }
         return entities;
+    }
+
+    @Override
+    public Page<E> findAll(Pageable pageable) throws ExceptionBBDD {
+        try{
+            Page<E> entities = baseRepository.findAll(pageable);
+            return entities;
+        } catch (Exception e){
+            throw new ExceptionBBDD("problemas al querer paginar");
+        }
     }
 
     @Override

@@ -9,6 +9,8 @@ import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.service.inter.AutorService;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,5 +74,10 @@ public class AutorServiceImpl extends BaseServiceImpl<Autor, Integer> implements
         if (!response.contains("OK")) {
             throw new ExceptionBBDD(response);
         }
+    }
+
+    @Override
+    public Page<Autor> getAll(Pageable pageable) {
+        return autorRepository.findAll(pageable);
     }
 }

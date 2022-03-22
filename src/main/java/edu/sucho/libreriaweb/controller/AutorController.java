@@ -10,6 +10,7 @@ import edu.sucho.libreriaweb.service.inter.AutorService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,15 @@ public class AutorController {
             return responseAutors(autorService.findAll());
         } catch (ExceptionBBDD ebd) {
             return responseExceptionBBDD(ebd, Uri.AUTOR);
+        }
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(autorService.findAll(pageable));
+        } catch (ExceptionBBDD ebd) {
+            return responseExceptionBBDD(ebd, Uri.AUTOR + "/paged");
         }
     }
 
