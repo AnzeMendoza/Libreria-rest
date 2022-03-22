@@ -42,11 +42,7 @@ public class AutorController {
 
     @GetMapping("/paged")
     public ResponseEntity<?> getAll(Pageable pageable) {
-        try {
-            return ResponseEntity.ok().body(autorService.findAll(pageable));
-        } catch (ExceptionBBDD ebd) {
-            return responseExceptionBBDD(ebd, Uri.AUTOR + "/paged");
-        }
+        return ResponseEntity.ok().body(autorService.getAll(pageable));
     }
 
     @GetMapping("/{id}")

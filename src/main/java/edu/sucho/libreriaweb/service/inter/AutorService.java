@@ -3,6 +3,7 @@ package edu.sucho.libreriaweb.service.inter;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.AutorRequestDTO;
+import edu.sucho.libreriaweb.model.dto.AutorResponseDTO;
 import edu.sucho.libreriaweb.model.entity.Autor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,5 +23,5 @@ public interface AutorService extends BaseService<Autor, Integer> {
 
     Autor update(int id, AutorRequestDTO autor) throws ExceptionBBDD, ExceptionBadRequest;
 
-    Page<Autor> getAll(Pageable pageable);
+    Page<AutorResponseDTO> getAll(Pageable pageable);
 }
