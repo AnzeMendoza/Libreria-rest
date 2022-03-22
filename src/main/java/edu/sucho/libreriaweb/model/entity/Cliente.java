@@ -55,6 +55,5 @@ public class Cliente {
 
     @ManyToOne
     @NotNull(message = "El rol es obligatorio")
-    @NotEmpty(message = "El rol no puede estar vacio")
     private Role role;
 }
