@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AutorResponseDTO {
     private String nombre;
     private Boolean alta;
-    //private int id;
+    private int id;
 }
