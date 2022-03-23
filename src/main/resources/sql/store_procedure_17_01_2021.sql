@@ -661,8 +661,8 @@ SALIR:BEGIN
     END IF;
     
     -- Controla que la fecha de préstamo no se mayor que la actual
-    IF (date_format(pFechaPrestamo,'%Y-%M-%D') != date_format(now(),'%Y-%M-%D')) THEN
-        SELECT 'Debe proveer una fecha de préstamo válida (fecha actual).' AS Mensaje;
+    IF (date_format(pFechaPrestamo,'%Y-%M-%D') < date_format(now(),'%Y-%M-%D')) THEN
+        SELECT 'Debe proveer una fecha de préstamo válida (fecha actual o mayor).' AS Mensaje;
         LEAVE SALIR;
     END IF;
 
