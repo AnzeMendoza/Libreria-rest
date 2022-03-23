@@ -3,12 +3,16 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.dto.EditorialDTORequest;
+import edu.sucho.libreriaweb.model.dto.EditorialRequestDTO;
+import edu.sucho.libreriaweb.model.dto.EditorialResponseDTO;
+import edu.sucho.libreriaweb.model.entity.Editorial;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.EditorialService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +42,17 @@ public class EditorialController {
         }
     }
 
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            Page<Editorial> entities =  editorialService.findAll(pageable);
+            Page<EditorialResponseDTO> dtoPage = entities.map(editorial -> modelMapperDTO.editorialToDto(editorial));
+            return ResponseEntity.ok().body(dtoPage);
+        } catch (ExceptionBBDD e) {
+            return responseExceptionBadRequest(e, Uri.EDITORIAL);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") int id) {
         try {
@@ -48,7 +63,7 @@ public class EditorialController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> save(@Valid @RequestBody EditorialRequestDTO editorialDTORequest, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.CREATED).body(modelMapperDTO.editorialToDto(editorialService.save(editorialDTORequest)));
@@ -58,7 +73,7 @@ public class EditorialController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody EditorialDTORequest editorialDTORequest, BindingResult result) throws ExceptionBadRequest {
+    public ResponseEntity<?> update(@PathVariable("id") int id, @Valid @RequestBody EditorialRequestDTO editorialDTORequest, BindingResult result) throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
             return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.editorialToDto(editorialService.update(id, editorialDTORequest)));
@@ -83,5 +98,9 @@ public class EditorialController {
         } catch (ExceptionBBDD ebd) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), ebd.getMessage(), String.format("%s/%d", Uri.EDITORIAL_DESACTIVAR, id)));
         }
+    }
+
+    private ResponseEntity<?> responseExceptionBadRequest(Exception exception, String path) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), path));
     }
 }

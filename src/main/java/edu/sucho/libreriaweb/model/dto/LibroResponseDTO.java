@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class LibroDTO {
+public class LibroResponseDTO {
     private Integer id;
     private String titulo;
     private Long isbn;

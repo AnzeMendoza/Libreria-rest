@@ -4,12 +4,17 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.ClienteRequestDTO;
+import edu.sucho.libreriaweb.model.dto.ClienteResponseDTO;
+import edu.sucho.libreriaweb.model.dto.LibroResponseDTO;
 import edu.sucho.libreriaweb.model.entity.Cliente;
+import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.ClienteService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +41,17 @@ public class ClienteController {
                     .body(modelMapperDTO.listClienteToDto(clienteService.findAll()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.CLIENTE));
+        }
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            Page<Cliente> entities =  clienteService.findAll(pageable);
+            Page<ClienteResponseDTO> dtoPage = entities.map(cliente -> modelMapperDTO.clienteToDto(cliente));
+            return ResponseEntity.ok().body(dtoPage);
+        } catch (ExceptionBBDD e) {
+            return responseExceptionBadRequest(e, Uri.CLIENTE);
         }
     }
 
@@ -93,5 +109,9 @@ public class ClienteController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), String.format("%s/%d", Uri.CLIENTE_DESACTIVAR, id)));
         }
+    }
+
+    private ResponseEntity<?> responseExceptionBadRequest(Exception exception, String path) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), path));
     }
 }

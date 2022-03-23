@@ -3,13 +3,18 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
+import edu.sucho.libreriaweb.model.dto.AutorResponseDTO;
 import edu.sucho.libreriaweb.model.dto.LibroRequestDTO;
+import edu.sucho.libreriaweb.model.dto.LibroResponseDTO;
+import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.entity.Libro;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +39,18 @@ public class LibroController {
     public ResponseEntity<?> getAll() {
         try {
             return responseLibros(libroService.findAll());
+        } catch (ExceptionBBDD e) {
+            return responseExceptionBadRequest(e, Uri.LIBRO);
+        }
+    }
+
+
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            Page<Libro> entities =  libroService.findAll(pageable);
+            Page<LibroResponseDTO> dtoPage = entities.map(libro -> modelMapperDTO.libroToDto(libro));
+            return ResponseEntity.ok().body(dtoPage);
         } catch (ExceptionBBDD e) {
             return responseExceptionBadRequest(e, Uri.LIBRO);
         }

@@ -2,7 +2,7 @@ package edu.sucho.libreriaweb.service.impl;
 
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.dto.PrestamoDTORequest;
+import edu.sucho.libreriaweb.model.dto.PrestamoRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.repository.BaseRepository;
 import edu.sucho.libreriaweb.repository.PrestamoRepository;
@@ -45,7 +45,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     @Override
-    public Prestamo save(PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+    public Prestamo save(PrestamoRequestDTO prestamo) throws ExceptionBBDD, ExceptionBadRequest {
                return getPrestamoOk(prestamoRepository
                 .createSp(
                         clienteService.findIdByDocumento(prestamo.getDniCliente()),
@@ -56,7 +56,7 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
     }
 
     @Override
-    public Prestamo update(Integer id, PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+    public Prestamo update(Integer id, PrestamoRequestDTO prestamo) throws ExceptionBBDD, ExceptionBadRequest {
         return getPrestamoOk(prestamoRepository.updateSp(id,
                 prestamo.getFechaDevolucion().getTime(),
                 prestamo.getFechaPrestamo().getTime(),

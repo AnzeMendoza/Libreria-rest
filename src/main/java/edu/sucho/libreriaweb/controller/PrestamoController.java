@@ -3,13 +3,16 @@ package edu.sucho.libreriaweb.controller;
 import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
-import edu.sucho.libreriaweb.model.dto.PrestamoDTORequest;
+import edu.sucho.libreriaweb.model.dto.PrestamoRequestDTO;
+import edu.sucho.libreriaweb.model.dto.PrestamoResponseDTO;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +42,17 @@ public class PrestamoController {
         }
     }
 
+    @GetMapping("/paged")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            Page<Prestamo> entities =  prestamoService.findAll(pageable);
+            Page<PrestamoResponseDTO> dtoPage = entities.map(prestamo -> modelMapperDTO.prestamoToDto(prestamo));
+            return ResponseEntity.ok().body(dtoPage);
+        } catch (ExceptionBBDD e) {
+            return responseExceptionBadRequest(e, Uri.PRESTAMO);
+        }
+    }
+
     @GetMapping("/{id}/"+Uri.GETALL)
     public ResponseEntity<?> getAllCliente(@PathVariable("id") int id) {
         try {
@@ -58,7 +72,7 @@ public class PrestamoController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> save(@Valid @RequestBody PrestamoDTORequest prestamo, BindingResult result)
+    public ResponseEntity<?> save(@Valid @RequestBody PrestamoRequestDTO prestamo, BindingResult result)
             throws ExceptionBadRequest {
         try {
             Util.ValidarParametros(result);
@@ -70,7 +84,7 @@ public class PrestamoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") int id,
-                                    @Valid @RequestBody PrestamoDTORequest prestamo,
+                                    @Valid @RequestBody PrestamoRequestDTO prestamo,
                                     BindingResult result)
             throws ExceptionBadRequest {
         try {
@@ -109,12 +123,12 @@ public class PrestamoController {
                 .body(modelMapperDTO.prestamoToDto(prestamoService.findById(id)));
     }
 
-    private ResponseEntity<?> responsePrestamoUpdate(int id, PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+    private ResponseEntity<?> responsePrestamoUpdate(int id, PrestamoRequestDTO prestamo) throws ExceptionBBDD, ExceptionBadRequest {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(modelMapperDTO.prestamoToDto(prestamoService.update(id, prestamo)));
     }
 
-    private ResponseEntity<?> responseSavePrestamo(PrestamoDTORequest prestamo) throws ExceptionBBDD, ExceptionBadRequest {
+    private ResponseEntity<?> responseSavePrestamo(PrestamoRequestDTO prestamo) throws ExceptionBBDD, ExceptionBadRequest {
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapperDTO.prestamoToDto(prestamoService.save(prestamo)));
     }
 
@@ -130,4 +144,7 @@ public class PrestamoController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), path));
     }
 
+    private ResponseEntity<?> responseExceptionBadRequest(Exception exception, String path) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), exception.getMessage(), path));
+    }
 }

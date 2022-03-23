@@ -4,12 +4,14 @@ import edu.sucho.libreriaweb.config.ResponseInfo;
 import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.AutorRequestDTO;
+import edu.sucho.libreriaweb.model.dto.AutorResponseDTO;
 import edu.sucho.libreriaweb.model.entity.Autor;
 import edu.sucho.libreriaweb.model.mapper.ModelMapperDTO;
 import edu.sucho.libreriaweb.service.inter.AutorService;
 import edu.sucho.libreriaweb.util.Uri;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,7 +44,13 @@ public class AutorController {
 
     @GetMapping("/paged")
     public ResponseEntity<?> getAll(Pageable pageable) {
-        return ResponseEntity.ok().body(autorService.getAll(pageable));
+        try {
+            Page<Autor> entities =  autorService.findAll(pageable);
+            Page<AutorResponseDTO> dtoPage = entities.map(autor -> modelMapperDTO.autorToDto(autor));
+            return ResponseEntity.ok().body(dtoPage);
+        } catch (ExceptionBBDD ebd) {
+            return responseExceptionBBDD(ebd, Uri.AUTOR + "/paged");
+        }
     }
 
     @GetMapping("/{id}")

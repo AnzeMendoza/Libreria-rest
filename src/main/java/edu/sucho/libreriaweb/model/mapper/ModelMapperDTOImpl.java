@@ -1,10 +1,7 @@
 package edu.sucho.libreriaweb.model.mapper;
 
-import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.*;
 import edu.sucho.libreriaweb.model.entity.*;
-import edu.sucho.libreriaweb.repository.PrestamoRepository;
-import edu.sucho.libreriaweb.service.impl.PrestamoServiceImpl;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,37 +42,37 @@ public class ModelMapperDTOImpl implements ModelMapperDTO {
     }
 
     @Override
-    public EditorialDTOResponse editorialToDto(Editorial editorial) {
-        return modelMapper.map(editorial, EditorialDTOResponse.class);
+    public EditorialResponseDTO editorialToDto(Editorial editorial) {
+        return modelMapper.map(editorial, EditorialResponseDTO.class);
     }
 
     @Override
-    public List<EditorialDTOResponse> listEditorialToDto(List<Editorial> editoriales) {
+    public List<EditorialResponseDTO> listEditorialToDto(List<Editorial> editoriales) {
         return editoriales.stream()
                 .map(this::editorialToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public LibroDTO libroToDto(Libro libro) {
-        return modelMapper.map(libro, LibroDTO.class);
+    public LibroResponseDTO libroToDto(Libro libro) {
+        return modelMapper.map(libro, LibroResponseDTO.class);
     }
 
     @Override
-    public List<LibroDTO> listLibroToDto(List<Libro> libros) {
+    public List<LibroResponseDTO> listLibroToDto(List<Libro> libros) {
         return libros.stream()
                 .map(this::libroToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PrestamoDTOResponse prestamoToDto(Prestamo prestamo) {
+    public PrestamoResponseDTO prestamoToDto(Prestamo prestamo) {
 
-        return modelMapper.map(prestamo, PrestamoDTOResponse.class);
+        return modelMapper.map(prestamo, PrestamoResponseDTO.class);
     }
 
     @Override
-    public List<PrestamoDTOResponse> listPrestamoToDto(List<Prestamo> prestamos) {
+    public List<PrestamoResponseDTO> listPrestamoToDto(List<Prestamo> prestamos) {
         return prestamos.stream()
                 .map(this::prestamoToDto)
                 .collect(Collectors.toList());

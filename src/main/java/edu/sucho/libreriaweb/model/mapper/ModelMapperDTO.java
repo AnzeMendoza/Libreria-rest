@@ -1,6 +1,5 @@
 package edu.sucho.libreriaweb.model.mapper;
 
-import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.model.dto.*;
 import edu.sucho.libreriaweb.model.entity.*;
 
@@ -15,16 +14,16 @@ public interface ModelMapperDTO {
 
     List<ClienteResponseDTO> listClienteToDto(List<Cliente> libros);
 
-    EditorialDTOResponse editorialToDto(Editorial libro);
+    EditorialResponseDTO editorialToDto(Editorial libro);
 
-    List<EditorialDTOResponse> listEditorialToDto(List<Editorial> libros);
+    List<EditorialResponseDTO> listEditorialToDto(List<Editorial> libros);
 
-    LibroDTO libroToDto(Libro libro);
+    LibroResponseDTO libroToDto(Libro libro);
 
-    List<LibroDTO> listLibroToDto(List<Libro> libros);
+    List<LibroResponseDTO> listLibroToDto(List<Libro> libros);
 
-    PrestamoDTOResponse prestamoToDto(Prestamo prestamo);
+    PrestamoResponseDTO prestamoToDto(Prestamo prestamo);
 
-    List<PrestamoDTOResponse> listPrestamoToDto(List<Prestamo> prestamos);
+    List<PrestamoResponseDTO> listPrestamoToDto(List<Prestamo> prestamos);
 
     }

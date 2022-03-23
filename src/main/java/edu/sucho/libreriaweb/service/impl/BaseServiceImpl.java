@@ -86,6 +86,7 @@ public abstract class BaseServiceImpl<E, ID> implements BaseService<E, ID>, Base
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<E> findAll(Pageable pageable) throws ExceptionBBDD {
         try{
             Page<E> entities = baseRepository.findAll(pageable);

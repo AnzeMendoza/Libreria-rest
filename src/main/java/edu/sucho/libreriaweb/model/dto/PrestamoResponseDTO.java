@@ -7,11 +7,11 @@ import java.util.Calendar;
 
 @Getter
 @Setter
-public class PrestamoDTOResponse {
+public class PrestamoResponseDTO {
     private Integer id;
     private Boolean alta;
     private ClienteResponseDTO cliente;
     private Calendar fechaDevolucion;
     private Calendar fechaPrestamo;
-    private LibroDTO libro;
+    private LibroResponseDTO libro;
 }

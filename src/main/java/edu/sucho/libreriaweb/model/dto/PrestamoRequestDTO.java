@@ -1,12 +1,9 @@
 package edu.sucho.libreriaweb.model.dto;
 
-import edu.sucho.libreriaweb.model.entity.Cliente;
-import edu.sucho.libreriaweb.model.entity.Libro;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.*;
@@ -15,7 +12,7 @@ import java.util.Calendar;
 @Getter
 @Setter
 
-public class PrestamoDTORequest {
+public class PrestamoRequestDTO {
 
     @NotNull(message = "Cliente no puede ser nulo")
     private Long dniCliente;
