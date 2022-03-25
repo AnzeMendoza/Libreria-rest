@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface EditorialRepository extends BaseRepository<Editorial, Integer> {
 
-    @Query(value = "SELECT * FROM editorial WHERE editorial.alta = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM editorial where alta=true", nativeQuery = true)
     List<Editorial> findAllByAlta();
 
     @Query(value = "SELECT id,alta,nombre FROM editorial WHERE editorial.nombre =:name", nativeQuery = true)

@@ -32,7 +32,7 @@ public class EditorialController {
     @GetMapping("/")
     public ResponseEntity<?> getAll() throws ExceptionBBDD {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.listEditorialToDto(editorialService.findAll()));
+            return ResponseEntity.status(HttpStatus.OK).body(modelMapperDTO.listEditorialToDto(editorialService.findAllByAlta()));
         } catch (ExceptionBBDD e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.EDITORIAL));
         }
