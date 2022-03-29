@@ -45,7 +45,7 @@ public class PrestamoController {
     @GetMapping("/paged")
     public ResponseEntity<?> getAll(Pageable pageable) {
         try {
-            Page<Prestamo> entities =  prestamoService.findAll(pageable);
+            Page<Prestamo> entities =  prestamoService.findAllByAlta(pageable);
             Page<PrestamoResponseDTO> dtoPage = entities.map(prestamo -> modelMapperDTO.prestamoToDto(prestamo));
             return ResponseEntity.ok().body(dtoPage);
         } catch (ExceptionBBDD e) {
