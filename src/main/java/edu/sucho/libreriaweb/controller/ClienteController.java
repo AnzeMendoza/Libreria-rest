@@ -44,6 +44,16 @@ public class ClienteController {
         }
     }
 
+    @GetMapping("/alta")
+    public ResponseEntity<?> getAllByAlta() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(modelMapperDTO.listClienteToDto(clienteService.findAllByAlta()));
+        } catch (ExceptionBBDD e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), Uri.CLIENTE));
+        }
+    }
+
     @GetMapping("/paged")
     public ResponseEntity<?> getAll(Pageable pageable) {
         try {

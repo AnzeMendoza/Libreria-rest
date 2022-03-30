@@ -44,6 +44,15 @@ public class LibroController {
         }
     }
 
+    @GetMapping("/alta")
+    public ResponseEntity<?> getAllByAlta() {
+        try {
+            return responseLibros(libroService.findAllByAlta());
+        } catch (ExceptionBBDD e) {
+            return responseExceptionBadRequest(e, Uri.LIBRO);
+        }
+    }
+
 
     @GetMapping("/paged")
     public ResponseEntity<?> getAll(Pageable pageable) {
