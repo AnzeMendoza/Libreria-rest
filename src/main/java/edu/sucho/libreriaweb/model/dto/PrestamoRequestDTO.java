@@ -33,5 +33,4 @@ public class PrestamoRequestDTO {
     private String tituloLibro;
 
     private Long isbn ;
-
 }
