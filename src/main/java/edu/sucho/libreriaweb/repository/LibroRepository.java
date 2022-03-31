@@ -58,7 +58,7 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
     @Query(value = "SELECT id FROM libro WHERE libro.isbn=:isbn ", nativeQuery = true)
     Integer findIdByIsbn(@Param("isbn") long isbn);
 
-    @Query(value = "SELECT id FROM libro WHERE libro.titulo LIKE %:titulo%" , nativeQuery = true)
+    @Query(value = "SELECT id FROM libro WHERE libro.titulo = :titulo" , nativeQuery = true)
     Integer findIdByTitulo(@Param("titulo") String titulo);
 
     //@Query(value = "SELECT boolean FROM libro WHERE libro.titulo LIKE %:titulo%\" ", nativeQuery = true)
