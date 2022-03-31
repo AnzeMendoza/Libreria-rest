@@ -11,6 +11,8 @@ import edu.sucho.libreriaweb.service.inter.LibroService;
 import edu.sucho.libreriaweb.service.inter.PrestamoService;
 import edu.sucho.libreriaweb.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,6 +99,13 @@ public class PrestamoServiceImpl extends BaseServiceImpl<Prestamo, Integer> impl
         return status ? "Prestamo Activado" : "Prestamo Desactivado";
     }
 
-
-
+    @Override
+    public Page<Prestamo> findAllByAlta(Pageable pageable) throws ExceptionBBDD {
+        try{
+            Page<Prestamo> entities = prestamoRepository.findAllByAlta(pageable);
+            return entities;
+        } catch (Exception e){
+            throw new ExceptionBBDD("problemas al querer paginar");
+        }
+    }
 }

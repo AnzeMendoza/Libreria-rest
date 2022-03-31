@@ -4,11 +4,15 @@ import edu.sucho.libreriaweb.exception.ExceptionBBDD;
 import edu.sucho.libreriaweb.exception.ExceptionBadRequest;
 import edu.sucho.libreriaweb.model.dto.PrestamoRequestDTO;
 import edu.sucho.libreriaweb.model.entity.Prestamo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface PrestamoService extends BaseService<Prestamo, Integer> {
     List<Prestamo> findAllByAlta() throws ExceptionBBDD;
+
+    Page<Prestamo> findAllByAlta(Pageable pageable) throws ExceptionBBDD;
 
     String getMessageStatus(String responseStatus, boolean status) throws ExceptionBBDD;
 

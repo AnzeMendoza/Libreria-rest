@@ -4,6 +4,8 @@ import edu.sucho.libreriaweb.model.entity.Prestamo;
 
 import java.util.Date;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
+
+    @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true", nativeQuery = true)
+    Page<Prestamo> findAllByAlta(Pageable pageable);
 
     @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true", nativeQuery = true)
     List<Prestamo> findAllByAlta();
