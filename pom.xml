@@ -50,11 +50,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 			<version>2.5.6</version>
@@ -102,7 +97,12 @@
 			<version>20140107</version>
 		</dependency>
 
-	 <dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.3.3</version>
+		</dependency>
+		<dependency>
 
 	  <groupId>junit</groupId>
 	  <artifactId>junit</artifactId>

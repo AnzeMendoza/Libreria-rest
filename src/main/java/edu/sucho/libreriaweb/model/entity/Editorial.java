@@ -4,11 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Getter
@@ -22,7 +19,8 @@ public class Editorial {
 
     @Column(length = 64, unique = true, nullable = false)
     private String nombre;
-    
+
+    @Column(nullable = false)
     private Boolean alta = true;
 
     @OneToMany(mappedBy = "editorial")

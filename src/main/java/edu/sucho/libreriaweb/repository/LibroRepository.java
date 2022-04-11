@@ -24,10 +24,10 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
     List<Libro> findByTitulo(@Param("titulo") String titulo);
 
 
-    @Query(value = "CALL lsp_cambiar_estado_libro(:id,:alta);", nativeQuery = true)
+    @Query(value = "select * from fn_cambiar_estado_libro(:id,:alta);", nativeQuery = true)
     String changeStatusSp(@Param("id") int id, @Param("alta") Boolean alta);
 
-    @Query(value = "CALL lsp_modificar_libro(:id,:titulo,:isbn,:anio,"
+    @Query(value = "select * from fn_modificar_libro(:id,:titulo,:isbn,:anio,"
             + ":ejemplares,:ejemplaresPrestados,:ejemplaresRestantes,"
             + ":autor,:editorial);", nativeQuery = true)
     String updateSp(@Param("id") Integer id,
@@ -40,7 +40,7 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
                     @Param("autor") Integer autorId, @Param("editorial") Integer editorialId);
 
 
-    @Query(value = "CALL lsp_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
+    @Query(value = "select * from fn_crear_libro(:titulo, :isbn, :anio, :ejemplares, :ejemplaresPrestados, :ejemplaresRestantes, :alta, :fk_autor, :fk_editorial)",
             nativeQuery = true)
     String createSp(@Param("alta") boolean alta,
                     @Param("anio") int anio,
@@ -52,7 +52,7 @@ public interface LibroRepository extends BaseRepository<Libro, Integer> {
                     @Param("fk_autor") int fk_autor,
                     @Param("fk_editorial") int fk_editorial);
 
-    @Query(value = "CALL lsp_buscar_por_patron_titulo(:pattern)", nativeQuery = true)
+    @Query(value = "select * from  fn_buscar_por_patron_titulo(:pattern)", nativeQuery = true)
     List<Libro> findTituloForPattern(String pattern);
 
     @Query(value = "SELECT id FROM libro WHERE libro.isbn=:isbn ", nativeQuery = true)

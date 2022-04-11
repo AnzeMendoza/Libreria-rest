@@ -21,16 +21,16 @@ public class Cliente {
     @Column(updatable = false)
     private Integer id;
 
-    @Column(length = 8, unique = true, nullable = false ,updatable = false)
+    @Column(length = 8, unique = true, nullable = false, updatable = false)
     private Long documento;
 
-    @Column(length = 64,nullable = false)
+    @Column(length = 64, nullable = false)
     @NotEmpty(message = "El nombre es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras.")
     private String nombre;
 
-    @Column(length = 64,nullable = false)
+    @Column(length = 64, nullable = false)
     @NotEmpty(message = "El apellido es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     @Pattern(regexp = "[a-zA-Z ]{2,64}", message = "Debe contener solo letras.")
@@ -43,12 +43,12 @@ public class Cliente {
     @Column(nullable = false)
     private Boolean alta = true;
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     @NotEmpty(message = "El apellido es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     private String username;
 
-    @Column(length = 128)
+    @Column(length = 128, nullable = false)
     @NotEmpty(message = "El apellido es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener mas de 2 digitos y menos de 64")
     private String password;

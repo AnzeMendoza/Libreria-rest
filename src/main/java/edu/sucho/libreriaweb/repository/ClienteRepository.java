@@ -17,10 +17,10 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
     @Query(value = "SELECT * FROM cliente WHERE cliente.documento =:documento ", nativeQuery = true)
     Cliente findByValueField(@Param("documento") String documento);
 
-    @Query(value = "CALL lsp_cambiar_estado_cliente(:id,:status);", nativeQuery = true)
+    @Query(value = "select * from fn_cambiar_estado_cliente(:id,:status);", nativeQuery = true)
     String changeStatus(@Param("id") int id, @Param("status") Boolean estado);
 
-    @Query(value = "CALL lsp_crear_cliente(:documento , :nombre , :apellido , :telefono, :username, :password, :roleId)", nativeQuery = true)
+    @Query(value = "select * from fn_crear_cliente(:documento , :nombre , :apellido , :telefono, :username, :password, :roleId)", nativeQuery = true)
     String saveCliente(@Param("documento") Long documento,
                        @Param("nombre") String nombre,
                        @Param("apellido") String apellido,
@@ -29,8 +29,7 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
                        @Param("password") String password,
                        @Param("roleId") int roleId);
 
-
-    @Query(value = "CALL lsp_modificar_cliente(:id, :documento , :nombre , :apellido , :telefono)", nativeQuery = true)
+    @Query(value = "select * from fn_modificar_cliente(:id, :documento , :nombre , :apellido , :telefono)", nativeQuery = true)
     String updateCliente(@Param("id") Integer id,
                          @Param("documento") Long documento,
                          @Param("nombre") String nombre,
@@ -42,6 +41,5 @@ public interface ClienteRepository extends BaseRepository<Cliente, Integer> {
 
     @Query(value = "SELECT id FROM cliente WHERE cliente.documento = :documento", nativeQuery = true)
     Integer findByDocumento(@Param("documento") Long documento);
-
 }
 

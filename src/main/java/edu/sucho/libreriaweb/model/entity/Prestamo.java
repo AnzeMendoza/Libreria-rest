@@ -23,6 +23,7 @@ public class Prestamo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private Boolean alta = true;
 
     @NotNull(message = "Cliente no puede ser nulo")
@@ -34,12 +35,14 @@ public class Prestamo {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @FutureOrPresent(message = "La fecha debe ser actual o posterior a la de hoy")
+    @Column(nullable = false)
     private Calendar fechaDevolucion;
 
     @NotNull(message = "fechaPrestamo no puede ser nulo")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd",iso = DateTimeFormat.ISO.DATE)
     @PastOrPresent(message = "La fecha debe ser actual o anterior a la de hoy")
+    @Column(nullable = false)
     private Calendar fechaPrestamo;
 
     @NotNull(message = "Cliente no puede ser nulo")

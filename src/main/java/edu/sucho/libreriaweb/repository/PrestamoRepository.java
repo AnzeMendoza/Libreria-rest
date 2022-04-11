@@ -23,10 +23,10 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
     @Query(value = "SELECT * FROM prestamo WHERE prestamo.alta = true AND prestamo.fk_cliente=:fk_cliente", nativeQuery = true)
     List<Prestamo> prestamosPorIdCliente(@Param("fk_cliente") Integer fk_cliente);
 
-    @Query(value = "CALL lsp_cambiar_estado_prestamo(:id,:alta);", nativeQuery = true)
+    @Query(value = "select * from fn_cambiar_estado_prestamo(:id,:alta);", nativeQuery = true)
     String changeStatusSp(@Param("id") int id, @Param("alta") Boolean alta);
 
-    @Query(value = "CALL lsp_crear_prestamo(:fk_cliente, :fecha_devolucion, :fecha_prestamo, :fk_libro)",
+    @Query(value = "select * from fn_crear_prestamo(:fk_cliente, :fecha_devolucion, :fecha_prestamo, :fk_libro)",
             nativeQuery = true)
     String createSp(
             @Param("fk_cliente") int fk_cliente,
@@ -35,7 +35,7 @@ public interface PrestamoRepository extends BaseRepository<Prestamo, Integer> {
             @Param("fk_libro") int fk_libro
     );
 
-    @Query(value = "CALL lsp_modificar_prestamo(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,"
+    @Query(value = "select * from fn_modificar_prestamo(:id,:fecha_devolucion,:fecha_prestamo,:fk_cliente,"
             + ":fk_libro);", nativeQuery = true)
     String updateSp(@Param("id") Integer id,
                     @Param("fecha_devolucion") Date fecha_devolucion,
