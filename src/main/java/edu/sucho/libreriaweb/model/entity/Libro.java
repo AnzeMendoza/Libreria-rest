@@ -20,7 +20,7 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     @NotEmpty(message = "El titulo es obligatorio")
     @Size(min = 2, max = 64, message = "Debe tener min 2 caracteres y menos de 64")
     private String titulo;
@@ -42,6 +42,7 @@ public class Libro {
     private Integer ejemplares;
 
     private Integer ejemplaresPrestados;
+
     private Integer ejemplaresRestantes;
 
     @Column(nullable = false)
@@ -74,4 +75,4 @@ public class Libro {
         return Objects.hash(id, titulo, isbn, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, alta);
     }
 
-   }
+}

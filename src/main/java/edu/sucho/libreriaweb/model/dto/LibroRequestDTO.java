@@ -16,17 +16,20 @@ public class LibroRequestDTO {
     private String titulo;
 
     @NotNull(message = "El ISBN es obligatorio")
-    @Max(value = 9999999999999l, message = "EL isbn supera el numero maximo permitido")
+    @Max(value = 9999999999999L, message = "EL isbn supera el numero maximo permitido")
     private Long isbn;
 
     @NotNull(message = "Es obligatorio ingresar el año")
     @Min(value = 868, message = "El año no puede ser menor 868")
     private Integer anio;
 
-    @NotNull(message = "El numero de ejempleres es obligatorio")
+    @NotNull(message = "El numero de ejemplares es obligatorio")
     private Integer ejemplares;
 
+    @NotNull(message = "El numero de ejemplares prestados es obligatorio")
     private Integer ejemplaresPrestados;
+
+    @NotNull(message = "El numero de ejemplares restantes es obligatorio")
     private Integer ejemplaresRestantes;
 
     @NotNull(message = "El autor es obligatorio")
@@ -34,6 +37,4 @@ public class LibroRequestDTO {
 
     @NotNull(message = "La editorial es obligatoria")
     private Integer editorialId;
-
-
 }
